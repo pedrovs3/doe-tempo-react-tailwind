@@ -8,7 +8,7 @@ export function Header() {
 					<CaretLeft size={32} />
 					Voltar
 				</button>
-				<img src={Voluntaries} className={'align-bottom justify-start'} alt={'image for peoples united'}/>
+				<img src={Voluntaries} className={'align-center'} alt={'image for peoples united'}/>
 			</div>
 
 	)

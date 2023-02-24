@@ -1,6 +1,6 @@
 import {ChangeEventHandler, useEffect, useState} from "react";
-import {api} from "../../lib/axios";
 import {apiCep} from "../../api/consulta_cep";
+import {Link, NavLink} from "react-router-dom";
 
 type cepInfo = {
 	"cep": string,
@@ -42,7 +42,7 @@ export function Form() {
 
 
 	return (
-			<form name={"cadastro"} className={'w-full pr-6'}>
+			<form name={"cadastro"} className={'w-full pr-6 flex flex-col justify-between'}>
 				<div className={"flex flex-col gap-3 pt-6"}>
 					<input id="nome" type="text" className="input bg-white text-black w-full focus:input-bordered focus:input-success capitalize" placeholder="Nome Completo"/>
 					<div className="flex flex-2 justify-between">
@@ -61,10 +61,10 @@ export function Form() {
 						<input id="rua" type="text" className="input bg-white text-black w-full focus:input-bordered focus:input-success mr-1" placeholder="Rua"/>
 						<input id="numero" type="text" className="input bg-white text-black w-full focus:input-bordered focus:input-success ml-1" placeholder="Número"/>
 					</div>
-					<div className="flex flex-col gap-3 items-end pt-14">
-						<button className={"btn btn-primary w-1/4 rounded-full bg-success border-0 text-xl text-black hover:bg-blue-600 hover:text-white"} type="submit">Enviar</button>
-						<button className={"btn btn-accent w-1/8 rounded-full bg-success px-6 border-0 text-l text-black hover:bg-blue-600 hover:text-white"} type="submit"><p>Sou uma ONG</p></button>
-					</div>
+				</div>
+				<div className="flex flex-col gap-3 items-end pt-14">
+					<button className={"btn btn-primary w-1/4 rounded-full bg-success border-0 text-xl text-black hover:bg-blue-600 hover:text-white"} type="submit">Enviar</button>
+					<button className={"btn btn-accent w-1/8 rounded-full bg-success px-6 border-0 text-l text-black hover:bg-blue-600 hover:text-white"} type="submit"><p><NavLink to={'/login'}>Sou uma ONG</NavLink></p></button>
 				</div>
 			</form>
 	)
