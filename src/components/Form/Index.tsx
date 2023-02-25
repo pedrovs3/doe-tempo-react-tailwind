@@ -1,64 +1,45 @@
-import {ChangeEventHandler, useEffect, useState} from "react";
-import {apiCep} from "../../api/consulta_cep";
 import {Link, NavLink} from "react-router-dom";
-
-type cepInfo = {
-	"cep": string,
-	"logradouro": string,
-	"complemento": string,
-	"bairro": string,
-	"localidade": string,
-	"uf": string,
-	"ibge": string,
-	"gia": string,
-	"ddd": string,
-	"siafi":string
-}
+import { useForm } from "react-hook-form";
 
 export function Form() {
-	const [cep, setCep] = useState<cepInfo>();
-	const [uf, setUf] = useState('')
 
-	const handlerCEP = async (e: Event) => {
-		try {
-			// @ts-ignore
-			 if (e.target.value.length > 7) {
-				 // @ts-ignore
-				 const infoCEP = await apiCep.get(`/${e.target.value}/json/`)
+	const {register, handleSubmit, setValue, setFocus} = useForm();
 
-				 setCep(infoCEP.data)
-			 }
-		} catch (e) {
-			console.log(e);
-		}
+	const onSubmit = (e) => {
+		console.log(e);
 	}
 
-	if (cep) {
-		useEffect(()=> {
-			setUf(cep.uf)
-		}, [cep])
+	const checkCEP = (e) => {
+		const cep = e.target.value.replace(/\D/g, '');
+		console.log(cep);
+		fetch(`https://viacep.com.br/ws/${cep}/json/`).then(res => res.json()).then(data => {
+			console.log(data);
+			setValue('address', data.logradouro);
+			setValue('neighborhood', data.bairro);
+			setValue('city', data.localidade);
+			setValue('uf', data.uf);
+			setFocus()
+		});
 	}
-
-
 
 	return (
-			<form name={"cadastro"} className={'w-full pr-6 flex flex-col justify-between'}>
+			<form name={"cadastro"} className={'w-full pr-6 flex flex-col justify-between'} onSubmit={handleSubmit(onSubmit)}>
 				<div className={"flex flex-col gap-3 pt-6"}>
 					<input id="nome" type="text" className="input bg-white text-black w-full focus:input-bordered focus:input-success capitalize" placeholder="Nome Completo"/>
 					<div className="flex flex-2 justify-between">
-						<input id="cpf" type="Number" className="input bg-white text-black w-full focus:input-bordered focus:input-success mr-1" placeholder="CPF"/>
-						<input id="cep" type="Number" className="input bg-white text-black w-full focus:input-bordered focus:input-success ml-1" placeholder="CEP (apenas números)" onChange={handlerCEP}/>
+						<input id="cpf" type="Number" className="input bg-white text-black w-full focus:input-bordered focus:input-success mr-1" placeholder="CPF" required/>
+						<input id="cep" type="Number" className="input bg-white text-black w-full focus:input-bordered focus:input-success ml-1" placeholder="CEP (apenas números)" {...register("cep")} onBlur={checkCEP}/>
 					</div>
 					<input id="email" type="email" className="input bg-white text-black w-full focus:input-bordered focus:input-success" placeholder="E-mail"/>
 					<input id="senha" type="password" className="input bg-white text-black w-full focus:input-bordered focus:input-success" placeholder="Senha"/>
 					<input id="nascimento" type="date" className="input bg-white text-black w-full focus:input-bordered focus:input-success placeholder-blue-500" placeholder="Data de Nascimento"/>
-					<input id="estado" type="text" className="input bg-white text-black w-full focus:input-bordered focus:input-success" placeholder="Estado" value={cep?.uf}/>
+					<input id="estado" type="text" className="input bg-white text-black w-full focus:input-bordered focus:input-success" placeholder="Estado" {...register("uf" )}/>
 					<div className="flex flex-2 justify-between">
-						<input id="cidade" type="text" className="input bg-white text-black w-full focus:input-bordered focus:input-success mr-1" placeholder="Cidade"/>
-						<input id="bairro" type="text" className="input bg-white text-black w-full focus:input-bordered focus:input-success ml-1" placeholder="Bairro"/>
+						<input id="cidade" type="text" className="input bg-white text-black w-full focus:input-bordered focus:input-success mr-1" placeholder="Cidade" {...register("city" )}/>
+						<input id="bairro" type="text" className="input bg-white text-black w-full focus:input-bordered focus:input-success ml-1" placeholder="Bairro" {...register("neighborhood" )}/>
 					</div>
 					<div className="flex flex-2 justify-between">
-						<input id="rua" type="text" className="input bg-white text-black w-full focus:input-bordered focus:input-success mr-1" placeholder="Rua"/>
+						<input id="rua" type="text" className="input bg-white text-black w-full focus:input-bordered focus:input-success mr-1" placeholder="Rua"  {...register("address" )}/>
 						<input id="numero" type="text" className="input bg-white text-black w-full focus:input-bordered focus:input-success ml-1" placeholder="Número"/>
 					</div>
 				</div>
