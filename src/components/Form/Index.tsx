@@ -1,12 +1,30 @@
 import {Link, NavLink} from "react-router-dom";
 import { useForm } from "react-hook-form";
 import {apiCep} from "../../api/consulta_cep";
-import {useState} from "react";
+import { useEffect, useState} from "react";
+import {api} from "../../lib/axios";
 
-export function Form() {
+interface genderProps {
+	id: string,
+	name: string
+}
+
+export const Form = () => {
 
 	const {register, handleSubmit, setValue, setFocus} = useForm();
 	const [filled, setFilled] = useState(false);
+	const [gender, setGender] = useState<genderProps[]>([])
+
+
+
+	useEffect(() => {
+		// setGenders(data.genders)
+		api.get('/gender').then(response => setGender(response.data.genders))
+		console.log(gender)
+
+		// setGender([{id: 'testee', name: 'dasdsa'}, {id: 'testee', name: 'dasdsa'}])
+		// console.log({data: data.genders, genders: gender})
+	},[])
 
 	const onSubmit = (e) => {
 		console.log(e);
@@ -24,17 +42,9 @@ export function Form() {
 			setValue('city', data.localidade);
 			setValue('uf', data.uf);
 			setFilled(true)
-
-			//
-			// fetch(`https://viacep.com.br/ws/${cep}/json/`).then(res => res.json()).then(data => {
-			// 	console.log(data);
-			// 	setValue('address', data.logradouro);
-			// 	setValue('neighborhood', data.bairro);
-			// 	setValue('city', data.localidade);
-			// 	setValue('uf', data.uf);
-			// });
 		}
 	}
+
 
 	return (
 			<form name={"cadastro"} className={'w-full h-full pr-6 flex flex-col justify-between'} onSubmit={handleSubmit(onSubmit)}>
@@ -47,6 +57,9 @@ export function Form() {
 					<input id="email" type="email" className="input bg-white text-black w-full focus:input-bordered focus:input-success" placeholder="E-mail"/>
 					<input id="senha" type="password" className="input bg-white text-black w-full focus:input-bordered focus:input-success" placeholder="Senha"/>
 					<input id="nascimento" type="date" className="input bg-white text-black w-full focus:input-bordered focus:input-success placeholder-blue-500" placeholder="Data de Nascimento"/>
+					<select className="select w-full max-w-xs">
+						{/*{ genders.length }*/}
+					</select>
 					<input id="estado" type="text" className="input bg-white text-black w-full focus:input-bordered focus:input-success" placeholder="Estado" {...register("uf" )} disabled={filled}/>
 					<div className="flex flex-2 justify-between">
 						<input id="cidade" type="text" className="input bg-white text-black w-full focus:input-bordered focus:input-success mr-1" placeholder="Cidade" {...register("city" )} disabled={filled}/>
