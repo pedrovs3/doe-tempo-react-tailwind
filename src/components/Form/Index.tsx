@@ -12,18 +12,30 @@ interface genderProps {
 export const Form = () => {
 
 	const {register, handleSubmit, setValue, setFocus} = useForm();
+
 	const [filled, setFilled] = useState(false);
-	const [gender, setGender] = useState<genderProps[]>([])
+	const [cepState, setCepState] = useState('');
+	const [gender, setGender] = useState<genderProps[]>([]);
 
 
 
 	useEffect(() => {
-		// setGenders(data.genders)
-		api.get('/gender').then(response => setGender(response.data.genders))
-		console.log(gender)
 
-		// setGender([{id: 'testee', name: 'dasdsa'}, {id: 'testee', name: 'dasdsa'}])
-		// console.log({data: data.genders, genders: gender})
+		const fetchData = async () => {
+			// get the data from the api
+			const data = await api.get('/gender');
+			// convert the data to json
+
+
+			// set state with the result
+			setGender(data.data.genders);
+		}
+
+
+		fetchData().catch(console.error);
+
+
+		console.log(gender)
 	},[])
 
 	const onSubmit = (e) => {
@@ -31,20 +43,22 @@ export const Form = () => {
 	}
 
 	const checkCEP = async (e: any) => {
-		console.log(e.target.value)
-		if(e.target.value.length === 8) {
+		setCepState(e.target.value.replace(/\D/g, ''))
+
+		if(cepState.length === 7) {
+			console.log(cepState)
 			const cep = e.target.value;
-			console.log(cep);
+
 			const { data } = await apiCep.get(`/${cep}/json/`)
-			console.log(data)
+
 			setValue('address', data.logradouro);
 			setValue('neighborhood', data.bairro);
 			setValue('city', data.localidade);
 			setValue('uf', data.uf);
+			setValue('cep', data.cep)
 			setFilled(true)
 		}
 	}
-
 
 	return (
 			<form name={"cadastro"} className={'w-full h-full pr-6 flex flex-col justify-between'} onSubmit={handleSubmit(onSubmit)}>
@@ -52,13 +66,13 @@ export const Form = () => {
 					<input id="nome" type="text" className="input bg-white text-black w-full focus:input-bordered focus:input-success capitalize" placeholder="Nome Completo"/>
 					<div className="flex flex-2 justify-between">
 						<input id="cpf" type="Number" className="input bg-white text-black w-full focus:input-bordered focus:input-success mr-1" placeholder="CPF" required/>
-						<input id="cep" type="Number" className="input bg-white text-black w-full focus:input-bordered focus:input-success ml-1" placeholder="CEP (apenas números)" {...register("cep")} onChange={checkCEP} maxLength={11	}/>
+						<input id="cep" type="text" className="input bg-white text-black w-full focus:input-bordered focus:input-success ml-1" placeholder="CEP (apenas números)" {...register("cep")} onChange={checkCEP} maxLength={11} value={cepState}/>
 					</div>
 					<input id="email" type="email" className="input bg-white text-black w-full focus:input-bordered focus:input-success" placeholder="E-mail"/>
 					<input id="senha" type="password" className="input bg-white text-black w-full focus:input-bordered focus:input-success" placeholder="Senha"/>
 					<input id="nascimento" type="date" className="input bg-white text-black w-full focus:input-bordered focus:input-success placeholder-blue-500" placeholder="Data de Nascimento"/>
 					<select className="select w-full max-w-xs">
-						{/*{ genders.length }*/}
+						{ gender.map((gender) => (<option key={gender.id} value={gender.id} className={'input focus:borde'}>{gender.name}</option>)) }
 					</select>
 					<input id="estado" type="text" className="input bg-white text-black w-full focus:input-bordered focus:input-success" placeholder="Estado" {...register("uf" )} disabled={filled}/>
 					<div className="flex flex-2 justify-between">
