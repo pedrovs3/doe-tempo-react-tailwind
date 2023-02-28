@@ -2,6 +2,7 @@ import React from 'react'
 import {createBrowserRouter, NavLink} from "react-router-dom";
 import Cadastro from "../pages/Cadastro";
 import Login from "../pages/login";
+import NovaCampanha from "../pages/NovaCampanha"
 
 export const routes = createBrowserRouter([
     // {
@@ -18,5 +19,9 @@ export const routes = createBrowserRouter([
     {
         path: '/login',
         element: <Login/>
+    },
+    {
+        path: '/nova-campanha',
+        element: <NovaCampanha/>
     },
 ])
