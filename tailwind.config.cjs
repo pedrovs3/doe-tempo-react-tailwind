@@ -9,8 +9,7 @@ module.exports = {
     colors: {
       'blueberry': '#4F79FE',
       'tufts-blue': '#4797E6',
-      'branco': '#D9D9D9',
-      'turquoise-700': '#4FFEC7'
+      'branco-bem-claro': '#D9D9D9'
     },
   },
   plugins: [require("daisyui")],
