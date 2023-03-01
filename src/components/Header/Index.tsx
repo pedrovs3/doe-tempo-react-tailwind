@@ -8,7 +8,7 @@ export function Header() {
 					<CaretLeft size={32} />
 					Voltar
 				</button>
-				<img src={Voluntaries} className={'align-center'} alt={'image for peoples united'}/>
+				<img src={Voluntaries} className={'align-center hidden lg:block'} alt={'image for peoples united'}/>
 			</div>
 
 	)
