@@ -3,6 +3,7 @@ import {createBrowserRouter, NavLink} from "react-router-dom";
 import Cadastro from "../pages/Cadastro";
 import Login from "../pages/login";
 import NovaCampanha from "../pages/NovaCampanha"
+import CadastroOng from "../pages/CadastroOng";
 
 export const routes = createBrowserRouter([
     // {
@@ -23,5 +24,9 @@ export const routes = createBrowserRouter([
     {
         path: '/nova-campanha',
         element: <NovaCampanha/>
+    },
+    {
+        path: '/signup-ong',
+        element: <CadastroOng/>
     },
 ])
