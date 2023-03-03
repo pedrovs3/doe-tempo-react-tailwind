@@ -17,7 +17,7 @@ export function CampanhaForm() {
     const [time, setTime] = useState('');
 
     return (
-        <form name={"campanha"} className={'w-1/2 pr-6 flex flex-col justify-between pt-2'}>
+        <form name={"campanha"} className={'pr-6 flex flex-col justify-between pt-2'}>
             <div className={"flex flex-col gap-3"}>
                 <h2 className={'text-2xl font-bold text-slate-400'}>Nome da campanha</h2>
                 <input type="text" placeholder="O nome da sua ação"
