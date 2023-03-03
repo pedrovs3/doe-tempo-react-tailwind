@@ -150,7 +150,8 @@ export const Form = () => {
 					<input
 						id="nascimento"
 						name={'birthdate'}
-						type="date"
+						type="text"
+						onFocus={(e) => (e.target.type = "date")}
 						className="input bg-white text-black w-full focus:input-bordered focus:input-success placeholder-blue-500"
 						placeholder="Data de Nascimento"
 						onChange={event => setBirthdate(event.target.value)}

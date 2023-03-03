@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {FileImage, X} from "phosphor-react";
+import {CaretLeft, FileImage, Plus, X} from "phosphor-react";
 
 
 export function CampanhaFormDois() {
@@ -22,6 +22,10 @@ export function CampanhaFormDois() {
                 setInputVisible(true);
             }
         }
+            const handleFileSelect = (event) => {
+                const files = event.target.files;
+                console.log(files);
+            }
 
         return (
             <form name={"campanha"} className={'pr-6 flex flex-col justify-between pt-2'}>
@@ -48,11 +52,33 @@ export function CampanhaFormDois() {
                     </div>
                     <h2 className={'text-2xl font-bold text-slate-400 pt-2'}>Adicione Tags</h2>
                     <div className={'flex gap-2'}>
-                        <div className="badge">neutral</div>
                         <div className="badge badge-primary">primary</div>
                         <div className="badge badge-secondary">secondary</div>
                         <div className="badge badge-accent">accent</div>
-
+                        <div className="dropdown dropdown-right">
+                            <label tabIndex={0} className="btn m-1"><Plus size={24}/></label>
+                            <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                                <li><a>Item 1</a></li>
+                                <li><a>Item 2</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <h2 className={'text-2xl font-bold text-slate-400 pt-2'}>Adicione Imagens</h2>
+                    <input type="file" multiple onChange={handleFileSelect} className="file-input file-input-bordered file-input-sm w-full max-w-xs" accept="image/*"/>
+                    <div className="flex flex-col gap-3 pt-2">
+                        <h2 className={'text-2xl font-bold text-slate-100'}>Como Contribuir</h2>
+                        <textarea  placeholder="Diga ao voluntário como ajudar..."
+                                   className="resize-none textarea textarea-bordered textarea-lg w-full max-w-xs"></textarea>
+                    </div>
+                    <div className="flex flex-col gap-3 pt-2">
+                        <h2 className={'text-2xl font-bold text-slate-100'}>Pré-requisitos</h2>
+                        <textarea  placeholder="Diga ao voluntário como ajudar..."
+                                   className="resize-none textarea textarea-bordered textarea-lg w-full max-w-xs"></textarea>
+                    </div>
+                    <div className={'pt-5 flex justify-end'}>
+                    <button className={'btn w-40 rounded-full bg-blueberry border-0 text-white flex justify-center hover:bg-accent'} type={'submit'}>
+                        Publicar
+                    </button>
                     </div>
                 </div>
             </form>

@@ -24,8 +24,8 @@ export function CampanhaForm() {
                        className="input input-bordered input-branco-bem-claro w-full max-w-xs"/>
                 <div className="flex flex-col gap-3 pt-2">
                     <h2 className={'text-2xl font-bold text-slate-100'}>Sobre a campanha</h2>
-                    <textarea placeholder="Nos conte mais sobre a sua ação..."
-                              className="textarea textarea-bordered textarea-lg w-full max-w-xs"></textarea>
+                    <textarea  placeholder="Nos conte mais sobre a sua ação..."
+                              className="resize-none textarea textarea-bordered textarea-lg w-full max-w-xs"></textarea>
                 </div>
                 <div className="flex flex-col gap-3 pt-2">
                     <h2 className={'text-2xl font-bold text-slate-100'}>Local</h2>
@@ -40,7 +40,7 @@ export function CampanhaForm() {
                             <div className="card-actions">
                                 <button
                                     className="btn btn-square  rounded-full btn-sm absolute top-0 right-0 mt-2 mr-2">
-                                    <Plus size={32}/>
+                                    <Plus size={24}/>
                                 </button>
                             </div>
                         </div>

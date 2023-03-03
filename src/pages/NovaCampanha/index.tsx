@@ -10,6 +10,7 @@ export default function NovaCampanha() {
             <h1 className={'text-4xl font-bold text-blueberry text-start pt-8'}>Nova Campanha</h1>
             <div className={'flex justify-center items-center gap-20'}>
                 <CampanhaForm/>
+                <div className="divider divider-horizontal"></div>
                 <CampanhaFormDois/>
             </div>
         </div>
