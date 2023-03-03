@@ -159,7 +159,7 @@ export const Form = () => {
 					<select
 						className="select w-full max-w-xs"
 						name={'gender'}
-						onChange={event => console.log(setGenderSelect(event.target.value))}
+						onChange={event => setGenderSelect(event.target.value)}
 					>
 						{
 							gender.map((gender) => (
@@ -225,14 +225,13 @@ export const Form = () => {
 				</form>
 				<div className="flex flex-col gap-3 items-end pb-56">
 					<button
-						className={"btn btn-primary w-1/4 rounded-full bg-turquoise-700 border-0 text-xl text-black hover:bg-blue-600 hover:text-white"}
+						className={"btn btn-primary w-1/4 rounded-full bg-turquoise-700 border-0 text-xl text-neutral-900 hover:bg-blue-600 hover:text-branco"}
 						type="submit"
 					>
 						Enviar
 					</button>
 					<button
-						className={"btn btn-accent w-1/8 rounded-full bg-tufts-blue px-6 border-0 text-l text-black hover:bg-blue-600 hover:text-white"}
-						type="submit"
+						className={"btn btn-accent w-1/8 rounded-full bg-maya_blue px-6 border-0 text-l text-black hover:bg-turquoise-700 hover:text-white"}r
 					>
 						<p><NavLink to={'/login'}>Sou uma ONG</NavLink></p>
 					</button>
