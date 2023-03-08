@@ -12,7 +12,7 @@ export function LoginForm(){
         e.preventDefault();
 
         try {
-            const token = await api.post('/user/signup', {
+            const token = await api.post('/token/', {
                 email: email,
                 password: password
             })
