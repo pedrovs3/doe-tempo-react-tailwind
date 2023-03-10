@@ -11,7 +11,8 @@ module.exports = {
       'tufts-blue': '#4797E6',
       'branco': '#D9D9D9',
       'turquoise-700': '#4FFEC7',
-      'maya_blue': '#5BD7FC'
+      'maya_blue': '#5BD7FC',
+      'little-white': '#FBFBFD',
     },
   },
   plugins: [require("daisyui")],

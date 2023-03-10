@@ -23,7 +23,7 @@ export function LoginForm(){
                 api.defaults.headers.common.Authorization = token.data.jwtToken
             }
 
-            alert(token.data.jwtToken || token.data)
+            alert(token.data.jwtToken || token.data && "Login Correto.")
 
         } catch (e) {
             console.log(e)
@@ -55,10 +55,8 @@ export function LoginForm(){
             </div>
             <div className="flex flex-col gap-12 items-center pt-14">
                 <button
-                    className={"btn btn-primary w-1/4 rounded-full bg-turquoise-700 border-0 text-xl text-black hover:bg-turquoise-700 hover:text-white sm:btn w-3/4"}
-                    type="submit"
-                >
-                    Entrar
+                    className={"btn bg-turquoise-700 rounded-full border-none w-96 text-neutral-900 hover:bg-accent"}
+                    type="submit"> Entrar
                 </button>
                 <img src={Line} className={'sm: w-96'}/>
                 <button className="btn-circle bg-tufts-blue hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full sm: bg-blue-600">

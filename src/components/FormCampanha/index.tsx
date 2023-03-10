@@ -39,6 +39,7 @@ export function CampanhaForm() {
                             <span>São  Paulo, SP</span>
                             <div className="card-actions">
                                 <button
+                                    type={"button"}
                                     className="btn btn-square  rounded-full btn-sm absolute top-0 right-0 mt-2 mr-2">
                                     <Plus size={24}/>
                                 </button>
