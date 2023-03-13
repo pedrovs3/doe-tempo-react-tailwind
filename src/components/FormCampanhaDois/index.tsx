@@ -27,6 +27,7 @@ export function CampanhaFormDois() {
                 console.log(files);
             }
 
+
         return (
             <form name={"campanha"} className={'pr-6 flex flex-col justify-between pt-2'}>
                 <div className={"flex flex-col gap-3"}>

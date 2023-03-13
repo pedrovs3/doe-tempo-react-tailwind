@@ -13,8 +13,7 @@ export function CampanhaForm() {
     registerLocale("pt-BR", ptBR);
 
     const [selectedDate, setSelectedDate] = useState(null);
-
-    const [time, setTime] = useState('');
+    const [selectedDate2, setSelectedDate2] = useState(null);
 
     return (
         <form name={"campanha"} className={'pr-6 flex flex-col justify-between pt-2'}>
@@ -54,9 +53,8 @@ export function CampanhaForm() {
 
                     <div className={'flex gap-2'}>
                     <CalendarBlank size={32} />
-                        <h2 className={'text-[1.3rem] font-bold text-slate-100 text-start'}>Dia</h2>
+                        <h2 className={'text-[1.3rem] font-bold text-slate-100 text-start'}>Dia de ínicio</h2>
                     </div>
-
                     <div className={'flex flex-col w-1/3'}>
                         <DatePicker
                             className={'border-2 border-branco-bem-claro rounded-lg p-2'}
@@ -66,29 +64,17 @@ export function CampanhaForm() {
 
                         />
                     </div>
-                    <div className={'flex gap-4 flex-row w-96'}>
-                        <div className={'flex gap-2'}>
-                            <Clock size={32} />
-                            <h2 className={'text-[1.3rem] font-bold text-slate-100 text-start'}>Das</h2>
-                        </div>
-                        <TimePicker
-                            className={'border-2 border-branco-bem-claro rounded-lg p-1 w-32'}
-                            placeholder={'08:PM'}
-                            use12Hours
-                            showSecond={false}
-                            focusOnOpen={true}
-                            format="hh:mm A"
-                            onChange={e => setTime(e.format('LT'))}
-                        />
-                        <h2 className={'text-[1.3rem] font-bold text-slate-100 text-start'}>Ás</h2>
-                        <TimePicker
-                            className={'border-2 border-branco-bem-claro rounded-lg p-1 w-32'}
-                            placeholder={'12:PM'}
-                            use12Hours
-                            showSecond={false}
-                            focusOnOpen={true}
-                            format="hh:mm A"
-                            onChange={e => setTime(e.format('LT'))}
+                    <div className={'flex gap-2'}>
+                        <CalendarBlank size={32} />
+                        <h2 className={'text-[1.3rem] font-bold text-slate-100 text-start'}>Dia de término</h2>
+                    </div>
+                    <div className={'flex flex-col w-1/3'}>
+                        <DatePicker
+                            className={'border-2 border-branco-bem-claro rounded-lg p-2'}
+                            dateFormat="dd/MM/yyyy"
+                            locale="pt-BR"
+                            selected={selectedDate2} onChange={(date) => setSelectedDate2(date)}
+
                         />
                     </div>
                     <h2 className={'pt-4 text-[1.3rem] font-medium'}>A ação pode ser feita  à distância?</h2>

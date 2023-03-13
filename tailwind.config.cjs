@@ -13,6 +13,8 @@ module.exports = {
       'turquoise-700': '#4FFEC7',
       'maya_blue': '#5BD7FC',
       'little-white': '#FBFBFD',
+      'card-campanha': '#F2F2F7',
+      'texto-campanha': '#888888',
     },
   },
   plugins: [require("daisyui")],

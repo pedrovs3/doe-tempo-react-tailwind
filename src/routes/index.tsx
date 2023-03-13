@@ -4,6 +4,7 @@ import Cadastro from "../pages/Cadastro";
 import Login from "../pages/login";
 import NovaCampanha from "../pages/NovaCampanha"
 import CadastroOng from "../pages/CadastroOng";
+import CampanhasList from "../pages/CampanhasList";
 
 export const routes = createBrowserRouter([
     // {
@@ -28,5 +29,9 @@ export const routes = createBrowserRouter([
     {
         path: '/signup-ong',
         element: <CadastroOng/>
+    },
+    {
+        path: '/campanhas',
+        element: <CampanhasList/>
     },
 ])
