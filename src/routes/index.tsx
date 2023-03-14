@@ -5,6 +5,9 @@ import Login from "../pages/login";
 import NovaCampanha from "../pages/NovaCampanha"
 import CadastroOng from "../pages/CadastroOng";
 import CampanhasList from "../pages/CampanhasList";
+import Home from "../pages/Home";
+import {DetalhesBody} from "../components/DetalhesBody";
+import DetalhesCampanha from "../pages/DetalhesCampanha";
 
 export const routes = createBrowserRouter([
     // {
@@ -33,5 +36,13 @@ export const routes = createBrowserRouter([
     {
         path: '/campanhas',
         element: <CampanhasList/>
+    },
+    {
+        path: '/home',
+        element: <Home/>
+    },
+    {
+        path: '/detalhes-campanha',
+        element: <DetalhesCampanha/>
     },
 ])
