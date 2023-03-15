@@ -22,3 +22,6 @@
 .rc-time-picker-input {
     border: none !important;
 }
+.capa {
+    box-shadow: -23px 21px 0px 2px rgba(79, 121, 254, 1);
+}

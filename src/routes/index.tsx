@@ -8,6 +8,7 @@ import CampanhasList from "../pages/CampanhasList";
 import Home from "../pages/Home";
 import {DetalhesBody} from "../components/DetalhesBody";
 import DetalhesCampanha from "../pages/DetalhesCampanha";
+import EditarCampanha from "../pages/EditarCampanha";
 
 export const routes = createBrowserRouter([
     // {
@@ -30,6 +31,10 @@ export const routes = createBrowserRouter([
         element: <NovaCampanha/>
     },
     {
+        path: '/editar-campanha',
+        element: <EditarCampanha/>
+    },
+    {
         path: '/signup-ong',
         element: <CadastroOng/>
     },
@@ -38,7 +43,7 @@ export const routes = createBrowserRouter([
         element: <CampanhasList/>
     },
     {
-        path: '/home',
+        path: '/',
         element: <Home/>
     },
     {
