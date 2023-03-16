@@ -47,8 +47,9 @@ export const Form = () => {
 		console.log(gender)
 	},[])
 
-	const checkCEP = async (e: any) => {
-		setCepState(e.target.value.replace(/\D/g, ''))
+	const checkCEP = async (e: Event) => {
+		// @ts-ignore
+		setCepState(e?.target.value.replace(/\D/g, ''))
 
 		if(cepState.length === 7) {
 			console.log(cepState)
