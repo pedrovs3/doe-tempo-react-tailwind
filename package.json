@@ -21,6 +21,7 @@
     "react-hook-form": "^7.43.2",
     "react-input-mask": "^2.0.4",
     "react-router-dom": "^6.8.1",
+    "react-select": "^5.7.0",
     "react-time-picker": "^5.2.0",
     "sort-by": "^1.2.0"
   },

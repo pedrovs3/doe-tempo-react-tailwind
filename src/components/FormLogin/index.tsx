@@ -12,18 +12,20 @@ export function LoginForm(){
         e.preventDefault();
 
         try {
-            const token = await api.post('/token/', {
+            const {data} = await api.post('/auth/', {
                 email: email,
                 password: password
             })
 
-            console.log(token)
+            console.log(data)
+            console.log(data.token)
+            localStorage.setItem("token", `Bearer ${data.token}`)
 
-            if (token.data.jwtToken) {
-                api.defaults.headers.common.Authorization = token.data.jwtToken
+            if (data.token) {
+                api.defaults.headers.common.Authorization = `Bearer ${data.token}`
             }
 
-            alert(token.data.jwtToken || token.data && "Login Correto.")
+            alert(data.token || data.token && "Login Correto.")
 
         } catch (e) {
             console.log(e)

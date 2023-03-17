@@ -1,11 +1,14 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {CaretLeft, FileImage, Plus, X} from "phosphor-react";
+import {api} from "../../lib/axios";
+
 
 
 export function CampanhaFormDois() {
     {
         const [preview, setPreview] = useState(null);
         const [inputVisible, setInputVisible] = useState(true);
+        const [causes, setCauses] = useState([]);
 
         function handleChange(event) {
             const file = event.target.files[0];
@@ -26,6 +29,23 @@ export function CampanhaFormDois() {
                 const files = event.target.files;
                 console.log(files);
             }
+
+        function randomColor() {
+            const randomColor = Math.floor(Math.random() * 0xfffff * 1000000).toString(16);
+            return `[#${randomColor.slice(0,6)}]`;
+        }
+
+        useEffect(() => {
+            const fetchData = async () => {
+
+                const data = await api.get('/causes/');
+                setCauses(data.data.causes);
+                console.log(setCauses)
+            }
+
+            fetchData().catch(console.error);
+
+            }, [])
 
 
         return (
@@ -53,14 +73,13 @@ export function CampanhaFormDois() {
                     </div>
                     <h2 className={'text-2xl font-bold text-slate-400 pt-2'}>Adicione Tags</h2>
                     <div className={'flex gap-2'}>
-                        <div className="badge badge-primary">primary</div>
-                        <div className="badge badge-secondary">secondary</div>
-                        <div className="badge badge-accent">accent</div>
                         <div className="dropdown dropdown-right">
                             <label tabIndex={0} className="btn m-1"><Plus size={24}/></label>
-                            <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-                                <li><a>Item 1</a></li>
-                                <li><a>Item 2</a></li>
+                            <ul tabIndex={0}  className="dropdown-content menu p-2 shadow bg-base-100 rounded-box gap-2 w-64 flex flex-row">
+                                {
+                                    causes.map((item) => (
+                                    <div key={item.id} className={`badge bg-${randomColor()}`}>{item.title}</div>
+                                ))}
                             </ul>
                         </div>
                     </div>
