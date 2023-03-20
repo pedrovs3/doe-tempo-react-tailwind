@@ -12,8 +12,11 @@ export function CampanhaForm() {
 
     registerLocale("pt-BR", ptBR);
 
+
     const [selectedDate, setSelectedDate] = useState(null);
     const [selectedDate2, setSelectedDate2] = useState(null);
+
+
 
     return (
         <form name={"campanha"} className={'pr-6 flex flex-col justify-between pt-2'}>

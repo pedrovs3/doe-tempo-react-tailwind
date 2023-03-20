@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 .bg-image {
-    background-image: url("./assets/img/bg_layer.svg");
-    background-position: 100vh -25vw;
+    background-image: url("./assets/img/bg-image.png");
+    background-size:cover ;
     background-repeat: no-repeat;
     background-attachment: fixed;
 }

@@ -1,6 +1,10 @@
 import React, {useEffect, useState} from "react";
 import {CaretLeft, FileImage, Plus, X} from "phosphor-react";
 import {api} from "../../lib/axios";
+import {ref, uploadBytesResumable, getDownloadURL} from 'firebase/storage'
+
+import {storage} from "../../firebase.js"
+
 
 
 
@@ -8,22 +12,44 @@ export function CampanhaFormDois() {
     {
         const [preview, setPreview] = useState(null);
         const [inputVisible, setInputVisible] = useState(true);
+        const [imgURL, setImgURL] = useState("")
         const [causes, setCauses] = useState([]);
 
         function handleChange(event) {
             const file = event.target.files[0];
 
-            if (file) {
+            if(!file) return
+
+            const storageRef = ref(storage, `images/${file.name}`)
+            const uploadTask = uploadBytesResumable(storageRef, file)
+
+            uploadTask.on(
+                "state_changed",
+                snapshot => {
+                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                    setProgress(progress)
+                },
+                error => {
+                    alert(error)
+                },
+                () => {
+                    getDownloadURL(uploadTask.snapshot.ref).then(url => {
+                        setImgURL(url)
+                        console.log(url)
+                    })
+                }
+            )
+
                 const reader = new FileReader();
                 reader.readAsDataURL(file);
                 reader.onloadend = () => {
+                    // @ts-ignore
                     setPreview(reader.result);
                     setInputVisible(false);
-                };
-            } else {
+                }
                 setPreview(null);
                 setInputVisible(true);
-            }
+
         }
             const handleFileSelect = (event) => {
                 const files = event.target.files;
@@ -35,33 +61,41 @@ export function CampanhaFormDois() {
             return `[#${randomColor.slice(0,6)}]`;
         }
 
-        useEffect(() => {
-            const fetchData = async () => {
+        // useEffect(() => {
+        //     const fetchData = async () => {
+        //
+        //         const data = await api.get('/causes/');
+        //         setCauses(data.data.causes);
+        //         console.log(setCauses)
+        //     }
+        //
+        //     fetchData().catch(console.error);
+        //
+        //     }, [])
 
-                const data = await api.get('/causes/');
-                setCauses(data.data.causes);
-                console.log(setCauses)
-            }
+        const [progress, setProgress] = useState(0)
 
-            fetchData().catch(console.error);
+        const handleUpload = (event) => {
 
-            }, [])
+            event.preventDefault()
+            console.log(imgURL)
+        }
+
 
 
         return (
-            <form name={"campanha"} className={'pr-6 flex flex-col justify-between pt-2'}>
+            <form name={"campanha"} className={'pr-6 flex flex-col justify-between pt-2'} onSubmit={handleUpload}>
                 <div className={"flex flex-col gap-3"}>
                     <h2 className={'text-2xl font-bold text-slate-400'}>Foto de Capa da Campanha</h2>
                     <div className="flex flex-col items-center">
-                        {inputVisible && (
-                            <input
-                                className={'file-input file-input-bordered file-input-info w-full max-w-xs'}
-                                id="input-file"
-                                type="file"
-                                accept="image/*"
-                                onChange={handleChange}
-                            />
-                        )}
+                        <input
+                            className={'file-input file-input-bordered file-input-info w-full max-w-xs'}
+                            id="input-file"
+                            type="file"
+                            accept="image/*"
+                            onChange={handleChange}
+                            hidden={!inputVisible}
+                        />
                         {preview && (
                             <img
                                 src={preview}
@@ -83,8 +117,6 @@ export function CampanhaFormDois() {
                             </ul>
                         </div>
                     </div>
-                    <h2 className={'text-2xl font-bold text-slate-400 pt-2'}>Adicione Imagens</h2>
-                    <input type="file" multiple onChange={handleFileSelect} className="file-input file-input-bordered file-input-sm w-full max-w-xs" accept="image/*"/>
                     <div className="flex flex-col gap-3 pt-2">
                         <h2 className={'text-2xl font-bold text-slate-100'}>Como Contribuir</h2>
                         <textarea  placeholder="Diga ao voluntário como ajudar..."
