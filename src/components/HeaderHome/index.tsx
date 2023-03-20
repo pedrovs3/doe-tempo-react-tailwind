@@ -5,7 +5,6 @@ export function Header() {
     return (
         <div className={'w-full flex'}>
             <img src={Logo} className={''} alt={'logo doe tempo'}/>
-
         </div>
 
     )
