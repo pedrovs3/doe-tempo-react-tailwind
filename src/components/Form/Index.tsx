@@ -35,7 +35,6 @@ export const Form = () => {
 			const data = await api.get('/gender');
 			// convert the data to json
 
-
 			// set state with the result
 			setGender(data.data.genders);
 		}

@@ -6,8 +6,6 @@ import {ref, uploadBytesResumable, getDownloadURL} from 'firebase/storage'
 import {storage} from "../../firebase.js"
 
 
-
-
 export function CampanhaFormDois() {
     {
         const [preview, setPreview] = useState(null);
@@ -61,17 +59,17 @@ export function CampanhaFormDois() {
             return `[#${randomColor.slice(0,6)}]`;
         }
 
-        // useEffect(() => {
-        //     const fetchData = async () => {
-        //
-        //         const data = await api.get('/causes/');
-        //         setCauses(data.data.causes);
-        //         console.log(setCauses)
-        //     }
-        //
-        //     fetchData().catch(console.error);
-        //
-        //     }, [])
+        useEffect(() => {
+            const fetchData = async () => {
+
+                const data = await api.get('/causes/');
+                setCauses(data.data.causes);
+                console.log(setCauses)
+            }
+
+            fetchData().catch(console.error);
+
+            }, [])
 
         const [progress, setProgress] = useState(0)
 
