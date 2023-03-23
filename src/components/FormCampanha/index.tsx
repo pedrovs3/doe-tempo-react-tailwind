@@ -7,8 +7,15 @@ import TimePicker from "rc-time-picker";
 import 'rc-time-picker/assets/index.css';
 import React, {useState} from "react";
 
+interface AddressProps {
+    logradouro : string,
+    numero: number,
+    localidade? : string,
+    uf?: string,
+    complemento?: string
 
-export function CampanhaForm() {
+}
+export function CampanhaForm(props : AddressProps) {
 
     registerLocale("pt-BR", ptBR);
 
@@ -37,15 +44,8 @@ export function CampanhaForm() {
                                 <HouseSimple size={32}/>
                                 <p className={'text-1xl font-bold text-slate-100'}>Endereço registrado</p>
                             </div>
-                            <span>Av. Paulista, 19, Bloco 3</span>
-                            <span>São  Paulo, SP</span>
-                            <div className="card-actions">
-                                <button
-                                    type={"button"}
-                                    className="btn btn-square  rounded-full btn-sm absolute top-0 right-0 mt-2 mr-2">
-                                    <Plus size={24}/>
-                                </button>
-                            </div>
+                            <span>{props.logradouro}, {props.numero}, {props.localidade}, {props.uf}</span>
+                            <span>{props .complemento}</span>
                         </div>
                     </div>
                 </div>

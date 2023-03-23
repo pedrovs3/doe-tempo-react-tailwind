@@ -3,12 +3,12 @@ import {useEffect, useState} from "react";
 import {api} from "../../lib/axios";
 
 interface CardProps {
+    id: Number,
     imgAvatar: string,
     title: string,
     description: string,
 
 }
-
 
 export function CardsCampanha(props : CardProps) {
     const [data, setData] = useState([])
