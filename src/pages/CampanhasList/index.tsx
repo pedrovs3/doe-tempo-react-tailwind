@@ -20,7 +20,6 @@ export default function CampanhasList() {
     },[])
 
 
-
     return (
         <div className={'p-4'}>
             <h1 className={'text-4xl font-bold text-blueberry text-start pt-8'}>Oportunidades</h1>
@@ -28,7 +27,7 @@ export default function CampanhasList() {
             <div className={'flex'}>
                 {
                     data.map((item) => (
-                        <CardsCampanha  title={item.title}  description={item.description} />
+                        <CardsCampanha id={item.id}  title={item.title}  description={item.description}/>
                     ))}
 
             </div>

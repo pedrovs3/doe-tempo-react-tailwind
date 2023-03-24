@@ -2,7 +2,6 @@ import React, {useEffect, useState} from "react";
 import {CaretLeft, FileImage, Plus, X} from "phosphor-react";
 import {api} from "../../lib/axios";
 import {ref, uploadBytesResumable, getDownloadURL} from 'firebase/storage'
-
 import {storage} from "../../firebase.js"
 
 
@@ -12,6 +11,8 @@ export function CampanhaFormDois() {
         const [inputVisible, setInputVisible] = useState(true);
         const [imgURL, setImgURL] = useState("")
         const [causes, setCauses] = useState([]);
+        const [contributeState, setStateContribute] = useState('');
+        const [prerequisitesState, setStatePrerequisites] = useState('');
 
         function handleChange(event) {
             const file = event.target.files[0];
@@ -37,6 +38,7 @@ export function CampanhaFormDois() {
                     })
                 }
             )
+
 
                 const reader = new FileReader();
                 reader.readAsDataURL(file);
@@ -64,7 +66,6 @@ export function CampanhaFormDois() {
 
                 const data = await api.get('/causes/');
                 setCauses(data.data.causes);
-                console.log(setCauses)
             }
 
             fetchData().catch(console.error);
@@ -118,12 +119,12 @@ export function CampanhaFormDois() {
                     <div className="flex flex-col gap-3 pt-2">
                         <h2 className={'text-2xl font-bold text-slate-100'}>Como Contribuir</h2>
                         <textarea  placeholder="Diga ao voluntário como ajudar..."
-                                   className="resize-none textarea textarea-bordered textarea-lg w-full max-w-xs"></textarea>
+                                   className="resize-none textarea textarea-bordered textarea-lg w-full max-w-xs" value={contributeState}></textarea>
                     </div>
                     <div className="flex flex-col gap-3 pt-2">
                         <h2 className={'text-2xl font-bold text-slate-100'}>Pré-requisitos</h2>
                         <textarea  placeholder="Diga ao voluntário como ajudar..."
-                                   className="resize-none textarea textarea-bordered textarea-lg w-full max-w-xs"></textarea>
+                                   className="resize-none textarea textarea-bordered textarea-lg w-full max-w-xs" value={prerequisitesState}></textarea>
                     </div>
                     <div className={'pt-5 flex justify-end'}>
                     <button className={'btn w-40 rounded-full bg-blueberry border-0 text-white flex justify-center hover:bg-accent'} type={'submit'}>

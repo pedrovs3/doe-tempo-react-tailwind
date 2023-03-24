@@ -26,12 +26,6 @@ export function CardsBar() {
                     <option>Vue</option>
                     <option>React</option>
                 </select>
-                <select className="select select-ghost w-full max-w-xs">
-                    <option disabled selected>Habilidades</option>
-                    <option>Svelte</option>
-                    <option>Vue</option>
-                    <option>React</option>
-                </select>
                 <div className="form-control">
                     <div className="input-group">
                         <button className="btn btn-square">

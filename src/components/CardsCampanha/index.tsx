@@ -1,9 +1,10 @@
 import avatar from "../../assets/img/avatar-ong.png";
 import {useEffect, useState} from "react";
 import {api} from "../../lib/axios";
+import {NavLink} from "react-router-dom";
 
 interface CardProps {
-    id: Number,
+    id: string,
     imgAvatar: string,
     title: string,
     description: string,
@@ -38,20 +39,14 @@ export function CardsCampanha(props : CardProps) {
                     <h2 className={"pt-3 text-blueberry font-bold text-xl"}>Sobre:</h2>
                     <p className={"font-medium text-texto-campanha pb-3.5"}>
                         {props .description}
-                        {/*Donec id aliquam leo.*/}
-                        {/*Curabitur nec erat semper,*/}
-                        {/*mollis metus at, volutpat enim.*/}
-                        {/*Mauris at tortor ultricies,*/}
-                        {/*auctor purus et, accumsan nunc.*/}
-                        {/*Fusce dictum enim eget arcu tristique,*/}
-                        {/*in laoreet ipsum tristique.*/}
                     </p>
                     <progress className="progress progress-info w-80" value="50" max="100"></progress>
                     <div className="flex justify-end">
                         <p className={"flex justify-end font-medium"}>70 Vagas Disponíveis</p>
                     </div>
                     <div className="card-actions justify-end pt-3">
-                        <button className="btn w-32 rounded-full bg-blueberry border-0 text-white flex justify-center hover:bg-turquoise-700 hover:text-blueberry">Saiba Mais</button>
+                        <button className="btn w-32 rounded-full bg-blueberry border-0 text-white flex justify-center hover:bg-turquoise-700 hover:text-blueberry">
+                            <NavLink to={'/detalhes-campanha'}>Saiba Mais</NavLink></button>
                     </div>
                 </div>
             </div>
