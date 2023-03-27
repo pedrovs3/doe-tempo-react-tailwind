@@ -13,7 +13,6 @@ export default function NovaCampanha() {
     const [cep, setCep] = useState('');
     const userId = decodeJWT.id;
 
-
     useEffect(() => {
 
         const fetchAPI = async () => {
@@ -43,18 +42,18 @@ export default function NovaCampanha() {
     }, [])
 
 
-
     return (
         <div className={'p-4'}>
             <Header/>
-            <form name={"campanha"} className={'pr-6 flex flex-col justify-between pt-2'}>
             <h1 className={'text-4xl font-bold text-blueberry text-start pt-8'}>Nova Campanha</h1>
             <div className={'flex justify-center items-center gap-20'}>
-                <CampanhaForm logradouro={cep?.logradouro} numero={user?.tbl_ngo_address.tbl_address.number} localidade={cep?.localidade} uf={cep?.uf} complemento={user?.tbl_ngo_address.tbl_address.complement}/>
-                <div className="divider divider-horizontal"></div>
-                <CampanhaFormDois/>
+                <CampanhaForm idOng={userId}
+                              logradouro={cep?.logradouro}
+                              numero={user?.tbl_ngo_address.tbl_address.number}
+                              localidade={cep?.localidade} uf={cep?.uf}
+                              complemento={user?.tbl_ngo_address.tbl_address.complement}
+                              cep={user?.tbl_ngo_address.tbl_address.postal_code}/>
             </div>
-            </form>
         </div>
     )
 

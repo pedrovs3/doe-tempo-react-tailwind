@@ -7,78 +7,9 @@ import {storage} from "../../firebase.js"
 
 export function CampanhaFormDois() {
     {
-        const [preview, setPreview] = useState(null);
-        const [inputVisible, setInputVisible] = useState(true);
-        const [imgURL, setImgURL] = useState("")
-        const [causes, setCauses] = useState([]);
-        const [contributeState, setStateContribute] = useState('');
-        const [prerequisitesState, setStatePrerequisites] = useState('');
-
-        function handleChange(event) {
-            const file = event.target.files[0];
-
-            if(!file) return
-
-            const storageRef = ref(storage, `images/${file.name}`)
-            const uploadTask = uploadBytesResumable(storageRef, file)
-
-            uploadTask.on(
-                "state_changed",
-                snapshot => {
-                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-                    setProgress(progress)
-                },
-                error => {
-                    alert(error)
-                },
-                () => {
-                    getDownloadURL(uploadTask.snapshot.ref).then(url => {
-                        setImgURL(url)
-                        console.log(url)
-                    })
-                }
-            )
 
 
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onloadend = () => {
-                    // @ts-ignore
-                    setPreview(reader.result);
-                    setInputVisible(false);
-                }
-                setPreview(null);
-                setInputVisible(true);
 
-        }
-            const handleFileSelect = (event) => {
-                const files = event.target.files;
-                console.log(files);
-            }
-
-        function randomColor() {
-            const randomColor = Math.floor(Math.random() * 0xfffff * 1000000).toString(16);
-            return `[#${randomColor.slice(0,6)}]`;
-        }
-
-        useEffect(() => {
-            const fetchData = async () => {
-
-                const data = await api.get('/causes/');
-                setCauses(data.data.causes);
-            }
-
-            fetchData().catch(console.error);
-
-            }, [])
-
-        const [progress, setProgress] = useState(0)
-
-        const handleUpload = (event) => {
-
-            event.preventDefault()
-            console.log(imgURL)
-        }
 
 
 
