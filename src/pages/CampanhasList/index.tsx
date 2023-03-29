@@ -3,8 +3,10 @@ import {CardsBar} from "../../components/CardsBar";
 import React, {useEffect, useState} from "react";
 import {api} from "../../lib/axios";
 
+
 export default function CampanhasList() {
     const [data, setData] = useState([]);
+
 
     useEffect(() => {
         const fetchData = async () => {

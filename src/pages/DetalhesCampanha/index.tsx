@@ -1,6 +1,7 @@
 import {DetalhesBody} from "../../components/DetalhesBody";
 import {DetalhesBodyDois} from "../../components/DetalhesBodyDois";
 
+
 export default function DetalhesCampanha() {
     return (
         <div className={'p-20'}>

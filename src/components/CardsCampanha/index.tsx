@@ -1,7 +1,10 @@
 import avatar from "../../assets/img/avatar-ong.png";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {api} from "../../lib/axios";
-import {NavLink} from "react-router-dom";
+import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
+import DetalhesCampanha from "../../pages/DetalhesCampanha";
+
+
 
 interface CardProps {
     id: string,
@@ -26,12 +29,14 @@ export function CardsCampanha(props : CardProps) {
 
     }, [])
 
+
+
     return (
         <div className={'pt-5 h-full w-full flex flex-col justify-between'}>
             <div className="card w-96 bg-card-campanha">
                 <div className="card-body">
-                    <div className="avatar">
-                        <div className="w-1/6 rounded-xl ring ring-primary ring-tufts-blue ring-offset-2">
+                    <div className="avatar w-96">
+                        <div className="w-1/6 rounded-xl ring ring-primary ring-tufts-blue ring-offset-2 bg-blueberry">
                             <img src={avatar}/>
                         </div>
                             <h2 className={"text-blueberry font-bold text-2xl p-2.5"}>{props .title}</h2>
@@ -45,8 +50,7 @@ export function CardsCampanha(props : CardProps) {
                         <p className={"flex justify-end font-medium"}>70 Vagas Disponíveis</p>
                     </div>
                     <div className="card-actions justify-end pt-3">
-                        <button className="btn w-32 rounded-full bg-blueberry border-0 text-white flex justify-center hover:bg-turquoise-700 hover:text-blueberry">
-                            <NavLink to={'/detalhes-campanha'}>Saiba Mais</NavLink></button>
+                            <NavLink className="btn w-32 rounded-full bg-blueberry border-0 text-white flex justify-center hover:bg-turquoise-700 hover:text-blueberry" to={'/detalhes-campanha'}>Saiba Mais</NavLink>
                     </div>
                 </div>
             </div>

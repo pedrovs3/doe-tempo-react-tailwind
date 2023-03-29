@@ -1,6 +1,5 @@
 import {Header} from "../../components/HeaderCampanha";
 import {CampanhaForm} from "../../components/FormCampanha";
-import {CampanhaFormDois} from "../../components/FormCampanhaDois";
 
 export default function EditarCampanha() {
     return (

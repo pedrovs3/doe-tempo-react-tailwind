@@ -15,8 +15,6 @@ interface AddressProps {
     localidade? : string,
     uf?: string,
     complemento?: string
-
-
 }
 
 interface itemProps {
@@ -39,8 +37,10 @@ export function CampanhaForm(props : AddressProps) {
         const [descriptionState, setStateDescription] = useState('');
         const [beginDateState, setStateDateBegin] = useState('')
         const [endDateState, setStateDateEnd] = useState('')
+        const [selectedOption, setSelectedOption] = useState([]);
 
-        function handleChange(event) {
+
+    function handleChange(event) {
             const file = event.target.files[0];
 
             if (!file) return
@@ -117,11 +117,7 @@ export function CampanhaForm(props : AddressProps) {
                     prerequisites: prerequisitesState,
                     id_ngo: props.idOng,
                     photoURL: imgURL,
-                    causes: [
-                        {
-                            id: 'e3eba514-b524-40aa-b31e-fec526a7e86e'
-                        }
-                    ],
+                    causes: causesJson,
                     address: {
                         postal_code: props.cep,
                         number: props.numero,
@@ -137,6 +133,15 @@ export function CampanhaForm(props : AddressProps) {
 
         }
 
+        const animatedComponents = makeAnimated();
+
+    const causesOptions = causes.map(el => {
+        return { label: el.title, value: el.id}
+    })
+
+    const causesJson = selectedOption.map(el => {
+        return {id: el.value}
+    })
 
         return (
             <form name={"campanha"} className={'pr-6 flex pt-2 gap-32'} onSubmit={handleSubmitForm}>
@@ -241,21 +246,15 @@ export function CampanhaForm(props : AddressProps) {
                         )}
                     </div>
                     <h2 className={'text-2xl font-bold text-slate-400 pt-2'}>Adicione Tags</h2>
-                    <div className={'flex gap-2'}>
-                        {/*<div className="dropdown dropdown-right">*/}
-                        {/*    <label tabIndex={0} className="btn m-1"><Plus size={24}/></label>*/}
-                        {/*    <ul tabIndex={0}  className="dropdown-content menu p-2 shadow bg-base-100 rounded-box gap-2 w-64 flex flex-row">*/}
-                        {/*        {*/}
-                        {/*            causes.map((item: itemProps) => (*/}
-                        {/*                <button*/}
-                        {/*                    type={"button"}*/}
-                        {/*                    key={item.id}*/}
-                        {/*                    id={item.id}*/}
-                        {/*                    className={'bg-violet-500 hover:bg-violet-600 active:bg-violet-700 focus:outline-none focus:ring focus:ring-violet-300'}*/}
-                        {/*                    onClick={(it) =>console.log(it.target?.id)}>{item.title}</button>*/}
-                        {/*            ))}*/}
-                        {/*    </ul>*/}
-                        {/*</div>*/}
+                    <div className={'pt-2 w-80'}>
+                        <Select
+                        closeMenuOnSelect={false}
+                        components={animatedComponents}
+                        isMulti
+                        options={causesOptions}
+                        value={selectedOption}
+                        onChange={setSelectedOption}
+                        />
                     </div>
                     <div className="flex flex-col gap-3 pt-2">
                         <h2 className={'text-2xl font-bold text-slate-100'}>Como Contribuir</h2>

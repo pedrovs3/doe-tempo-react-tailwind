@@ -1,4 +1,4 @@
-import {Clock, GlobeHemisphereEast, Heart, HeartStraight, MapPin, ShareNetwork} from "phosphor-react";
+import {CalendarCheck, Clock, GlobeHemisphereEast, Heart, HeartStraight, MapPin, ShareNetwork} from "phosphor-react";
 import capa from "../../assets/img/teste-capa.jpeg";
 import avatar from "../../assets/img/pedro-avatar.jpeg";
 
@@ -23,7 +23,7 @@ export function DetalhesBodyDois() {
             <div className={"flex flex-col"}>
                 <h1 className={"font-bold text-2xl pb-2"}>Detalhes:</h1>
                 <ul className={"flex flex-col gap-5"}>
-                    <li className={"flex flex-row items-center gap-2"}><Clock size={32}/> 4 Horas</li>
+                    <li className={"flex flex-row items-center gap-2"}><CalendarCheck size={32}/>29/03/2023 até 01/04/2023</li>
                     <li className={"flex flex-row items-center gap-2"}><GlobeHemisphereEast size={32}/> Pode ser feito a
                         distância
                     </li>
