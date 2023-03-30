@@ -232,8 +232,7 @@ export const Form = () => {
 						Enviar
 					</button>
 					<button
-						className={"btn btn-accent w-1/8 rounded-full bg-maya_blue px-6 border-0 text-l text-black hover:bg-turquoise-700 hover:text-white"}r
-					>
+						className={"btn btn-accent w-1/8 rounded-full bg-maya_blue px-6 border-0 text-l text-black hover:bg-turquoise-700 hover:text-white"}>
 						<p><NavLink to={'/login'}>Sou uma ONG</NavLink></p>
 					</button>
 				</div>

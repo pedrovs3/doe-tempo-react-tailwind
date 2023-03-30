@@ -9,6 +9,7 @@ import Home from "../pages/Home";
 import DetalhesCampanha from "../pages/DetalhesCampanha";
 import EditarCampanha from "../pages/EditarCampanha";
 import {NewPost} from "../components/NewPost";
+import Loading from "../components/Loading";
 
 export const routes = createBrowserRouter([
     // {
@@ -47,11 +48,11 @@ export const routes = createBrowserRouter([
         element: <Home/>
     },
     {
-        path: '/detalhes-campanha/:campaignId',
+        path: '/detalhes-campanha/',
         element: <DetalhesCampanha/>
     },
     {
         path: '/post',
-        element: <NewPost/>,
+        element: <Loading/>,
     },
 ])
