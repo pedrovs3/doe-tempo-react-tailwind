@@ -48,7 +48,7 @@ export const routes = createBrowserRouter([
         element: <Home/>
     },
     {
-        path: '/detalhes-campanha/',
+        path: '/detalhes-campanha/:id',
         element: <DetalhesCampanha/>
     },
     {

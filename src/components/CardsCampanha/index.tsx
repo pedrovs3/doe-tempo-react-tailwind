@@ -31,6 +31,7 @@ export function CardsCampanha(props : CardProps) {
 
 
 
+
     return (
         <div className={'pt-5 h-full w-full flex flex-col justify-between'}>
             <div className="card w-96 bg-card-campanha">
@@ -50,7 +51,8 @@ export function CardsCampanha(props : CardProps) {
                         <p className={"flex justify-end font-medium"}>70 Vagas Disponíveis</p>
                     </div>
                     <div className="card-actions justify-end pt-3">
-                            <NavLink className="btn w-32 rounded-full bg-blueberry border-0 text-white flex justify-center hover:bg-turquoise-700 hover:text-blueberry" to={'/detalhes-campanha'}>Saiba Mais</NavLink>
+                            <NavLink className="btn w-32 rounded-full bg-blueberry border-0 text-white flex justify-center hover:bg-turquoise-700 hover:text-blueberry"
+                                     to={`/detalhes-campanha/${props .id}`}>Saiba Mais </NavLink>
                     </div>
                 </div>
             </div>

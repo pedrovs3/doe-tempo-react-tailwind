@@ -1,7 +1,17 @@
 import {Clock, GlobeHemisphereEast, Heart, HeartStraight, MagnifyingGlass, MapPin, ShareNetwork} from "phosphor-react";
 import avatar from '../../assets/img/avatar-ong.png'
 
-export function DetalhesBody() {
+interface CampaignProps {
+    id: string,
+    imgAvatar: string,
+    title: string,
+    description: string,
+
+}
+
+export function DetalhesBody(props : CampaignProps) {
+
+
 
     return (
         <div className={"flex flex-col gap-3 pt-6 w-1/3"}>
@@ -50,5 +60,6 @@ export function DetalhesBody() {
                 </div>
             </div>
         </div>
+
     )
 }

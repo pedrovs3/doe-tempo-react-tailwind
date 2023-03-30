@@ -26,8 +26,6 @@ interface itemProps {
 
 export function CampanhaForm(props : AddressProps) {
 
-
-
         const [preview, setPreview] = useState(null);
         const [inputVisible, setInputVisible] = useState(true);
         const [imgURL, setImgURL] = useState("")
