@@ -2,10 +2,12 @@ import {CardsCampanha} from "../../components/CardsCampanha";
 import {CardsBar} from "../../components/CardsBar";
 import React, {useEffect, useState} from "react";
 import {api} from "../../lib/axios";
+import Loading from "../../components/Loading";
 
 
 export default function CampanhasList() {
     const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
 
 
     useEffect(() => {
@@ -14,6 +16,7 @@ export default function CampanhasList() {
             console.log(data.campaigns)
 
             setData(data.campaigns);
+            setLoading(false)
         }
         console.log(data)
 
@@ -22,19 +25,23 @@ export default function CampanhasList() {
     },[])
 
 
+return (
+    <div>
+        {loading ? (
+            <Loading />
+        ) : (
+            <div className={'p-4'}>
+                <h1 className={'text-4xl font-bold text-blueberry text-start pt-8'}>Oportunidades</h1>
+                <CardsBar/>
+                <div className={'flex'}>
+                    {
+                        data.map((item) => (
+                            <CardsCampanha key={item.id}  id={item.id}  title={item.title}  description={item.description}/>
+                        ))}
 
-    return (
-        <div className={'p-4'}>
-            <h1 className={'text-4xl font-bold text-blueberry text-start pt-8'}>Oportunidades</h1>
-            <CardsBar/>
-            <div className={'flex'}>
-                {
-                    data.map((item) => (
-                        <CardsCampanha key={item.id}  id={item.id}  title={item.title}  description={item.description}/>
-                    ))}
-
+                </div>
             </div>
-        </div>
+        )}
+    </div>
     )
-
 }
