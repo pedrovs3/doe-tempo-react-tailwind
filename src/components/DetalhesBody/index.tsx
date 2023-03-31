@@ -10,14 +10,9 @@ interface CampaignProps {
     profileOng: string,
     descriptionOng: string,
     nameOng: string,
-
-
 }
 
 export function DetalhesBody(props : CampaignProps) {
-
-
-
     return (
         <div className={"flex flex-col gap-3 pt-6 w-1/3"}>
             <h1 className={'text-5xl font-bold text-start pt-8'}>{props.title}</h1>

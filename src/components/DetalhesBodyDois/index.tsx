@@ -27,9 +27,6 @@ export function DetalhesBodyDois(props : CampaignProps) {
         const dataFormatadaInicio = format(new Date(props.begin_date), "dd/MM/yyyy");
         const dataFormatadaFim = format(new Date(props.end_date), "dd/MM/yyyy");
 
-        const causes = props.causes.map((objeto) => objeto.title);
-
-        console.log(causes)
 
 
         return (

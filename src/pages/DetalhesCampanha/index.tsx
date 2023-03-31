@@ -4,8 +4,6 @@ import { useParams } from "react-router-dom"
 import React, {useEffect, useState} from "react";
 import {api} from "../../lib/axios";
 import Loading from "../../components/Loading";
-import {Header} from "../../components/HeaderCampanha";
-import {CampanhaForm} from "../../components/FormCampanha";
 
 
 export default function DetalhesCampanha() {

@@ -33,7 +33,7 @@ return (
             <div className={'p-4'}>
                 <h1 className={'text-4xl font-bold text-blueberry text-start pt-8'}>Oportunidades</h1>
                 <CardsBar/>
-                <div className={'flex'}>
+                <div className={'grid grid-cols-4 gap-4'}>
                     {
                         data.map((item) => (
                             <CardsCampanha key={item.id}  id={item.id}  title={item.title}  description={item.description}/>
