@@ -26,18 +26,6 @@ export default function NovaCampanha() {
             const user = await userResponse.data
             setUser(user)
 
-        }
-
-        fetchAPI().catch(console.error)
-    }, [])
-
-    useEffect(() => {
-
-        const fetchAPI = async () => {
-            const userResponse = await api.get(`/ngo/${decodeJWT.id}`)
-            const user = await userResponse.data
-            setUser(user)
-
             const consultarCep = await apiCep.get(`/${user?.tbl_ngo_address.tbl_address.postal_code}/json/`)
             const cep = await consultarCep.data
             setCep(cep)

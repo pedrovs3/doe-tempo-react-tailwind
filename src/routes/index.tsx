@@ -32,7 +32,7 @@ export const routes = createBrowserRouter([
         element: <NovaCampanha/>
     },
     {
-        path: '/editar-campanha',
+        path: '/editar-campanha/:id',
         element: <EditarCampanha/>
     },
     {

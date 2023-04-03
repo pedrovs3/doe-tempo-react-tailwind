@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const api = axios.create({
-	baseURL: 'http://localhost:3333',
+	baseURL: 'https://api-doe-tempo.azurewebsites.net/',
 	headers: {
 		Authorization: localStorage.getItem("token")
 	}

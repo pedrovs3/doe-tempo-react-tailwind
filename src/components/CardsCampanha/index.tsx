@@ -22,7 +22,6 @@ export function CardsCampanha(props : CardProps) {
 
             const data = await api.get('/campaign/');
             setData(data.data.causes);
-            console.log(setData)
         }
 
         fetchData().catch(console.error);

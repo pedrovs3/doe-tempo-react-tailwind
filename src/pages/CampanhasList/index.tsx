@@ -13,12 +13,10 @@ export default function CampanhasList() {
     useEffect(() => {
         const fetchData = async () => {
             const {data} = await api.get('/campaign/');
-            console.log(data.campaigns)
 
             setData(data.campaigns);
             setLoading(false)
         }
-        console.log(data)
 
         fetchData().catch(console.error);
 
