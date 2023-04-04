@@ -5,9 +5,10 @@ import {storage} from "../../firebase";
 import {api} from "../../lib/axios";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
+import {format} from "date-fns";
+import {apiCep} from "../../api/consulta_cep";
 
 interface AddressProps {
-    title:string
     idOng : string,
     cep : number,
     logradouro : string,
@@ -16,10 +17,20 @@ interface AddressProps {
     uf?: string,
     complemento?: string
 }
+interface CampaignProps {
+    title: string
+    description: string
+    begin_date: string
+    end_date: string
+    home_office: boolean
+    causes: [],
+    contribute: string
+    prerequisites: string
 
-export function EditCampanhaForm(props : AddressProps) {
+    photoURL: string
+}
 
-    console.log(props.title)
+export function EditCampanhaForm(props : AddressProps & CampaignProps) {
 
     const [preview, setPreview] = useState(null);
     const [inputVisible, setInputVisible] = useState(true);
@@ -32,11 +43,24 @@ export function EditCampanhaForm(props : AddressProps) {
     const [beginDateState, setStateDateBegin] = useState('')
     const [endDateState, setStateDateEnd] = useState('')
     const [selectedOption, setSelectedOption] = useState([]);
+    const [value, setValue] = useState(false);
+    const [cep, setCep] = useState("");
+
+    console.log(props.photoURL )
 
     setTimeout(() => {
+        const dataFormatadaInicio = format(new Date(props.begin_date), "yyyy-MM-dd");
+        const dataFormatadaFim = format(new Date(props.end_date), "yyyy-MM-dd");
         setStateTitle(props.title);
-    }, 100)
+        setStateDescription(props.description)
+        setStateDateBegin(dataFormatadaInicio)
+        setStateDateEnd(dataFormatadaFim)
+        setValue(props.home_office)
+        setStateContribute(props. contribute)
+        setStatePrerequisites(props. prerequisites)
+        setCep(props.cep)
 
+    }, 100)
 
     function handleChange(event) {
         const file = event.target.files[0];
@@ -87,6 +111,10 @@ export function EditCampanhaForm(props : AddressProps) {
             const data = await api.get('/causes/');
             setCauses(data.data.causes);
 
+            const consultarCep = await apiCep.get(`/${data?.tbl_campaign_address?.tbl_address?.postal_code}/json/`)
+            const cep = await consultarCep.data
+            setCep(cep)
+
         }
 
         fetchData().catch(console.error);
@@ -95,7 +123,6 @@ export function EditCampanhaForm(props : AddressProps) {
 
     const [progress, setProgress] = useState(0)
 
-    const [value, setValue] = useState(false);
 
     const handleRadioChange = (event) => {
         setValue(event.target.value === 'true');
@@ -115,7 +142,6 @@ export function EditCampanhaForm(props : AddressProps) {
                 how_to_contribute: contributeState,
                 prerequisites: prerequisitesState,
                 id_ngo: props.idOng,
-                photoURL: imgURL,
                 causes: causesJson,
                 address: {
                     postal_code: props.cep,
@@ -227,26 +253,17 @@ export function EditCampanhaForm(props : AddressProps) {
             <div className={''}>
                 <h2 className={'text-2xl font-bold text-slate-400'}>Foto de Capa da Campanha</h2>
                 <div className="flex flex-col items-center">
-                    <input
-                        className={'file-input file-input-bordered file-input-info w-full max-w-xs'}
-                        id="input-file"
-                        type="file"
-                        accept="image/*"
-                        onChange={handleChange}
-                        hidden={!inputVisible}
-                    />
-                    {preview && (
                         <img
-                            src={preview}
+                            src={props.photoURL}
                             alt="Preview"
                             className="w-[20rem] h-[13rem] object-cover rounded-lg pt-1.5"
-                            onClick={() => setInputVisible(true)}
-                        />
-                    )}
+                            onClick={() => setInputVisible(true)}/>
+
                 </div>
                 <h2 className={'text-2xl font-bold text-slate-400 pt-2'}>Adicione Tags</h2>
                 <div className={'pt-2 w-80'}>
                     <Select
+                        required
                         closeMenuOnSelect={false}
                         components={animatedComponents}
                         isMulti

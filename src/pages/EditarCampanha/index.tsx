@@ -6,30 +6,42 @@ import {api} from "../../lib/axios";
 import {EditCampanhaForm} from "../../components/EditarCampanha";
 
 export default function EditarCampanha() {
-    const [data, setData] = useState({})
+    const [data, setData] = useState({
+        tbl_campaign_photos: [{ photoURL: String }]
+    })
     const routeParams = useParams();
     const id = routeParams.id
-
-    console.log(data)
-
     useEffect(() => {
         const fetchData = async () => {
-            const {data} = await api.get(`/campaign/${id}`);
-            setData(data.campaign)
-
+            const {data} = await api.get(`/campaign/${id}`)
+            setData(data.campaigns)
         }
 
         fetchData().catch(console.error);
 
     }, [])
 
+    console.log(data)
+
+    const photoURL = data?.tbl_campaign_photos.map(photo => ({photoURL: photo.photo_url}))[0].photoURL
 
     return (
         <div className={'p-4'}>
             <Header/>
             <h1 className={'text-4xl font-bold text-blueberry text-start pt-8'}>Editar Campanha</h1>
             <div className={'flex justify-center items-center gap-20'}>
-                <EditCampanhaForm title={data?.title}/>
+                <EditCampanhaForm title={data?.title}
+                                  description={data?.description}
+                                  begin_date={data?.begin_date}
+                                  end_date={data?.end_date}
+                                  home_office={data?.home_office}
+                                  causes={data?.tbl_campaign_causes}
+                                  contribute={data?.how_to_contribute}
+                                  prerequisites={data?.prerequisites}
+                                  cep={data?.tbl_campaign_address?.tbl_address?.postal_code}
+                                  photoURL={photoURL}
+
+                />
             </div>
         </div>
     )
