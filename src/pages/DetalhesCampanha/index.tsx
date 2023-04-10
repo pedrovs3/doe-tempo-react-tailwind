@@ -34,7 +34,7 @@ export default function DetalhesCampanha() {
     useEffect(() => {
         const fetchData = async () => {
             const {data} = await api.get(`/campaign/${id}`);
-            setData(data.campaign)
+            setData(data.campaigns)
             setLoading(false)
         }
 

@@ -4,24 +4,31 @@ import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {api} from "../../lib/axios";
 import {EditCampanhaForm} from "../../components/EditarCampanha";
+import {decodeJwt} from "../../utils/jwtDecode";
 
 export default function EditarCampanha() {
     const [data, setData] = useState({
         tbl_campaign_photos: [{ photoURL: String }]
     })
+    const [user, setUser ] = useState<object>();
+    const decodeJWT = decodeJwt();
     const routeParams = useParams();
     const id = routeParams.id
     useEffect(() => {
         const fetchData = async () => {
             const {data} = await api.get(`/campaign/${id}`)
             setData(data.campaigns)
+
+            const userResponse = await api.get(`/ngo/${decodeJWT.id}`)
+            const user = await userResponse.data
+            setUser(user)
+
         }
 
         fetchData().catch(console.error);
 
     }, [])
 
-    console.log(data)
 
     const photoURL = data?.tbl_campaign_photos.map(photo => ({photoURL: photo.photo_url}))[0].photoURL
 
@@ -40,6 +47,10 @@ export default function EditarCampanha() {
                                   prerequisites={data?.prerequisites}
                                   cep={data?.tbl_campaign_address?.tbl_address?.postal_code}
                                   photoURL={photoURL}
+                                  idOng={user?.id}
+                                  idCampaign={data?.id}
+                                  numero={data?.tbl_campaign_address?.tbl_address?.number}
+                                  complemento={data?.tbl_campaign_address?.tbl_address?.complement}
 
                 />
             </div>

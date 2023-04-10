@@ -10,6 +10,7 @@ import DetalhesCampanha from "../pages/DetalhesCampanha";
 import EditarCampanha from "../pages/EditarCampanha";
 import {NewPost} from "../components/NewPost";
 import Loading from "../components/Loading";
+import NovoPost from "../pages/NovoPost";
 
 export const routes = createBrowserRouter([
     // {
@@ -53,6 +54,6 @@ export const routes = createBrowserRouter([
     },
     {
         path: '/post',
-        element: <Loading/>,
+        element: <NovoPost/>,
     },
 ])

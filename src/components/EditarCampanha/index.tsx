@@ -18,19 +18,21 @@ interface AddressProps {
     complemento?: string
 }
 interface CampaignProps {
-    title: string
-    description: string
-    begin_date: string
-    end_date: string
-    home_office: boolean
+    idCampaign: string,
+    title: string,
+    description: string,
+    begin_date: string,
+    end_date: string,
+    home_office: boolean,
     causes: [],
-    contribute: string
-    prerequisites: string
-
+    contribute: string,
+    prerequisites: string,
     photoURL: string
 }
 
 export function EditCampanhaForm(props : AddressProps & CampaignProps) {
+
+    console.log(props.numero)
 
     const [preview, setPreview] = useState(null);
     const [inputVisible, setInputVisible] = useState(true);
@@ -46,21 +48,23 @@ export function EditCampanhaForm(props : AddressProps & CampaignProps) {
     const [value, setValue] = useState(false);
     const [cep, setCep] = useState("");
 
-    console.log(props.photoURL )
 
-    setTimeout(() => {
-        const dataFormatadaInicio = format(new Date(props.begin_date), "yyyy-MM-dd");
-        const dataFormatadaFim = format(new Date(props.end_date), "yyyy-MM-dd");
-        setStateTitle(props.title);
-        setStateDescription(props.description)
-        setStateDateBegin(dataFormatadaInicio)
-        setStateDateEnd(dataFormatadaFim)
-        setValue(props.home_office)
-        setStateContribute(props. contribute)
-        setStatePrerequisites(props. prerequisites)
-        setCep(props.cep)
+    useEffect(() => {
+        if(props.cep) {
+            const dataFormatadaInicio = format(new Date(props.begin_date), "yyyy-MM-dd");
+            const dataFormatadaFim = format(new Date(props.end_date), "yyyy-MM-dd");
+            setStateTitle(props.title);
+            setStateDescription(props.description)
+            setStateDateBegin(dataFormatadaInicio)
+            setStateDateEnd(dataFormatadaFim)
+            setValue(props.home_office)
+            setStateContribute(props. contribute)
+            setStatePrerequisites(props. prerequisites)
+            setCep(props.cep)
 
-    }, 100)
+        }
+    }, [props.title]);
+
 
     function handleChange(event) {
         const file = event.target.files[0];
@@ -115,6 +119,8 @@ export function EditCampanhaForm(props : AddressProps & CampaignProps) {
             const cep = await consultarCep.data
             setCep(cep)
 
+
+
         }
 
         fetchData().catch(console.error);
@@ -133,7 +139,7 @@ export function EditCampanhaForm(props : AddressProps & CampaignProps) {
 
 
         try {
-            const campaign = await api.post('/campaign/', {
+            const campaign = await api.put(`/campaign/${props.idCampaign}`, {
                 title: titleState,
                 description: descriptionState,
                 begin_date: beginDateState,
