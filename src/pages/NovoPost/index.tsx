@@ -13,7 +13,7 @@ export default function NovoPost() {
     useEffect(() => {
 
         const fetchAPI = async () => {
-            const userResponse = await api.get(`/ngo/${decodeJWT.id}`)
+            const userResponse = await api.get(`/user/${decodeJWT.id}`)
             const user = await userResponse.data
             setUser(user)
 
@@ -24,8 +24,5 @@ export default function NovoPost() {
 
 console.log(user)
 
-    return (<div className={'p-20'}>
-                <NewPost/>
-                </div>
-    )
+    return (<NewPost/>)
 }

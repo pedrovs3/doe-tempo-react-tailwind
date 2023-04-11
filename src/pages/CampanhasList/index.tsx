@@ -15,6 +15,14 @@ export default function CampanhasList() {
     };
     const [searchTerm, setSearchTerm] = useState('');
     const [dataSearch, setDataSearch] = useState([]);
+    const [causes, setCauses] = useState([]);
+    const [selectedOption, setSelectedOption] = useState(null);
+    const [selectedId, setSelectedId] = useState(null);
+
+
+    const handleOptionChange = (event) => {
+        setSelectedOption(event.target.value);
+    };
 
     useEffect(() => {
         if (isGeolocationEnabled) {
@@ -27,15 +35,14 @@ export default function CampanhasList() {
 
     const handleInputChange = (event) => {
         setSearchTerm(event.target.value);
+        handleSearch()
     };
 
     const handleSearch = () => {
-       const dataSearch = api.get(`/campaign/search?search=${searchTerm}`).then((response) => {
-            setDataSearch(response.data)
+       api.get(`/campaign/search?search=${searchTerm}`).then(({data}) => {
+            setDataSearch(data.payload)
         });
     };
-
-    console.log(dataSearch)
 
 
     useEffect(() => {
@@ -50,8 +57,31 @@ export default function CampanhasList() {
 
     },[])
 
+    useEffect(() => {
+        const fetchData = async () => {
 
-return (
+            const causes = await api.get('/causes/');
+            setCauses(causes.data.causes);
+
+        }
+
+        fetchData().catch(console.error);
+
+    }, [])
+
+
+    const filteredData = data.filter((item) => {
+        if (!selectedId) {
+            return true;
+        } else {
+            return item.id === selectedId;
+        }
+    });
+
+    console.log(filteredData)
+
+
+    return (
     <div>
         {loading ? (
             <Loading />
@@ -59,12 +89,14 @@ return (
             <div className={'p-4'}>
                 <h1 className={'text-4xl font-bold text-blueberry text-start pt-8'}>Oportunidades</h1>
                 <div className={'pt-5 h-full w-full flex justify-between'}>
-                    <select className="select select-ghost w-full max-w-xs">
-                        <option disabled selected>Causas</option>
-                        <option>Svelte</option>
-                        <option>Vue</option>
-                        <option>React</option>
+                    <select className="select select-ghost w-full max-w-xs" onChange={(event) => setSelectedId(event.target.value)}>
+                        {causes.map((option) => (
+                            <option key={option.id} value={option.id}>
+                                {option.title}
+                            </option>
+                        ))}
                     </select>
+
                     <div className="form-control">
                         <div className="input-group">
                             <button className="btn btn-square" onClick={handleSearch}>
@@ -87,15 +119,18 @@ return (
                         </label>
                     </div>
                 </div>
-                <div className={'grid grid-cols-4 gap-4'}>
-                    {
-                        data.map((item) => (
-                            <CardsCampanha key={item.id}  id={item.id}  title={item.title}  description={item.description}/>
+                <div className={'grid grid-cols-4 gap-4 w-full'}>
+                        {searchTerm && dataSearch.length === 0 && <p className={'flex text-3xl h-full items-center justify-center bg-blueberry'}>Não encontramos nenhuma campanha :/</p>}
+                        {searchTerm && dataSearch.map((item) => (
+                            <CardsCampanha key={item.id} id={item.id} title={item.title} description={item.description}/>
                         ))}
-
+                        {!searchTerm && filteredData.map((item) => (
+                            <CardsCampanha key={item.id} id={item.id} title={item.title} description={item.description}/>
+                        ))}
                 </div>
             </div>
         )}
     </div>
     )
 }
+

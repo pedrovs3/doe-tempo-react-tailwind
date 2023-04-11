@@ -134,6 +134,15 @@ export function EditCampanhaForm(props : AddressProps & CampaignProps) {
         setValue(event.target.value === 'true');
     };
 
+    const causesOptions = causes.map(el => {
+        return { label: el.title, value: el.id}
+    })
+
+    const causesJson = selectedOption.map(el => {
+        return {id: el.value}
+    })
+
+
     const handleSubmitForm = async (e: FormEvent) => {
         e.preventDefault()
 
@@ -166,13 +175,6 @@ export function EditCampanhaForm(props : AddressProps & CampaignProps) {
 
     const animatedComponents = makeAnimated();
 
-    const causesOptions = causes.map(el => {
-        return { label: el.title, value: el.id}
-    })
-
-    const causesJson = selectedOption.map(el => {
-        return {id: el.value}
-    })
 
     return (
         <form name={"campanha"} className={'pr-6 flex pt-2 gap-32'} onSubmit={handleSubmitForm}>

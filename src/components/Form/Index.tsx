@@ -83,7 +83,8 @@ export const Form = () => {
 				gender: genderSelect
 			})
 
-			alert(user.data.user)
+			alert(`Parabens ${user.data.name} seu perfil foi criado com sucesso!`)
+
 		}
 		catch (e) {
 			console.log(e)
