@@ -5,24 +5,24 @@ import Loading from "../../components/Loading";
 import {NewPost} from "../../components/NewPost";
 
 export default function NovoPost() {
-    const [loading, setLoading] = useState(true);
-    const [user, setUser ] = useState<object>();
     const decodeJWT = decodeJwt();
+    console.log(decodeJWT)
 
+    //
+    // useEffect(() => {
+    //
+    //     const fetchAPI = async () => {
+    //         const userResponse = await api.get(`/user/${decodeJWT.id}`)
+    //         const user = await userResponse.data
+    //         setUser(user)
+    //
+    //     }
+    //
+    //     fetchAPI().catch(console.error)
+    // }, [])
+    //
+    // console.log(user)
 
-    useEffect(() => {
-
-        const fetchAPI = async () => {
-            const userResponse = await api.get(`/user/${decodeJWT.id}`)
-            const user = await userResponse.data
-            setUser(user)
-
-        }
-
-        fetchAPI().catch(console.error)
-    }, [])
-
-console.log(user)
-
-    return (<NewPost/>)
+    // Falta a correçao da api na nuvem
+    return (<NewPost typeUser={decodeJWT?.type} idUser={decodeJWT?.id}/>)
 }

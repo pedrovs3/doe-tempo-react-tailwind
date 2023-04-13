@@ -11,7 +11,6 @@ interface CardProps {
     imgAvatar: string,
     title: string,
     description: string,
-
 }
 
 export function CardsCampanha(props : CardProps) {

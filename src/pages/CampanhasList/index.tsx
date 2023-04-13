@@ -74,7 +74,7 @@ export default function CampanhasList() {
         if (!selectedId) {
             return true;
         } else {
-            return item.id === selectedId;
+            return item.tbl_campaign_causes[0].tbl_causes.id === selectedId;
         }
     });
 
