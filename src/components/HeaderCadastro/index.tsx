@@ -1,5 +1,5 @@
 import {CaretLeft} from "phosphor-react";
-import Business from "../../assets/img/business.png";
+import Business from "../../assets/img/business.svg";
 
 export function Header() {
     return (

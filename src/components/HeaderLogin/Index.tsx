@@ -1,5 +1,5 @@
 import {CaretLeft} from "phosphor-react";
-import AuthImg from "../../assets/img/IconAuth.png";
+import AuthImg from "../../assets/img/IconAuth.svg";
 
 export function Header() {
     return (

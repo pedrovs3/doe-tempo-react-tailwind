@@ -79,7 +79,7 @@ return (
                                        number={data?.tbl_campaign_address?.tbl_address?.number}/>
                 </div>
                 <div className={"flex pt-5"}>
-                    <label onClick={handleInscricao} for="my-modal"  className="btn gap-2 w-48 rounded-full bg-maya_blue border-0 text-neutral-900 hover:bg-turquoise-700">QUERO ME INSCREVER</label>
+                    <label onClick={handleInscricao} hidden={decodeJWT.type === 'ONG'} for="my-modal" className="btn gap-2 w-48 rounded-full bg-maya_blue border-0 text-neutral-900 hover:bg-turquoise-700">QUERO ME INSCREVER</label>
                     <input type="checkbox" id="my-modal" class="modal-toggle" />
                     <div class="modal">
                         <div class="modal-box">

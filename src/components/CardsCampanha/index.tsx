@@ -36,7 +36,7 @@ export function CardsCampanha(props : CardProps) {
                 <div className="card-body">
                     <div className="avatar w-96">
                         <div className="w-1/6 rounded-xl ring ring-primary ring-tufts-blue ring-offset-2 bg-blueberry">
-                            <img src={avatar}/>
+                            <img src={props.imgAvatar} alt={'Imagem da ong responsável!'}/>
                         </div>
                             <h2 className={"text-blueberry font-bold text-2xl p-2.5"}>{props .title}</h2>
                     </div>

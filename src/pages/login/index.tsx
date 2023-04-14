@@ -1,6 +1,6 @@
 import {Header} from "../../components/HeaderLogin";
 import { LoginForm } from "../../components/FormLogin";
-import DoeTempo from "../../assets/img/logo-login.png"
+import DoeTempo from "../../assets/img/logo-login.svg"
 
 export default function Login() {
     return (

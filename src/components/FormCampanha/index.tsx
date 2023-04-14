@@ -6,6 +6,7 @@ import {api} from "../../lib/axios";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import Loading from "../Loading";
+import {Navigate, NavLink, useNavigate} from "react-router-dom";
 
 interface AddressProps {
     idOng : string,
@@ -28,7 +29,7 @@ export function CampanhaForm(props : AddressProps) {
 
         const [preview, setPreview] = useState(null);
         const [inputVisible, setInputVisible] = useState(true);
-        const [imgURL, setImgURL] = useState("")
+        const [imgURL, setImgURL] = useState([])
         const [causes, setCauses] = useState([]);
         const [contributeState, setStateContribute] = useState('');
         const [prerequisitesState, setStatePrerequisites] = useState('');
@@ -40,39 +41,57 @@ export function CampanhaForm(props : AddressProps) {
 
 
     function handleChange(event) {
-            const file = event.target.files[0];
+            const files = Array.from(event.target.files);
+        console.log(files)
 
-            if (!file) return
+            if (!files) return
+        files.forEach((file) => {
+            const storageRef = ref(storage, `images/${file.name}`);
+            const uploadTask = uploadBytesResumable(storageRef, file);
 
-            const storageRef = ref(storage, `images/${file.name}`)
-            const uploadTask = uploadBytesResumable(storageRef, file)
+            uploadTask.on("state_changed", (snapshot) => {
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                setProgress(progress);
+            });
 
-            uploadTask.on(
-                "state_changed",
-                snapshot => {
-                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-                    setProgress(progress)
-                },
-                error => {
-                    alert(error)
-                },
-                () => {
-                    getDownloadURL(uploadTask.snapshot.ref).then(url => {
-                        setImgURL(url)
-                        console.log(url)
-                    })
-                }
-            )
+            uploadTask.then(() => {
+                getDownloadURL(storageRef).then((url) => {
+                    setImgURL((prevImages) => [...prevImages, url]);
+                });
+            });
+        });
 
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onloadend = () => {
-                // @ts-ignore
-                setPreview(reader.result);
-                setInputVisible(false);
-            }
-            setPreview(null);
-            setInputVisible(true);
+        //
+        //     const storageRef = ref(storage, `images/${file.name}`)
+        //     const uploadTask = uploadBytesResumable(storageRef, file)
+        //
+        //     uploadTask.on(
+        //         "state_changed",
+        //         snapshot => {
+        //             const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        //             setProgress(progress)
+        //         },
+        //         error => {
+        //             alert(error)
+        //         }
+        //     )
+        //
+        // uploadTask.then(() => {
+        //     getDownloadURL(storageRef).then((url) => {
+        //         setImgURL((prevImages) => [...prevImages, url]);
+        //         console.log(imgURL)
+        //     });
+        // })
+
+            // const reader = new FileReader();
+            // reader.readAsDataURL(file);
+            // reader.onloadend = () => {
+            //     // @ts-ignore
+            //     setPreview(reader.result);
+            //     setInputVisible(false);
+            // }
+            // setPreview(null);
+            // setInputVisible(true);
 
         }
 
@@ -236,14 +255,20 @@ export function CampanhaForm(props : AddressProps) {
                                 onChange={handleChange}
                                 hidden={!inputVisible}
                             />
-                            {preview && (
-                                <img
-                                    src={preview}
-                                    alt="Preview"
-                                    className="w-[20rem] h-[13rem] object-cover rounded-lg pt-1.5"
-                                    onClick={() => setInputVisible(true)}
-                                />
-                            )}
+                            {
+                                imgURL.map((image, index) => (
+                                    <img key={index} src={image} alt="Imagem" className="w-[20rem] h-[13rem] object-cover rounded-lg grid grid-cols-2 gap-4 w-full" />
+                                ))
+                            }
+
+                            {/*{preview && (*/}
+                            {/*    <img*/}
+                            {/*        src={preview}*/}
+                            {/*        alt="Preview"*/}
+                            {/*        className="w-[20rem] h-[13rem] object-cover rounded-lg pt-1.5"*/}
+                            {/*        onClick={() => setInputVisible(true)}*/}
+                            {/*    />*/}
+                            {/*)}*/}
                         </div>
                         <h2 className={'text-2xl font-bold text-slate-400 pt-2'}>Adicione Tags</h2>
                         <div className={'pt-2 w-80'}>
