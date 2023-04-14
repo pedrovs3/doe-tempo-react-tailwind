@@ -79,8 +79,6 @@ export default function CampanhasList() {
         }
     });
 
-    console.log(filteredData)
-
 
     return (
     <div>

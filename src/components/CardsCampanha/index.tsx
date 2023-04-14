@@ -27,7 +27,13 @@ export function CardsCampanha(props : CardProps) {
 
     }, [])
 
-
+    function limitarTexto(title, limite) {
+        if (title.length > limite) {
+            return title.substring(0, limite) + '...';
+        } else {
+            return title;
+        }
+    }
 
 
     return (
@@ -38,7 +44,7 @@ export function CardsCampanha(props : CardProps) {
                         <div className="w-1/6 rounded-xl ring ring-primary ring-tufts-blue ring-offset-2 bg-blueberry">
                             <img src={props.imgAvatar} alt={'Imagem da ong responsável!'}/>
                         </div>
-                            <h2 className={"text-blueberry font-bold text-2xl p-2.5"}>{props .title}</h2>
+                            <h2 className={"text-blueberry font-bold text-2xl p-2.5"}>{limitarTexto(`${props.title}`, 18)}</h2>
                     </div>
                     <h2 className={"pt-3 text-blueberry font-bold text-xl"}>Sobre:</h2>
                     <p className={"font-medium text-texto-campanha pb-3.5"}>
