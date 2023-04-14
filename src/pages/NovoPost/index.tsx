@@ -23,6 +23,5 @@ export default function NovoPost() {
     //
     // console.log(user)
 
-    // Falta a correçao da api na nuvem
     return (<NewPost typeUser={decodeJWT?.type} idUser={decodeJWT?.id}/>)
 }

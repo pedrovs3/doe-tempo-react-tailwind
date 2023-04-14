@@ -74,7 +74,8 @@ export default function CampanhasList() {
         if (!selectedId) {
             return true;
         } else {
-            return item.tbl_campaign_causes[0].tbl_causes.id === selectedId;
+            return item.tbl_campaign_causes.findIndex(cause => cause.tbl_causes.id === selectedId) !== -1;
+            // return item.tbl_campaign_causes.tbl_causes.id === selectedId;
         }
     });
 
