@@ -36,7 +36,7 @@ export function EditCampanhaForm(props : AddressProps & CampaignProps) {
 
     const [preview, setPreview] = useState(null);
     const [inputVisible, setInputVisible] = useState(true);
-    const [imgURL, setImgURL] = useState("")
+    const [imgURL, setImgURL] = useState([])
     const [titleState, setStateTitle] = useState("")
     const [causes, setCauses] = useState([]);
     const [contributeState, setStateContribute] = useState('');
@@ -67,41 +67,27 @@ export function EditCampanhaForm(props : AddressProps & CampaignProps) {
 
 
     function handleChange(event) {
-        const file = event.target.files[0];
+        const files = Array.from(event.target.files);
+        console.log(files)
 
-        if (!file) return
+        if (!files) return
+        files.forEach((file) => {
+            const storageRef = ref(storage, `images/${file.name}`);
+            const uploadTask = uploadBytesResumable(storageRef, file);
 
-        const storageRef = ref(storage, `images/${file.name}`)
-        const uploadTask = uploadBytesResumable(storageRef, file)
+            uploadTask.on("state_changed", (snapshot) => {
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                setProgress(progress);
+            });
 
-        uploadTask.on(
-            "state_changed",
-            snapshot => {
-                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-                setProgress(progress)
-            },
-            error => {
-                alert(error)
-            },
-            () => {
-                getDownloadURL(uploadTask.snapshot.ref).then(url => {
-                    setImgURL(url)
-                    console.log(url)
-                })
-            }
-        )
-
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onloadend = () => {
-            // @ts-ignore
-            setPreview(reader.result);
-            setInputVisible(false);
-        }
-        setPreview(null);
-        setInputVisible(true);
-
+            uploadTask.then(() => {
+                getDownloadURL(storageRef).then((url) => {
+                    setImgURL((prevImages) => [...prevImages, url]);
+                });
+            });
+        });
     }
+
 
     const handleFileSelect = (event) => {
         const files = event.target.files;
@@ -158,6 +144,7 @@ export function EditCampanhaForm(props : AddressProps & CampaignProps) {
                 prerequisites: prerequisitesState,
                 id_ngo: props.idOng,
                 causes: causesJson,
+                photoURL: imgURL,
                 address: {
                     postal_code: props.cep,
                     number: props.numero,
@@ -261,12 +248,19 @@ export function EditCampanhaForm(props : AddressProps & CampaignProps) {
             <div className={''}>
                 <h2 className={'text-2xl font-bold text-slate-400'}>Foto de Capa da Campanha</h2>
                 <div className="flex flex-col items-center">
-                        <img
-                            src={props.photoURL}
-                            alt="Preview"
-                            className="w-[20rem] h-[13rem] object-cover rounded-lg pt-1.5"
-                            onClick={() => setInputVisible(true)}/>
-
+                    <input
+                        className={'file-input file-input-bordered file-input-info w-full max-w-xs'}
+                        id="input-file"
+                        type="file"
+                        accept="image/*"
+                        onChange={handleChange}
+                        hidden={!inputVisible}
+                    />
+                    {
+                        imgURL.map((image, index) => (
+                            <img key={index} src={image} alt="Imagem" className="w-[20rem] h-[13rem] object-cover rounded-lg grid grid-cols-2 gap-4 w-full" />
+                        ))
+                    }
                 </div>
                 <h2 className={'text-2xl font-bold text-slate-400 pt-2'}>Adicione Tags</h2>
                 <div className={'pt-2 w-80'}>

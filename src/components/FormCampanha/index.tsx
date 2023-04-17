@@ -7,6 +7,7 @@ import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import Loading from "../Loading";
 import {Navigate, NavLink, useNavigate} from "react-router-dom";
+import {apiCep} from "../../api/consulta_cep";
 
 interface AddressProps {
     idOng : string,
@@ -39,7 +40,45 @@ export function CampanhaForm(props : AddressProps) {
         const [endDateState, setStateDateEnd] = useState('')
         const [selectedOption, setSelectedOption] = useState([]);
 
+        const [cepState, setCepState] = useState('');
+        const [logradouroState, setLogradouroState] = useState(props.logradouro);
+        const [numeroState, setNumeroState] = useState(props.numero);
+        const [complementoState, setComplementoState] = useState(props.complemento);
+        const [localidadeState, setLocalidadeState] = useState(props.localidade);
+        const [UfState, setUfState] = useState(props.uf);
 
+        const checkCEP = async (e: any) => {
+        setCepState(e.target.value.replace(/\D/g, ''))
+
+        if(cepState.length === 7) {
+            console.log(cepState)
+            const cep = e.target.value;
+
+            const { data } = await apiCep.get(`/${cep}/json/`)
+
+            setLogradouroState(data.logradouro)
+            setLocalidadeState(data.localidade);
+            setUfState(data.uf)
+        }
+    }
+
+    function handleLogradouroChange(event) {
+        setLogradouroState(event.target.value);
+    }
+
+    function handleNumeroChange(event) {
+        setNumeroState(event.target.value);
+    }
+    function handleComplementoChange(event) {
+        setComplementoState(event.target.value);
+    }
+    function handleLocalidadeChange(event) {
+        setLocalidadeState(event.target.value);
+    }
+
+    function handleUfChange(event) {
+        setUfState(event.target.value);
+    }
 
 
 
@@ -60,42 +99,9 @@ export function CampanhaForm(props : AddressProps) {
             uploadTask.then(() => {
                 getDownloadURL(storageRef).then((url) => {
                     setImgURL((prevImages) => [...prevImages, url]);
+                     });
                 });
             });
-        });
-
-        //
-        //     const storageRef = ref(storage, `images/${file.name}`)
-        //     const uploadTask = uploadBytesResumable(storageRef, file)
-        //
-        //     uploadTask.on(
-        //         "state_changed",
-        //         snapshot => {
-        //             const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        //             setProgress(progress)
-        //         },
-        //         error => {
-        //             alert(error)
-        //         }
-        //     )
-        //
-        // uploadTask.then(() => {
-        //     getDownloadURL(storageRef).then((url) => {
-        //         setImgURL((prevImages) => [...prevImages, url]);
-        //         console.log(imgURL)
-        //     });
-        // })
-
-            // const reader = new FileReader();
-            // reader.readAsDataURL(file);
-            // reader.onloadend = () => {
-            //     // @ts-ignore
-            //     setPreview(reader.result);
-            //     setInputVisible(false);
-            // }
-            // setPreview(null);
-            // setInputVisible(true);
-
         }
 
         const handleFileSelect = (event) => {
@@ -182,19 +188,52 @@ export function CampanhaForm(props : AddressProps) {
                                       value={descriptionState}
                                       onChange={it => setStateDescription(it.target.value)}
                                       className="resize-none textarea textarea-bordered textarea-lg w-full max-w-xs">
-
-                    </textarea>
+                            </textarea>
                         </div>
+
                         <div className="flex flex-col gap-3 pt-2">
                             <h2 className={'text-2xl font-bold text-slate-100'}>Local</h2>
+                            <label htmlFor="my-modal" className="btn bg-blend-color">
+                                Editar Local
+                                <Plus size={22} />
+                            </label>
+                            <input type="checkbox" id="my-modal" className="modal-toggle" />
+                            <div className="modal">
+                                <div className="modal-box">
+                                    <h3 className="font-bold text-lg">🏠 Edite o endereço da sua campanha!</h3>
+                                    <p className="py-4">Você pode editar o endereço da campanha que não seja diretamente no local da ONG.</p>
+                                    <div className={'flex flex-col gap-4'}>
+                                    <input type="text" placeholder="Cep (apenas números)"
+                                           className="input input-bordered input-branco-bem-claro w-full max-w-xs"
+                                           value={cepState}
+                                           onChange={checkCEP}
+                                           maxLength={11}
+                                    />
+                                    <input type="text" placeholder="Número do Local"
+                                           className="input input-bordered input-branco-bem-claro w-full max-w-xs"
+                                           value={numeroState}
+                                           onChange={it => setNumeroState(it.target.value)}
+
+                                    />
+                                    <input type="text" placeholder="Complemento"
+                                           className="input input-bordered input-branco-bem-claro w-full max-w-xs"
+                                           value={complementoState}
+                                           onChange={it => setComplementoState(it.target.value)}
+                                    />
+                                    <div className="modal-action">
+                                        <label htmlFor="my-modal" className="btn">Confirmar</label>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div className="card w-80 bg-base-100 shadow-xl">
-                                <div className="card-body">
-                                    <div className={'flex gap-4'}>
+                                <div className="card-body flex">
+                                    <div className={'flex gap-2 items-center'}>
                                         <HouseSimple size={32}/>
                                         <p className={'text-1xl font-bold text-slate-100'}>Endereço registrado</p>
                                     </div>
-                                    <span>{props.logradouro}, {props.numero}, {props.localidade}, {props.uf}</span>
-                                    <span>{props.complemento}</span>
+                                    <span>{logradouroState}, {numeroState}, {localidadeState}, {UfState}</span>
+                                    <span>{complementoState}</span>
                                 </div>
                             </div>
                         </div>
@@ -263,15 +302,6 @@ export function CampanhaForm(props : AddressProps) {
                                     <img key={index} src={image} alt="Imagem" className="w-[20rem] h-[13rem] object-cover rounded-lg grid grid-cols-2 gap-4 w-full" />
                                 ))
                             }
-
-                            {/*{preview && (*/}
-                            {/*    <img*/}
-                            {/*        src={preview}*/}
-                            {/*        alt="Preview"*/}
-                            {/*        className="w-[20rem] h-[13rem] object-cover rounded-lg pt-1.5"*/}
-                            {/*        onClick={() => setInputVisible(true)}*/}
-                            {/*    />*/}
-                            {/*)}*/}
                         </div>
                         <h2 className={'text-2xl font-bold text-slate-400 pt-2'}>Adicione Tags</h2>
                         <div className={'pt-2 w-80'}>
