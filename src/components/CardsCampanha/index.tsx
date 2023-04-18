@@ -1,8 +1,7 @@
 import avatar from "../../assets/img/avatar-ong.png";
 import React, {useEffect, useState} from "react";
 import {api} from "../../lib/axios";
-import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
-import DetalhesCampanha from "../../pages/DetalhesCampanha";
+import {BrowserRouter as Router, Route, NavLink, useNavigate} from "react-router-dom";
 
 
 
@@ -12,6 +11,7 @@ interface CardProps {
     title: string,
     description: string,
 }
+
 
 export function CardsCampanha(props : CardProps) {
     const [data, setData] = useState([])

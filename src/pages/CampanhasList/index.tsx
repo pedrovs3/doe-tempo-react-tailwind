@@ -1,5 +1,4 @@
 import {CardsCampanha} from "../../components/CardsCampanha";
-import {CardsBar} from "../../components/CardsBar";
 import React, {useEffect, useState} from "react";
 import {api} from "../../lib/axios";
 import Loading from "../../components/Loading";
@@ -18,7 +17,6 @@ export default function CampanhasList() {
     const [causes, setCauses] = useState([]);
     const [selectedOption, setSelectedOption] = useState(null);
     const [selectedId, setSelectedId] = useState(null);
-
 
     const handleOptionChange = (event) => {
         setSelectedOption(event.target.value);

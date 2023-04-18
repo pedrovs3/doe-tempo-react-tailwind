@@ -9,6 +9,7 @@ import {DetalhesBodyDois} from "../../components/DetalhesBodyDois";
 
 export default function DetalhesCampanha() {
     const [data, setData] = useState({})
+    const [campaign, setCampaign] = useState({})
     const [loading, setLoading] = useState(true);
     const routeParams = useParams();
     const id = routeParams.id
@@ -45,15 +46,19 @@ export default function DetalhesCampanha() {
 
     const navigate = useNavigate();
 
-    function handleInscricao() {
+    const handleInscricao = async () => {
         const idUser = user?.user.id;
         const idCampaign = id;
         const url = `/user/campaign/?idUser=${idUser}&idCampaign=${idCampaign}`
-
-        const campaign = api.post(`${url}`)
-
+        const campaign = await api.post(`${url}`)
+        setCampaign(campaign.data)
 
     }
+    const fetchData = async () => {
+        const {data} = await api.get(`/count`);
+        setData(data.counts)
+    }
+
 
 return (
     <div>
@@ -83,8 +88,8 @@ return (
                     <input type="checkbox" id="my-modal" class="modal-toggle" />
                     <div class="modal">
                         <div class="modal-box">
-                            <h3 class="font-bold text-lg">🎉 Sua inscrição foi feita!</h3>
-                            <p class="py-4">Em breve você receberá mais informações sobre a campanha!</p>
+                            <h3 class="font-bold text-lg">{campaign.message}</h3>
+                            <p class="py-4">Obrigado por se inscrever! Seu cadastro foi {campaign.message}</p>
                             <div class="modal-action">
                                 <label for="my-modal" class="btn"> 👍 Entendido!</label>
                             </div>
