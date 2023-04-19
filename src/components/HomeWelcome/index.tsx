@@ -21,7 +21,7 @@ export function HomeWelcome() {
 
 
     return (
-            <div className={'flex flex-col'}>
+            <div className={'flex flex-col p-20'}>
                 <h1 className="text-5xl font-bold">Em busca de <span className="text-blueberry">ajudar</span> outras <br/>
                     pessoas de maneira <span className="text-blueberry">voluntária</span>?</h1>
                 <p className="py-6">Embarque com a gente nessa jornada de fazer o mundo um lugar melhor!</p>

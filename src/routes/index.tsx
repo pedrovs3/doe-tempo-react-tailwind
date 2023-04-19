@@ -11,6 +11,7 @@ import EditarCampanha from "../pages/EditarCampanha";
 import {NewPost} from "../components/NewPost";
 import Loading from "../components/Loading";
 import NovoPost from "../pages/NovoPost";
+import Feed from "../pages/Feed";
 
 export const routes = createBrowserRouter([
     // {
@@ -27,6 +28,10 @@ export const routes = createBrowserRouter([
     {
         path: '/login',
         element: <Login/>
+    },
+    {
+        path: '/feed',
+        element: <Feed/>,
     },
     {
         path: '/nova-campanha',

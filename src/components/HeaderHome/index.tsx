@@ -1,5 +1,5 @@
-import {CaretLeft} from "phosphor-react";
-import Logo from "../../assets/img/logo-home.png";
+
+import Logo from "../../assets/img/logo_home.svg";
 import React from "react";
 import { Link } from "react-router-dom";
 

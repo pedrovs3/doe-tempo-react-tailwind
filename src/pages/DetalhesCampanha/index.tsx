@@ -1,5 +1,5 @@
 import {DetalhesBody} from "../../components/DetalhesBody";
-import {useParams, useNavigate} from "react-router-dom"
+import {useParams, useNavigate, Link} from "react-router-dom"
 import React, {useEffect, useState} from "react";
 import {api} from "../../lib/axios";
 import Loading from "../../components/Loading";
@@ -84,14 +84,24 @@ return (
                                        number={data?.tbl_campaign_address?.tbl_address?.number}/>
                 </div>
                 <div className={"flex pt-5"}>
-                    <label onClick={handleInscricao} hidden={decodeJWT.type === 'ONG'} for="my-modal" className="btn gap-2 w-48 rounded-full bg-maya_blue border-0 text-neutral-900 hover:bg-turquoise-700">QUERO ME INSCREVER</label>
+                    <div>
+                        {decodeJWT.type === 'ONG' ? (
+                            <button className="hidden"></button>
+                        ) : (
+                            <label onClick={handleInscricao} htmlFor="my-modal"
+                                   className="btn gap-2 w-48 rounded-full bg-maya_blue border-0 text-neutral-900 hover:bg-turquoise-700">QUERO
+                                ME INSCREVER</label>
+                        )}
+                    </div>
                     <input type="checkbox" id="my-modal" class="modal-toggle" />
                     <div class="modal">
                         <div class="modal-box">
                             <h3 class="font-bold text-lg">{campaign.message}</h3>
                             <p class="py-4">Obrigado por se inscrever! Seu cadastro foi {campaign.message}</p>
                             <div class="modal-action">
+                                <Link to={'/'}>
                                 <label for="my-modal" class="btn"> 👍 Entendido!</label>
+                                </Link>
                             </div>
                         </div>
                     </div>
@@ -102,3 +112,4 @@ return (
 )
 
 }
+
