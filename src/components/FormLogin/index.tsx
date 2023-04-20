@@ -1,5 +1,5 @@
 import Line from "../../assets/img/linha.png";
-import {NavLink} from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom";
 import Google from "../../assets/img/google.png";
 import {FormEvent, useState} from "react";
 import {api} from "../../lib/axios";
@@ -7,9 +7,11 @@ import {api} from "../../lib/axios";
 export function LoginForm(){
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const navigate = useNavigate()
 
-    const handleSubmitForm = async (e: FormEvent) => {
+    const handleSubmitForm = async (e: FormEvent)    => {
         e.preventDefault();
+        const navigate = useNavigate()
 
         try {
             const {data} = await api.post('/auth/', {
@@ -25,7 +27,11 @@ export function LoginForm(){
                 api.defaults.headers.common.Authorization = `Bearer ${data.token}`
             }
 
+
             alert(data.token || data.token && "Login Correto.")
+            navigate('/')
+
+
 
         } catch (e) {
             console.log(e)
