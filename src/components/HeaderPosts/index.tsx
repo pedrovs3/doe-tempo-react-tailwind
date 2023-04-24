@@ -4,9 +4,12 @@ import Avatar from "../../assets/img/pedro-avatar.jpeg";
 import WaveDown from "../../assets/img/Wave_down_turquoise.svg";
 import {House, Megaphone} from "phosphor-react";
 import {useNavigate} from "react-router-dom";
+interface UserProps {
+    id : string,
+    photoURL : number,
+}
 
-export function HeaderPosts() {
-
+export function HeaderPosts(props : UserProps) {
     const navigate = useNavigate()
 
     const handleLogout = () => {
@@ -22,6 +25,8 @@ export function HeaderPosts() {
     if (!isAuthenticated()) {
         return null;
     }
+
+
 
     return (
         <div className="navbar bg-turquoise-500">
@@ -48,7 +53,7 @@ export function HeaderPosts() {
                     <div className="dropdown dropdown-end">
                         <label tabIndex={0} className="h-24 btn btn-ghost rounded-btn avatar">
                             <div className="w-16 rounded-xl ring ring-primary ring-turquoise-700 ring-offset-2 ring-offset-accent">
-                                <img src={Avatar} />
+                                <img src={props.photoURL} />
                             </div>
                         </label>
                         <ul tabIndex={0} className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52">

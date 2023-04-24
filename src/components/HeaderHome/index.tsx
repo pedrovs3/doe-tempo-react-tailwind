@@ -24,7 +24,7 @@ export function Header() {
                         <li><a className={'rounded-full px-8 pr-16 bg-turquoise-700 hover:bg-blueberry'}>Entrar</a></li>
                     </Link>
                     <Link to="/signup">
-                        <li><a className={'transition-all ease-in-out rounded-full -ml-12 px-10 bg-blueberry hover:text-white hover:px-20 hover:-ml-36'}>Junte-se a nós</a></li>
+                        <li><a className={'transition-all shadow-[0px_0px_5px_0px_rgba(79,121,254,1)] ease-in-out rounded-full -ml-12 px-10 bg-blueberry hover:text-white hover:px-20 hover:-ml-36'}>Junte-se a nós</a></li>
                     </Link>
                 </ul>
             </div>
