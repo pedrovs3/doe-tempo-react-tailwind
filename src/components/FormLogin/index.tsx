@@ -7,6 +7,10 @@ import {api} from "../../lib/axios";
 export function LoginForm(){
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [loginSuccess, setLoginSuccess] = useState(false);
+    const navigate = useNavigate();
+
+
 
     const handleSubmitForm = async (e: FormEvent)    => {
         e.preventDefault();
@@ -24,16 +28,21 @@ export function LoginForm(){
             if (data.token) {
                 api.defaults.headers.common.Authorization = `Bearer ${data.token}`
             }
+            setLoginSuccess(true)
 
-
-            alert(data.token || data.token && "Login Correto.")
-
+            // alert(data.token || data.token && "Login Correto.")
 
         } catch (e) {
             console.log(e)
             alert("Usuário ou senha incorreto.")
         }
     }
+
+    useEffect(() => {
+        if (loginSuccess) {
+            navigate("/");
+        }
+    }, [loginSuccess]);
 
 
 

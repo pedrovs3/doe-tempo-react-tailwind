@@ -1,11 +1,8 @@
 import React, {useEffect, useState} from "react";
-import Loading from "../../components/Loading";
 import {HeaderPosts} from "../../components/HeaderPosts";
 import WaveDown from "../../assets/img/Wave_down_turquoise.svg";
 import {NewPost} from "../../components/NewPost";
-import NovoPost from "../NovoPost";
 import {decodeJwt} from "../../utils/jwtDecode";
-import {FeedPosts} from "../../components/FeedPosts";
 import {api} from "../../lib/axios";
 
 export default function Feed() {
