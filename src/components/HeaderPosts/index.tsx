@@ -1,9 +1,7 @@
 import React, {useEffect, useState} from "react";
 import Logo from "../../assets/img/logo_home.svg";
-import Avatar from "../../assets/img/pedro-avatar.jpeg";
-import WaveDown from "../../assets/img/Wave_down_turquoise.svg";
 import {House, Megaphone} from "phosphor-react";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 interface UserProps {
     id : string,
     photoURL : number,
@@ -36,16 +34,24 @@ export function HeaderPosts(props : UserProps) {
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
                     </label>
                     <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
-                        <li className={'bg-little-white rounded'}><a className={'tooltip tooltip-bottom active:bg-little-white'} data-tip="Campanhas"><House size={32} color="#4F79FE"/></a></li>
+                        <Link to={"/"} >
+                        <li className={'bg-little-white rounded'}><a className={'tooltip tooltip-bottom active:bg-little-white'} data-tip="Home"><House size={32} color="#4F79FE"/></a></li>
+                        </Link>
+                        <Link to={"/campanhas"} >
                         <li className={'bg-little-white rounded'}><a className={'tooltip tooltip-bottom active:bg-little-white'} data-tip="Campanhas"><Megaphone size={32} color="#4F79FE"/></a></li>
+                        </Link>
                     </ul>
                 </div>
                     <img src={Logo}/>
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1 gap-10">
-                    <li><a className={'tooltip tooltip-bottom'} data-tip="Home"><House size={32} /></a></li>
-                    <li><a className={'tooltip tooltip-bottom'} data-tip="Campanhas"><Megaphone size={32}/></a></li>
+                    <Link to={"/"} >
+                        <li className={'bg-little-white rounded'}><a className={'tooltip tooltip-bottom active:bg-little-white'} data-tip="Home"><House size={32} color="#4F79FE"/></a></li>
+                    </Link>
+                    <Link to={"/campanhas"} >
+                        <li className={'bg-little-white rounded'}><a className={'tooltip tooltip-bottom active:bg-little-white'} data-tip="Campanhas"><Megaphone size={32} color="#4F79FE"/></a></li>
+                    </Link>
                 </ul>
             </div>
             <div className="navbar-end">
