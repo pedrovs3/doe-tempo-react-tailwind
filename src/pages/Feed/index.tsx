@@ -14,6 +14,7 @@ export default function Feed() {
     const userId = decodeJWT.id;
     const [user, setUser ] = useState<object>();
     const [AllPosts, setAllPosts ] = useState<object>([]);
+    const [userInfo, setUserInfo ] = useState<object>([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -40,12 +41,20 @@ export default function Feed() {
             const response = await api.get(`/post`)
             const AllPosts = await response.data.allPosts
             setAllPosts(AllPosts)
+
+            if (AllPosts && AllPosts.length > 0 && AllPosts[0].PostNgo && AllPosts[0].PostNgo.length > 0) {
+                const NgoInfo = AllPosts[0].PostNgo[0].ngo
+                setUserInfo(NgoInfo)
+            } else {
+                const UserInfo = AllPosts[0].PostUser[0].user
+                setUserInfo(UserInfo)
+            }
         }
 
         fetchAPI().catch(console.error)
     }, [])
 
-    console.log(AllPosts)
+console.log(userInfo)
 
     return (
                 <div className={''}>
@@ -56,7 +65,7 @@ export default function Feed() {
                     </div>
                     <div className={'flex justify-center items-center flex-col gap-7'}>
                     {AllPosts.map((item) => (
-                        <FeedPosts id={item.id} content={item.content} created={item.created_at}/>
+                        <FeedPosts id={item.id} nameUser={userInfo?.name} photoUser={userInfo?.photoURL} content={item.content} created={item.created_at} images={item.PostPhoto}/>
                     ))}
                     </div>
                 </div>
