@@ -5,7 +5,7 @@ import {NewPost} from "../../components/NewPost";
 import {decodeJwt} from "../../utils/jwtDecode";
 import {api} from "../../lib/axios";
 import {FeedPosts} from "../../components/FeedPosts";
-import {CardsCampanha} from "../../components/CardsCampanha";
+
 
 export default function Feed() {
 
@@ -15,6 +15,7 @@ export default function Feed() {
     const [user, setUser ] = useState<object>();
     const [AllPosts, setAllPosts ] = useState<object>([]);
     const [userInfo, setUserInfo ] = useState<object>([]);
+    const [hasNewPosts, setHasNewPosts] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -33,6 +34,9 @@ export default function Feed() {
         fetchData();
     }, [userId, userType]);
 
+    const handleNewPost = () => {
+        setHasNewPosts(true);
+    };
 
 
     useEffect(() => {
@@ -40,21 +44,38 @@ export default function Feed() {
         const fetchAPI = async () => {
             const response = await api.get(`/post`)
             const AllPosts = await response.data.allPosts
-            setAllPosts(AllPosts)
 
-            if (AllPosts && AllPosts.length > 0 && AllPosts[0].PostNgo && AllPosts[0].PostNgo.length > 0) {
-                const NgoInfo = AllPosts[0].PostNgo[0].ngo
-                setUserInfo(NgoInfo)
-            } else {
-                const UserInfo = AllPosts[0].PostUser[0].user
-                setUserInfo(UserInfo)
-            }
+            // AllPosts.forEach(post => {
+            //     if (post._count.PostNgo === 0) {
+            //         delete post.PostNgo
+            //         delete Object.assign(post, {  user: post.PostUser[0] })['PostUser'];
+            //     } else if (post._count.PostUser === 0) {
+            //        delete post.PostUser
+            //         delete Object.assign(post, {  user: post.PostNgo[0] })['PostNgo'];
+            //     }
+            // })
+
+
+            const updatedPosts = AllPosts.map(post => {
+                let updatedPost = post;
+                if (post.PostNgo && post.PostNgo.length > 0) {
+                    updatedPost.user = post.PostNgo[0].ngo;
+                    delete updatedPost.PostNgo;
+                } else if (post.PostUser && post.PostUser.length > 0) {
+                    updatedPost.user = post.PostUser[0].user;
+                    delete updatedPost.PostUser;
+                }
+                return updatedPost;
+            });
+
+            setAllPosts(updatedPosts)
+
         }
 
         fetchAPI().catch(console.error)
     }, [])
 
-console.log(userInfo)
+console.log(AllPosts)
 
     return (
                 <div className={''}>
@@ -65,7 +86,7 @@ console.log(userInfo)
                     </div>
                     <div className={'flex justify-center items-center flex-col gap-7'}>
                     {AllPosts.map((item) => (
-                        <FeedPosts id={item.id} nameUser={userInfo?.name} photoUser={userInfo?.photoURL} content={item.content} created={item.created_at} images={item.PostPhoto}/>
+                        <FeedPosts id={item.id} nameUser={item.user.name} photoUser={item.user.photoURL} content={item.content} created={item.created_at} images={item.PostPhoto}/>
                     ))}
                     </div>
                 </div>

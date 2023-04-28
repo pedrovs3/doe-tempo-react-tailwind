@@ -63,7 +63,7 @@ export function NewPost(props : PostProps) {
                 <h2 className="card-title text-blueberry justify-center">Nova Publicação</h2>
                 <div className={'flex flex-row gap-5 justify-center'}>
                     <textarea placeholder="Fale um pouco sobre sua última ação..."
-                              className="resize-none textarea textarea-bordered textarea-md w-full max-w-xs"
+                              className="resize-none textarea textarea-bordered textarea-md w-full"
                               value={contentState}
                               onChange={it => setContentState(it.target.value)}
                               required

@@ -1,5 +1,7 @@
 import { format } from 'date-fns'
 import { pt } from 'date-fns/locale'
+import {useState} from "react";
+import {Chat, Heart} from "phosphor-react";
 
 interface PostProps {
     id : string,
@@ -15,10 +17,15 @@ interface PostProps {
 export function FeedPosts(props : PostProps) {
 
     const dataFormatada = format(new Date(props.created), "d 'de' MMMM 'às' HH:mm", { locale: pt });
-
+    const [liked, setLiked] = useState(false);
     const photoUrls = props.images.map((photo) => photo.photo_url);
     const showNavigation = photoUrls.length > 1;
 
+
+    function handleLike() {
+        setLiked(!liked)
+
+    }
 
 
 
@@ -38,20 +45,35 @@ export function FeedPosts(props : PostProps) {
                 </div>
                 <p className={"text-neutral-900"}>{props.content}</p>
                 <div className="card-actions justify-start">
-                    <div className="grid grid-cols-3 gap-2">
                         <div className="carousel w-full">
                             {photoUrls.map((url, index) => (
                                 <div id={`slide${index + 1}`} className="carousel-item relative w-full" key={index}>
-                                    <img src={url} className="w-full" alt={`Photo ${index + 1}`} />
-                                    <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-                                        <a href={`#slide${index === 0 ? photoUrls.length : index}`} className="btn btn-circle">❮</a>
-                                        <a href={`#slide${index === photoUrls.length - 1 ? 1 : index + 2}`} className="btn btn-circle">❯</a>
-                                    </div>
+                                    <img src={url} className="w-full rounded-3xl" alt={`Photo ${index + 1}`} />
+                                    {showNavigation && (
+                                        <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
+                                            <a href={`#slide${index === 0 ? photoUrls.length : index}`} className="btn btn-circle">❮</a>
+                                            <a href={`#slide${index === photoUrls.length - 1 ? 1 : index + 2}`} className="btn btn-circle">❯</a>
+                                        </div>
+                                    )}
                                 </div>
                             ))}
                         </div>
-                         </div>
                     </div>
+                <div className={"flex gap-5"}>
+                    <button onClick={handleLike}>
+                        <Heart
+                            size={32}
+                            weight={liked ? 'fill' : 'regular'}
+                            color={liked ? 'red' : 'gray'}
+                        />
+                    </button>
+                <button>
+                    <Chat
+                        size={32}
+                        color={'gray'}
+                    />
+                </button>
+                </div>
             </div>
         </div>
     );
