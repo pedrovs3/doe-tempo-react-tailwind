@@ -79,7 +79,9 @@ console.log(AllPosts)
 
     return (
                 <div className={''}>
+                    <div className={'navbar bg-turquoise-500'}>
                     <HeaderPosts id={user?.user?.id} photoURL={user?.user?.photoURL}/>
+                    </div>
                     <img className={'w-full'} src={WaveDown}/>
                     <div className={'flex justify-center items-center pb-8'}>
                         <NewPost typeUser={decodeJWT?.type} idUser={decodeJWT?.id}/>

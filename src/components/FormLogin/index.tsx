@@ -40,7 +40,7 @@ export function LoginForm(){
 
     useEffect(() => {
         if (loginSuccess) {
-            navigate("/");
+            navigate("/feed");
         }
     }, [loginSuccess]);
 
@@ -73,11 +73,10 @@ export function LoginForm(){
                     className={"btn bg-turquoise-700 rounded-full border-none w-96 text-neutral-900 hover:bg-accent"}
                     type="submit"> Entrar
                 </button>
-                <img src={Line} className={'sm: w-96'}/>
-                <button className="btn-circle bg-tufts-blue hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full sm: bg-blue-600">
-                    <img src={Google}/>
-                </button>
-
+                {/*<img src={Line} className={'sm: w-96'}/>*/}
+                {/*<button className="btn-circle bg-tufts-blue hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full sm: bg-blue-600">*/}
+                {/*    <img src={Google}/>*/}
+                {/*</button>*/}
             </div>
         </form>
     )

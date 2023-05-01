@@ -12,6 +12,8 @@ import {NewPost} from "../components/NewPost";
 import Loading from "../components/Loading";
 import NovoPost from "../pages/NovoPost";
 import Feed from "../pages/Feed";
+import Perfil from "../pages/Perfil";
+import EditarPerfil from "../pages/EditarPerfil";
 
 export const routes = createBrowserRouter([
     // {
@@ -58,7 +60,11 @@ export const routes = createBrowserRouter([
         element: <DetalhesCampanha/>
     },
     {
-        path: '/post',
-        element: <NovoPost/>,
+        path: '/perfil/:id',
+        element: <Perfil />,
+    },
+    {
+        path: '/editar-perfil/:id',
+        element: <EditarPerfil />,
     },
 ])

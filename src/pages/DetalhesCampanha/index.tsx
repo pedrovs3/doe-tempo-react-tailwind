@@ -35,7 +35,7 @@ export default function DetalhesCampanha() {
     useEffect(() => {
         const fetchData = async () => {
             const {data} = await api.get(`/campaign/${id}`);
-            setData(data.campaigns)
+            setData(data)
             setLoading(false)
         }
 
@@ -59,6 +59,7 @@ export default function DetalhesCampanha() {
         setData(data.counts)
     }
 
+    console.log(data)
 
 return (
     <div>
@@ -76,12 +77,12 @@ return (
                                   profileOng={data?.tbl_ngo?.photoURL}/>
                     <DetalhesBodyDois  begin_date={data?.begin_date}
                                        end_date={data?.end_date}
-                                       causes={data?.tbl_campaign_causes}
+                                       causes={data?.campaign_causes}
                                        home_office={data?.home_office}
-                                       photoUrl={data?.tbl_campaign_photos[0].photo_url}
-                                       postal_code={data?.tbl_campaign_address?.tbl_address?.postal_code}
-                                       complement={data?.tbl_campaign_address?.tbl_address?.complement}
-                                       number={data?.tbl_campaign_address?.tbl_address?.number}/>
+                                       photoUrl={data?.campaign_photos[0].photo_url}
+                                       postal_code={data?.campaign_address?.address?.postal_code}
+                                       complement={data?.campaign_address?.address?.complement}
+                                       number={data?.campaign_address?.address?.number}/>
                 </div>
                 <div className={"flex pt-5"}>
                     <div>

@@ -3,8 +3,6 @@ import React, {useEffect, useState} from "react";
 import {api} from "../../lib/axios";
 import {BrowserRouter as Router, Route, NavLink, useNavigate} from "react-router-dom";
 
-
-
 interface CardProps {
     id: string,
     imgAvatar: string,

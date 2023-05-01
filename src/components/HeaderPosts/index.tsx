@@ -1,10 +1,9 @@
 import React, {useEffect, useState} from "react";
-import Logo from "../../assets/img/logo_home.svg";
-import {House, Megaphone} from "phosphor-react";
+import {Article, House, Megaphone} from "phosphor-react";
 import {Link, useNavigate} from "react-router-dom";
 interface UserProps {
     id : string,
-    photoURL : number,
+    photoURL : string,
 }
 
 export function HeaderPosts(props : UserProps) {
@@ -27,7 +26,7 @@ export function HeaderPosts(props : UserProps) {
 
 
     return (
-        <div className="navbar bg-turquoise-500">
+        <div className="navbar">
             <div className="navbar-start">
                 <div className="dropdown">
                     <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -40,9 +39,11 @@ export function HeaderPosts(props : UserProps) {
                         <Link to={"/campanhas"} >
                         <li className={'bg-little-white rounded'}><a className={'tooltip tooltip-bottom active:bg-little-white'} data-tip="Campanhas"><Megaphone size={32} color="#4F79FE"/></a></li>
                         </Link>
+                        <Link to={"/feed"} >
+                            <li className={'bg-little-white rounded'}><a className={'tooltip tooltip-bottom active:bg-little-white'} data-tip="Feed"><Article size={32} color="#4F79FE"/></a></li>
+                        </Link>
                     </ul>
                 </div>
-                    <img src={Logo}/>
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1 gap-10">
@@ -51,6 +52,9 @@ export function HeaderPosts(props : UserProps) {
                     </Link>
                     <Link to={"/campanhas"} >
                         <li className={'bg-little-white rounded'}><a className={'tooltip tooltip-bottom active:bg-little-white'} data-tip="Campanhas"><Megaphone size={32} color="#4F79FE"/></a></li>
+                    </Link>
+                    <Link to={"/feed"} >
+                        <li className={'bg-little-white rounded'}><a className={'tooltip tooltip-bottom active:bg-little-white'} data-tip="Feed"><Article size={32} color="#4F79FE"/></a></li>
                     </Link>
                 </ul>
             </div>

@@ -16,6 +16,7 @@ module.exports = {
       'little-white': '#FBFBFD',
       'card-campanha': '#F2F2F7',
       'texto-campanha': '#888888',
+      'gray-apagado': '#777777',
     },
   },
   plugins: [require("daisyui")],
