@@ -71,10 +71,10 @@ return (
                     <DetalhesBody title={data?.title}
                                   description={data?.description}
                                   how_to_contribute={data?.how_to_contribute}
-                                  descriptionOng={data?.tbl_ngo?.description}
+                                  descriptionOng={data?.ngo?.description}
                                   prerequisite={data?.prerequisites}
-                                  nameOng={data?.tbl_ngo?.name}
-                                  profileOng={data?.tbl_ngo?.photoURL}/>
+                                  nameOng={data?.ngo?.name}
+                                  profileOng={data?.ngo?.photo_url}/>
                     <DetalhesBodyDois  begin_date={data?.begin_date}
                                        end_date={data?.end_date}
                                        causes={data?.campaign_causes}

@@ -2,9 +2,11 @@ import { format } from 'date-fns'
 import { pt } from 'date-fns/locale'
 import {useState} from "react";
 import {Chat, Heart} from "phosphor-react";
+import {Link} from "react-router-dom";
 
 interface PostProps {
     id : string,
+    idUser: string,
     photoUser: string,
     nameUser: string,
     content : string,
@@ -15,6 +17,8 @@ interface PostProps {
 
 
 export function FeedPosts(props : PostProps) {
+
+    console.log(props.idUser)
 
     const dataFormatada = format(new Date(props.created), "d 'de' MMMM 'às' HH:mm", { locale: pt });
     const [liked, setLiked] = useState(false);
@@ -35,7 +39,9 @@ export function FeedPosts(props : PostProps) {
                 <div className={"gap-5 flex flex-row"}>
                     <div className={"avatar"}>
                         <div className="w-16 rounded-xl ring ring-primary ring-tufts-blue ring-offset-2 bg-blueberry">
-                            <img src={props.photoUser} />
+                                <Link to={`/perfil/${props.idUser}`}>
+                                    <img src={props.photoUser} />
+                                </Link>
                         </div>
                     </div>
                     <div className={""}>

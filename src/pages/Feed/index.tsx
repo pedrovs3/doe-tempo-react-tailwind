@@ -38,22 +38,14 @@ export default function Feed() {
         setHasNewPosts(true);
     };
 
+    console.log(user)
+
 
     useEffect(() => {
 
         const fetchAPI = async () => {
             const response = await api.get(`/post`)
             const AllPosts = await response.data.allPosts
-
-            // AllPosts.forEach(post => {
-            //     if (post._count.PostNgo === 0) {
-            //         delete post.PostNgo
-            //         delete Object.assign(post, {  user: post.PostUser[0] })['PostUser'];
-            //     } else if (post._count.PostUser === 0) {
-            //        delete post.PostUser
-            //         delete Object.assign(post, {  user: post.PostNgo[0] })['PostNgo'];
-            //     }
-            // })
 
 
             const updatedPosts = AllPosts.map(post => {
@@ -75,12 +67,11 @@ export default function Feed() {
         fetchAPI().catch(console.error)
     }, [])
 
-console.log(AllPosts)
 
     return (
                 <div className={''}>
                     <div className={'navbar bg-turquoise-500'}>
-                    <HeaderPosts id={user?.user?.id} photoURL={user?.user?.photoURL}/>
+                    <HeaderPosts id={user?.user?.id} photoURL={user?.user?.photo_url}/>
                     </div>
                     <img className={'w-full'} src={WaveDown}/>
                     <div className={'flex justify-center items-center pb-8'}>
@@ -88,7 +79,7 @@ console.log(AllPosts)
                     </div>
                     <div className={'flex justify-center items-center flex-col gap-7'}>
                     {AllPosts.map((item) => (
-                        <FeedPosts id={item.id} nameUser={item.user.name} photoUser={item.user.photoURL} content={item.content} created={item.created_at} images={item.PostPhoto}/>
+                        <FeedPosts id={item.id} idUser={item.post_user[0].user.id} nameUser={item.post_user[0].user.name} photoUser={item.post_user[0].user.photo_url} content={item.content} created={item.created_at} images={item.post_photo}/>
                     ))}
                     </div>
                 </div>

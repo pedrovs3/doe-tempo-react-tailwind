@@ -53,12 +53,12 @@ export default function Perfil() {
     return (
         <div className={'bg-little-white'}>
             <div className={"navbar absolute top-0 left-0 w-full bg-transparent"}>
-            <HeaderPosts id={user?.user?.id} photoURL={user?.user?.photoURL}/>
+            <HeaderPosts id={user?.user?.id} photoURL={user?.user?.photo_url}/>
             </div>
-            <img src={header} alt="Header image" className="object-cover w-full h-64 md:h-96 lg:h-128" />
+            <img src={data?.banner_photo} alt="Header image" className="object-cover w-full h-64 md:h-96 lg:h-128" />
             <img src={wave} className={'relative -mt-8 w-full'}/>
-            <div className={'flex flex-col md:lg-flex-row lg:flex-row'}>
-            <CardPerfil  id={data?.id} name={data?.name} photoURL={data?.photoURL} postal_code={data?.userAddress?.address?.postal_code}/>
+            <div className={'flex flex-col gap-10 md:lg-flex-row lg:flex-row'}>
+            <CardPerfil  id={data?.id} name={data?.name} photoURL={data?.photo_url} postal_code={data?.user_address?.address?.postal_code}/>
                 <NovoPost />
             </div>
         </div>

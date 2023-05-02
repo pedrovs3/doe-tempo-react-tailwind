@@ -16,6 +16,7 @@ export function CardPerfil(props : UserProps) {
     const [data, setData] = useState([])
     const [cep, setCep] = useState('');
 
+
     useEffect(() => {
         const fetchData = async () => {
 
@@ -44,16 +45,15 @@ export function CardPerfil(props : UserProps) {
     useEffect(() => {
 
         const fetchAPI = async () => {
-            const consultarCep = await apiCep.get(`/${props.postal_code}/json/`)
-            const cep = await consultarCep.data
-            setCep(cep)
-
+                const consultarCep = await apiCep.get(`/${props.postal_code}/json/`)
+                const cep = await consultarCep.data
+                setCep(cep)
         }
 
         fetchAPI().catch(console.error)
-    }, [])
+    }, [props.postal_code])
 
-    console.log(cep)
+
 
 
     return (
@@ -71,7 +71,7 @@ export function CardPerfil(props : UserProps) {
                 </div>
                 <div className={"flex flex-row gap-2"}>
                     <MapPin size={32} />
-                <p className={"text-xl font-semibold text-gray-apagado"}>{cep?.localidade}</p>
+                <p className={"text-xl font-semibold text-gray-apagado"}>{cep?.localidade}, {cep?.uf}</p>
                 </div>
                 <div className={"flex items-start flex-col gap-2"}>
                     <p className={"text-xl font-bold"}>Sobre</p>

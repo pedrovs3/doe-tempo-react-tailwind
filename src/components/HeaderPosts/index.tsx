@@ -67,7 +67,9 @@ export function HeaderPosts(props : UserProps) {
                             </div>
                         </label>
                         <ul tabIndex={0} className="bg- mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52">
+                            <Link to={`/perfil/${props.id}`} >
                             <li><a className={"active:bg-turquoise-500"}>Perfil</a></li>
+                            </Link>
                             <li><a className={"active:bg-turquoise-500"}>Configurações</a></li>
                             <li><a className={"active:bg-turquoise-500"} onClick={handleLogout}>Logout</a></li>
                         </ul>

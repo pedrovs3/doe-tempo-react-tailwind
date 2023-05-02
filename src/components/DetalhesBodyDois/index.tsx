@@ -9,7 +9,7 @@ import {apiCep} from "../../api/consulta_cep";
 
 interface CampaignProps {
     photoUrl: string,
-    causes: [],
+    causes: [{causes: {id: string, title: string, description:string}}],
     begin_date: string,
     end_date: string,
     home_office: boolean,
@@ -21,8 +21,7 @@ interface CampaignProps {
 
 export function DetalhesBodyDois(props : CampaignProps) {
     const [cep, setCep] = useState('');
-    const titulos = props.causes.map((causa) => causa.tbl_causes.title);
-
+    const titulos = props.causes.map((causa) => (causa.causes.title));
 
 
     useEffect(() => {
