@@ -25,9 +25,11 @@ export default function Feed() {
             } else if (userType === "USER") {
                 endpoint = `/user/${userId}`;
             }
+            console.log(endpoint)
 
             const response = await api.get(endpoint);
             const user = response.data;
+            console.log(user)
             setUser(user);
         };
 
@@ -74,7 +76,7 @@ export default function Feed() {
                     <HeaderPosts id={user?.user?.id} photoURL={user?.user?.photo_url}/>
                     </div>
                     <img className={'w-full'} src={WaveDown}/>
-                    <div className={'flex justify-center items-center pb-8'}>
+                    <div className={'flex justify-center items-center pb-8 w-1/3 mx-auto'}>
                         <NewPost typeUser={decodeJWT?.type} idUser={decodeJWT?.id}/>
                     </div>
                     <div className={'flex justify-center items-center flex-col gap-7'}>

@@ -7,6 +7,8 @@ import wave from "../../assets/img/wave_white.svg";
 import {CardPerfil} from "../../components/CardPerfil";
 import {useParams} from "react-router-dom";
 import NovoPost from "../NovoPost";
+import Feed from "../Feed";
+import {FeedPosts} from "../../components/FeedPosts";
 
 
 
@@ -47,7 +49,7 @@ export default function Perfil() {
 
         fetchData().catch(console.error);
 
-    }, [])
+    }, [id])
 
 
     return (
@@ -57,10 +59,22 @@ export default function Perfil() {
             </div>
             <img src={data?.banner_photo} alt="Header image" className="object-cover w-full h-64 md:h-96 lg:h-128" />
             <img src={wave} className={'relative -mt-8 w-full'}/>
-            <div className={'flex flex-col gap-10 md:lg-flex-row lg:flex-row'}>
-            <CardPerfil  id={data?.id} name={data?.name} photoURL={data?.photo_url} postal_code={data?.user_address?.address?.postal_code}/>
-                <NovoPost />
+            <div className="flex flex-row">
+                <div className="w-1/3 px-10">
+                    <CardPerfil id={data?.id} name={data?.name} photoURL={data?.photo_url} postal_code={data?.user_address?.address?.postal_code} />
+                </div>
+                <div className="w-1/3 justify-center items-center">
+                    {
+                        id === userId ?
+                        <NovoPost /> :
+                           <Feed/>
+                            // <FeedPorUsuario id={id}}></FeedPorUsuario>
+                    }
+
+                </div>
             </div>
+
+
         </div>
     )
 }

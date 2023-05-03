@@ -57,8 +57,8 @@ export function NewPost(props : PostProps) {
     }
 
     return (
-        <form onSubmit={handleSubmitForm}>
-        <div className="flex items-center w-[40rem]	bg-base-100 shadow-xl rounded-lg">
+        <form onSubmit={handleSubmitForm} className={"w-full flex justify-center"}>
+        <div className="w-full flex items-center bg-base-100 shadow-xl rounded-lg">
             <div className="card-body">
                 <h2 className="card-title text-blueberry justify-center">Nova Publicação</h2>
                 <div className={'flex flex-row gap-5 justify-center'}>

@@ -17,7 +17,7 @@ export const Form = () => {
 
 	const [filled, setFilled] = useState(false);
 	const [cepState, setCepState] = useState('');
-	const [genderSelect, setGenderSelect] = useState('dab38ba5-fd71-480a-86ec-5429e5309539')
+	const [genderSelect, setGenderSelect] = useState('')
 	const [cpf, setCpf] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
