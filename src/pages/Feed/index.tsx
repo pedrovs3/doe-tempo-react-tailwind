@@ -5,6 +5,7 @@ import {NewPost} from "../../components/NewPost";
 import {decodeJwt} from "../../utils/jwtDecode";
 import {api} from "../../lib/axios";
 import {FeedPosts} from "../../components/FeedPosts";
+import {Post} from "../../models/Post";
 
 
 export default function Feed() {
@@ -16,6 +17,7 @@ export default function Feed() {
     const [AllPosts, setAllPosts ] = useState<object>([]);
     const [userInfo, setUserInfo ] = useState<object>([]);
     const [hasNewPosts, setHasNewPosts] = useState(false);
+    console.log(hasNewPosts)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -46,7 +48,6 @@ export default function Feed() {
             const response = await api.get(`/post`)
             const AllPosts = await response.data.all_posts
 
-
             const updatedPosts = AllPosts.map(post => {
                 let updatedPost = post;
                 if (post.PostNgo && post.PostNgo.length > 0) {
@@ -58,23 +59,18 @@ export default function Feed() {
                 }
                 return updatedPost;
             });
-
             setAllPosts(updatedPosts)
-
-
-
         }
 
         fetchAPI().catch(console.error)
-    }, [])
-
+    }, [AllPosts])
 
     console.log(AllPosts)
 
     return (
                 <div className={''}>
                     <div className={'navbar bg-turquoise-500'}>
-                    <HeaderPosts id={user?.user?.id} photoURL={user?.user?.photo_url}/>
+                        <HeaderPosts id={user?.user?.id || user?.id} photoURL={user?.user?.photo_url || user?.photo_url}/>
                     </div>
                     <img className={'w-full'} src={WaveDown}/>
                     <div className={'flex justify-center items-center pb-8 w-1/3 mx-auto'}>
@@ -82,13 +78,26 @@ export default function Feed() {
                     </div>
                     <div className={'flex justify-center items-center flex-col gap-7'}>
                     {AllPosts.map((item) => (
-                        <FeedPosts id={item.id}
-                                   idUser={item.post_user[0].user.id}
-                                   nameUser={item.post_user[0].user.name}
-                                   photoUser={item.post_user[0].user.photo_url}
-                                   content={item.content} created={item.created_at}
-                                   images={item.post_photo}
-                                   comments={item.comment}/>
+                        item.post_ngo.length < 1 ?
+                            (
+                                <FeedPosts id={item.id}
+                                                            idUser={item.post_user[0].user.id}
+                                           type={item.post_user[0].user.type.name}
+                                                            nameUser={item.post_user[0].user.name}
+                                                            photoUser={item.post_user[0].user.photo_url}
+                                                            content={item.content} created={item.created_at}
+                                                            images={item.post_photo}
+                                                            comments={item.comment}/>
+                            ) : (
+                                <FeedPosts id={item.id}
+                                           type={item.post_ngo[0].ngo.type.name}
+                                           idUser={ item.post_ngo[0].ngo.id}
+                                           nameUser={item.post_ngo[0].ngo.name}
+                                           photoUser={item.post_ngo[0].ngo.photo_url}
+                                           content={item.content} created={item.created_at}
+                                           images={item.post_photo}
+                                           comments={item.comment}/>
+                            )
                     ))}
                     </div>
                 </div>

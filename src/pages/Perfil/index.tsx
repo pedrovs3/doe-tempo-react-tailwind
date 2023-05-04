@@ -17,6 +17,7 @@ export default function Perfil() {
     const routeParams = useParams();
     const [data, setData] = useState({})
     const id = routeParams.id
+    const typeUser = routeParams.type
 
     const decodeJWT = decodeJwt();
     const userType = decodeJWT.type;
@@ -42,15 +43,20 @@ export default function Perfil() {
 
     useEffect(() => {
         const fetchData = async () => {
-            const {data} = await api.get(`/user/${id}`);
-            setData(data.user)
+            if (typeUser === 'USER') {
+                const {data} = await api.get(`/user/${id}`);
+                setData(data.user)
+            } else {
+                const {data} = await api.get(`/ngo/${id}`)
+                setData(data)
+            }
+
         }
 
 
         fetchData().catch(console.error);
 
     }, [id])
-
 
     return (
         <div className={'bg-little-white'}>
@@ -61,13 +67,36 @@ export default function Perfil() {
             <img src={wave} className={'relative -mt-8 w-full'}/>
             <div className="flex flex-row">
                 <div className="w-1/3 px-10">
-                    <CardPerfil id={data?.id} name={data?.name} photoURL={data?.photo_url} postal_code={data?.user_address?.address?.postal_code}  attached_link={data?.attached_link} description={data?.description}/>
+                    {
+                        typeUser === 'USER' ? (
+                            <CardPerfil id={data?.id} name={data?.name} photoURL={data?.photo_url} postal_code={data?.user_address?.address?.postal_code}  attached_link={data?.attached_link} description={data?.description}/>
+                        ) : (
+                            <CardPerfil id={data?.id} name={data?.name} photoURL={data?.photo_url} postal_code={data?.ngo_address?.address?.postal_code}  attached_link={data?.attached_link} description={data?.description}/>
+                        )
+                    }
                 </div>
                 <div className="w-1/3 justify-center items-center">
                     {
                         id === userId ?
-                        <NovoPost /> :
-                           <Feed/>
+                        <NovoPost /> : (
+                            <div className={'flex justify-center items-center flex-col gap-7'}>
+                                {
+                                    data.post_user ? (
+                                    data?.post_user.map((item) => (
+                                            <FeedPosts id={item.id}
+                                                       idUser={id}
+                                                       type={decodeJwt().type}
+                                                       nameUser={data?.name}
+                                                       photoUser={data?.photo_url}
+                                                       content={item.content}
+                                                       created={item.created_at}
+                                                       images={item.post_photo}
+                                                       comments={item.comment}/>
+
+                                ))) : <></>
+                                }
+                            </div>
+                            )
                             // <FeedPorUsuario id={id}}></FeedPorUsuario>
                     }
 

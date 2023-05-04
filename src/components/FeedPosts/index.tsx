@@ -14,7 +14,7 @@ interface PostProps {
     created : string,
     images: []
     comments: []
-
+    type: string
 }
 
 
@@ -22,6 +22,7 @@ export function FeedPosts(props : PostProps) {
 
 
     const [showCommentInput, setShowCommentInput] = useState({});
+    console.log(props.created)
     const dataFormatada = format(new Date(props.created), "d 'de' MMMM 'às' HH:mm", { locale: pt });
     const [liked, setLiked] = useState(false);
     const photoUrls = props.images.map((photo) => photo.photo_url);
@@ -59,7 +60,7 @@ export function FeedPosts(props : PostProps) {
                 <div className={"gap-5 flex flex-row"}>
                     <div className={"avatar"}>
                         <div className="w-16 rounded-xl ring ring-primary ring-tufts-blue ring-offset-2 bg-blueberry">
-                                <Link to={`/perfil/${props.idUser}`}>
+                                <Link to={`/perfil/${props.type}/${props.idUser}`}>
                                     <img src={props.photoUser} />
                                 </Link>
                         </div>

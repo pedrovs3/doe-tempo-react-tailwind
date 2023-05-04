@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import {api} from "../../lib/axios";
 import {Link, MapPin} from "phosphor-react";
 import {apiCep} from "../../api/consulta_cep";
+import {decodeJwt} from "../../utils/jwtDecode";
 
 interface UserProps {
     id : string,
@@ -15,6 +16,7 @@ interface UserProps {
 export function CardPerfil(props : UserProps) {
     const [data, setData] = useState([])
     const [cep, setCep] = useState('');
+    const decodedJwt = decodeJwt()
 
 
     useEffect(() => {

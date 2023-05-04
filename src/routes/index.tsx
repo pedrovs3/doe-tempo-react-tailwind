@@ -60,7 +60,7 @@ export const routes = createBrowserRouter([
         element: <DetalhesCampanha/>
     },
     {
-        path: '/perfil/:id',
+        path: '/perfil/:type/:id',
         element: <Perfil />,
     },
     {

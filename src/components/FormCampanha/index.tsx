@@ -144,7 +144,7 @@ export function CampanhaForm(props : AddressProps) {
                     how_to_contribute: contributeState,
                     prerequisites: prerequisitesState,
                     id_ngo: props.idOng,
-                    photoURL: imgURL,
+                    photo_url: imgURL,
                     causes: causesJson,
                     address: {
                         postal_code: props.cep,

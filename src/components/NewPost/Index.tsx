@@ -4,9 +4,11 @@ import {api} from "../../lib/axios";
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { initializeApp } from "firebase/app";
 import {storage} from "../../firebase";
+import {data} from "autoprefixer";
 interface PostProps {
     typeUser: string,
     idUser: string
+    handlePost: unknown
 }
 
 export function NewPost(props : PostProps) {
@@ -47,7 +49,13 @@ export function NewPost(props : PostProps) {
                 type_of_user: props.typeUser,
                 photos: images || null,
             })
-            alert(publish.data)
+
+            if (publish.data) {
+                setContentState('')
+                setImages([])
+                alert(publish.data)
+            }
+
         } catch (e) {
             console.log(e)
             alert("Houve um erro!")
