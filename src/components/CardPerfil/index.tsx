@@ -1,7 +1,5 @@
-import avatar from "../../assets/img/avatar-ong.png";
 import React, {useEffect, useState} from "react";
 import {api} from "../../lib/axios";
-import profile from "../../assets/img/pedro-avatar.jpeg";
 import {Link, MapPin} from "phosphor-react";
 import {apiCep} from "../../api/consulta_cep";
 
@@ -10,6 +8,8 @@ interface UserProps {
     name: string,
     photoURL : string,
     postal_code: string,
+    attached_link: string,
+    description: string,
 }
 
 export function CardPerfil(props : UserProps) {
@@ -30,17 +30,22 @@ export function CardPerfil(props : UserProps) {
 
 
 
-    const link = "https://www.corinthians.com.br/";
+    const link = props.attached_link;
     const maxLength = 20;
 
     function limitLinkSize(link, maxLength) {
+        if (!link) {
+            return '';
+        }
+
         if (link.length <= maxLength) {
             return link;
         } else {
-            const truncatedLink = link.substring(0, maxLength - 3) + "...";
-            return truncatedLink;
+            return link.substring(0, maxLength - 3) + '...';
         }
     }
+
+    console.log(limitLinkSize(link, maxLength));
 
     useEffect(() => {
 
@@ -52,7 +57,6 @@ export function CardPerfil(props : UserProps) {
 
         fetchAPI().catch(console.error)
     }, [props.postal_code])
-
 
 
 
@@ -75,8 +79,7 @@ export function CardPerfil(props : UserProps) {
                 </div>
                 <div className={"flex items-start flex-col gap-2"}>
                     <p className={"text-xl font-bold"}>Sobre</p>
-                    <p className={"text-xl font-semibold"}>
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard.</p>
+                    <p className={"text-xl font-semibold"}>{props.description}</p>
                 </div>
                 <div className={"flex flex-row gap-2 badge badge-ghost h-10"}>
                     <Link size={32} />

@@ -1,8 +1,9 @@
 import { format } from 'date-fns'
 import { pt } from 'date-fns/locale'
-import {useState} from "react";
-import {Chat, Heart} from "phosphor-react";
+import React, {FormEvent, useState} from "react";
+import {Chat, Heart, PaperPlaneRight} from "phosphor-react";
 import {Link} from "react-router-dom";
+import {api} from "../../lib/axios";
 
 interface PostProps {
     id : string,
@@ -12,18 +13,20 @@ interface PostProps {
     content : string,
     created : string,
     images: []
+    comments: []
 
 }
 
 
 export function FeedPosts(props : PostProps) {
 
-    console.log(props.idUser)
 
+    const [showCommentInput, setShowCommentInput] = useState({});
     const dataFormatada = format(new Date(props.created), "d 'de' MMMM 'às' HH:mm", { locale: pt });
     const [liked, setLiked] = useState(false);
     const photoUrls = props.images.map((photo) => photo.photo_url);
     const showNavigation = photoUrls.length > 1;
+    const [comentario, setComentario] = useState('');
 
 
     function handleLike() {
@@ -32,6 +35,23 @@ export function FeedPosts(props : PostProps) {
     }
 
 
+    const handleCommentClick = (postId) => {
+        setShowCommentInput(prevState => ({ ...prevState, [postId]: true }));
+    }
+
+    const handleSubmitForm = async () => {
+
+        try {
+            const comment = await api.post(`/post/${props.id}/comment`, {
+                content: comentario,
+            })
+            alert("foi")
+        } catch (e) {
+            console.log(e)
+            alert("Houve um erro!")
+        }
+
+    }
 
     return (
         <div className="bg-base-100 shadow-xl w-1/3 text-primary-content rounded-lg">
@@ -73,13 +93,32 @@ export function FeedPosts(props : PostProps) {
                             color={liked ? 'red' : 'gray'}
                         />
                     </button>
-                <button>
-                    <Chat
-                        size={32}
-                        color={'gray'}
-                    />
-                </button>
+                    <button onClick={() => handleCommentClick(props.id)}>
+                        <Chat
+                            size={32}
+                            color={'gray'}
+                        />
+                    </button>
                 </div>
+                {showCommentInput[props.id] && (
+                    <div className={"flex gap-2"}>
+                        {props.comments.map((item) => (
+                            <div className="card card-side bg-base-100 shadow-xl">
+                                <div className="card-body">
+                                    <h2 className="card-title">{item.content}</h2>
+                                    <div className="card-actions justify-end">
+                                        <button className="btn btn-primary">Watch</button>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                        <textarea value={comentario} style={{ color: "black" }} className="resize-none textarea textarea-info w-full" placeholder="Digite seu comentário.."
+                                  onChange={it => setComentario(it.target.value)}></textarea>
+                        <button className={"btn btn-square btn-info"} onClick={() => handleSubmitForm()}>
+                            <PaperPlaneRight size={32} color={'white'} />
+                        </button>
+                    </div>
+                )}
             </div>
         </div>
     );

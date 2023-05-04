@@ -55,13 +55,13 @@ export default function Perfil() {
     return (
         <div className={'bg-little-white'}>
             <div className={"navbar absolute top-0 left-0 w-full bg-transparent"}>
-            <HeaderPosts id={user?.user?.id} photoURL={user?.user?.photo_url}/>
+            <HeaderPosts id={user?.user?.id || user?.id} photoURL={user?.user?.photo_url || user?.photo_url}/>
             </div>
             <img src={data?.banner_photo} alt="Header image" className="object-cover w-full h-64 md:h-96 lg:h-128" />
             <img src={wave} className={'relative -mt-8 w-full'}/>
             <div className="flex flex-row">
                 <div className="w-1/3 px-10">
-                    <CardPerfil id={data?.id} name={data?.name} photoURL={data?.photo_url} postal_code={data?.user_address?.address?.postal_code} />
+                    <CardPerfil id={data?.id} name={data?.name} photoURL={data?.photo_url} postal_code={data?.user_address?.address?.postal_code}  attached_link={data?.attached_link} description={data?.description}/>
                 </div>
                 <div className="w-1/3 justify-center items-center">
                     {

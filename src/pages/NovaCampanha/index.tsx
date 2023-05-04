@@ -24,7 +24,7 @@ export default function NovaCampanha() {
             const user = await userResponse.data
             setUser(user)
 
-            const consultarCep = await apiCep.get(`/${user?.tbl_ngo_address.tbl_address.postal_code}/json/`)
+            const consultarCep = await apiCep.get(`/${user?.ngo_address.address.postal_code}/json/`)
             const cep = await consultarCep.data
             setCep(cep)
             setLoading(false)
@@ -46,10 +46,10 @@ export default function NovaCampanha() {
             <div className={'flex justify-center items-center gap-20'}>
                 <CampanhaForm idOng={userId}
                               logradouro={cep?.logradouro}
-                              numero={user?.tbl_ngo_address.tbl_address.number}
+                              numero={user?.ngo_address.address.number}
                               localidade={cep?.localidade} uf={cep?.uf}
-                              complemento={user?.tbl_ngo_address.tbl_address.complement}
-                              cep={user?.tbl_ngo_address.tbl_address.postal_code}/>
+                              complemento={user?.ngo_address.address.complement}
+                              cep={user?.ngo_address.address.postal_code}/>
             </div>
         </div>
             )}

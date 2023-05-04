@@ -144,7 +144,7 @@ export function EditCampanhaForm(props : AddressProps & CampaignProps) {
                 prerequisites: prerequisitesState,
                 id_ngo: props.idOng,
                 causes: causesJson,
-                photoURL: imgURL,
+                photo_url: imgURL,
                 address: {
                     postal_code: props.cep,
                     number: props.numero,

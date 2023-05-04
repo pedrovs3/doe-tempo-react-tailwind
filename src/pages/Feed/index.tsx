@@ -36,9 +36,6 @@ export default function Feed() {
         fetchData();
     }, [userId, userType]);
 
-    const handleNewPost = () => {
-        setHasNewPosts(true);
-    };
 
     console.log(user)
 
@@ -47,7 +44,7 @@ export default function Feed() {
 
         const fetchAPI = async () => {
             const response = await api.get(`/post`)
-            const AllPosts = await response.data.allPosts
+            const AllPosts = await response.data.all_posts
 
 
             const updatedPosts = AllPosts.map(post => {
@@ -64,11 +61,15 @@ export default function Feed() {
 
             setAllPosts(updatedPosts)
 
+
+
         }
 
         fetchAPI().catch(console.error)
     }, [])
 
+
+    console.log(AllPosts)
 
     return (
                 <div className={''}>
@@ -81,7 +82,13 @@ export default function Feed() {
                     </div>
                     <div className={'flex justify-center items-center flex-col gap-7'}>
                     {AllPosts.map((item) => (
-                        <FeedPosts id={item.id} idUser={item.post_user[0].user.id} nameUser={item.post_user[0].user.name} photoUser={item.post_user[0].user.photo_url} content={item.content} created={item.created_at} images={item.post_photo}/>
+                        <FeedPosts id={item.id}
+                                   idUser={item.post_user[0].user.id}
+                                   nameUser={item.post_user[0].user.name}
+                                   photoUser={item.post_user[0].user.photo_url}
+                                   content={item.content} created={item.created_at}
+                                   images={item.post_photo}
+                                   comments={item.comment}/>
                     ))}
                     </div>
                 </div>
