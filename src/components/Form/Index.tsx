@@ -5,11 +5,8 @@ import {FormEvent, useEffect, useState} from "react";
 import {api} from "../../lib/axios";
 import {formToJSON} from "axios";
 import getFieldValue from "react-hook-form/dist/logic/getFieldValue";
+import {Gender} from "../../models/Gender";
 
-interface genderProps {
-	id: string,
-	name: string
-}
 
 export const Form = () => {
 
@@ -23,7 +20,7 @@ export const Form = () => {
 	const [password, setPassword] = useState('');
 	const [birthdate, setBirthdate] = useState('');
 	const [nameState, setNameState] = useState('')
-	const [gender, setGender] = useState<genderProps[]>([]);
+	const [gender, setGender] = useState<Gender[]>([]);
 	const [addressNumber, setAddressNumber] = useState('');
 	const [complement, setComplement] = useState('');
 
