@@ -10,7 +10,7 @@ import {apiCep} from "../../api/consulta_cep";
 
 interface AddressProps {
     idOng : string,
-    cep : number,
+    cep : string,
     logradouro : string,
     numero: number,
     localidade? : string,
@@ -32,8 +32,6 @@ interface CampaignProps {
 
 export function EditCampanhaForm(props : AddressProps & CampaignProps) {
 
-    console.log(props.numero)
-
     const [preview, setPreview] = useState(null);
     const [inputVisible, setInputVisible] = useState(true);
     const [imgURL, setImgURL] = useState([])
@@ -46,7 +44,8 @@ export function EditCampanhaForm(props : AddressProps & CampaignProps) {
     const [endDateState, setStateDateEnd] = useState('')
     const [selectedOption, setSelectedOption] = useState([]);
     const [value, setValue] = useState(false);
-    const [cep, setCep] = useState("");
+    const [cep, setCep] = useState(props.cep);
+    console.log(cep)
 
 
     useEffect(() => {
@@ -98,20 +97,21 @@ export function EditCampanhaForm(props : AddressProps & CampaignProps) {
     useEffect(() => {
         const fetchData = async () => {
 
-            const data = await api.get('/causes/');
-            setCauses(data.data.causes);
+            const dataCauses = await api.get('/causes/');
+            setCauses(dataCauses.data.causes);
 
-            const consultarCep = await apiCep.get(`/${data?.tbl_campaign_address?.tbl_address?.postal_code}/json/`)
-            const cep = await consultarCep.data
-            setCep(cep)
-
+            if (props.cep !==undefined) {
+                const consultarCep = await apiCep.get(`/${props.cep}/json/`)
+                const cep = await consultarCep.data
+                setCep(cep)
+            }
 
 
         }
 
         fetchData().catch(console.error);
 
-    }, [])
+    }, [props.cep !== undefined])
 
     const [progress, setProgress] = useState(0)
 
@@ -142,7 +142,6 @@ export function EditCampanhaForm(props : AddressProps & CampaignProps) {
                 home_office: value,
                 how_to_contribute: contributeState,
                 prerequisites: prerequisitesState,
-                id_ngo: props.idOng,
                 causes: causesJson,
                 photo_url: imgURL,
                 address: {
@@ -191,7 +190,7 @@ export function EditCampanhaForm(props : AddressProps & CampaignProps) {
                                 <HouseSimple size={32}/>
                                 <p className={'text-1xl font-bold text-slate-100'}>Endereço registrado</p>
                             </div>
-                            <span>{props.logradouro}, {props.numero}, {props.localidade}, {props.uf}</span>
+                            <span>{cep?.logradouro}, {props.numero}, {cep?.localidade}, {cep?.uf}</span>
                             <span>{props.complemento}</span>
                         </div>
                     </div>

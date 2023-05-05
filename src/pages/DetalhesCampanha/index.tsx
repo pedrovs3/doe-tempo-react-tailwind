@@ -14,22 +14,26 @@ export default function DetalhesCampanha() {
     const routeParams = useParams();
     const id = routeParams.id
     const [user, setUser ] = useState<object>();
-    const decodeJWT = decodeJwt();
-    const userId = decodeJWT.id;
+    let decodeJWT;
+    if (localStorage.getItem("token")) {
+        decodeJWT = decodeJwt();
+        const userId = decodeJWT.id;
 
 
 
-    useEffect(() => {
+        useEffect(() => {
 
-        const fetchAPI = async () => {
-            const userResponse = await api.get(`/user/${decodeJWT.id}`)
-            const user = await userResponse.data
-            setUser(user)
+            const fetchAPI = async () => {
+                const userResponse = await api.get(`/user/${decodeJWT.id}`)
+                const user = await userResponse.data
+                setUser(user)
 
-        }
+            }
 
-        fetchAPI().catch(console.error)
-    }, [])
+            fetchAPI().catch(console.error)
+        }, [])
+    }
+
 
 
     useEffect(() => {
@@ -86,13 +90,17 @@ return (
                 </div>
                 <div className={"flex pt-5"}>
                     <div>
-                        {decodeJWT.type === 'ONG' ? (
-                            <button className="hidden"></button>
-                        ) : (
-                            <label onClick={handleInscricao} htmlFor="my-modal"
-                                   className="btn gap-2 w-48 rounded-full bg-maya_blue border-0 text-neutral-900 hover:bg-turquoise-700">QUERO
-                                ME INSCREVER</label>
-                        )}
+                        {
+                            decodeJWT ? (
+                                decodeJWT.type === 'ONG' ? (
+                                    <button className="hidden"></button>
+                                ) : (
+                                    <label onClick={handleInscricao} htmlFor="my-modal"
+                                           className="btn gap-2 w-48 rounded-full bg-maya_blue border-0 text-neutral-900 hover:bg-turquoise-700">QUERO
+                                        ME INSCREVER</label>
+                                )
+                                ) : (<button className="hidden"></button>)
+                            }
                     </div>
                     <input type="checkbox" id="my-modal" class="modal-toggle" />
                     <div class="modal">

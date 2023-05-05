@@ -8,7 +8,7 @@ import {decodeJwt} from "../../utils/jwtDecode";
 
 export default function EditarCampanha() {
     const [data, setData] = useState({
-        tbl_campaign_photos: [{ photoURL: String }]
+        campaign_photos: [{ photoURL: String }]
     })
     const [user, setUser ] = useState<object>();
     const decodeJWT = decodeJwt();
@@ -17,7 +17,7 @@ export default function EditarCampanha() {
     useEffect(() => {
         const fetchData = async () => {
             const {data} = await api.get(`/campaign/${id}`)
-            setData(data.campaigns)
+            setData(data)
 
             const userResponse = await api.get(`/ngo/${decodeJWT.id}`)
             const user = await userResponse.data
@@ -29,8 +29,10 @@ export default function EditarCampanha() {
 
     }, [])
 
+    console.log(data)
 
-    const photoURL = data?.tbl_campaign_photos.map(photo => ({photoURL: photo.photo_url}))[0].photoURL
+
+    const photoURL = data?.campaign_photos.map(photo => ({photoURL: photo.photo_url}))[0].photoURL
 
     return (
         <div className={'p-4'}>
@@ -42,15 +44,15 @@ export default function EditarCampanha() {
                                   begin_date={data?.begin_date}
                                   end_date={data?.end_date}
                                   home_office={data?.home_office}
-                                  causes={data?.tbl_campaign_causes}
+                                  causes={data?.campaign_causes}
                                   contribute={data?.how_to_contribute}
                                   prerequisites={data?.prerequisites}
-                                  cep={data?.tbl_campaign_address?.tbl_address?.postal_code}
+                                  cep={data?.campaign_address?.address?.postal_code}
                                   photoURL={photoURL}
                                   idOng={user?.id}
                                   idCampaign={data?.id}
-                                  numero={data?.tbl_campaign_address?.tbl_address?.number}
-                                  complemento={data?.tbl_campaign_address?.tbl_address?.complement}
+                                  numero={data?.campaign_address?.address?.number}
+                                  complemento={data?.campaign_address?.address?.complement}
 
                 />
             </div>

@@ -26,6 +26,7 @@ export function FeedPosts(props : PostProps) {
     const showNavigation = photoUrls.length > 1;
     const [comentario, setComentario] = useState('');
 
+    console.log(props.comments)
 
     function handleLike() {
         setLiked(!liked)
@@ -113,7 +114,13 @@ export function FeedPosts(props : PostProps) {
                                             </div>
                                         </div>
                                         <div className={""}>
-                                            <h2 className="card-title text-neutral-900">{item.comment_user?.[0].user?.name}</h2>
+                                            {
+                                                item._count.comment_user === 1 ? (
+                                                    <h2 className="card-title text-neutral-900">{item?.comment_user[0].user?.name}</h2>
+                                                ) : (
+                                                    <h2 className="card-title text-neutral-900">{item?.comment_ngo[0].user?.name}</h2>
+                                                )
+                                            }
                                             <p className={"text-neutral-800 text-xs"}>{format(new Date(item.created_at), "d 'de' MMMM 'às' HH:mm", { locale: pt })}</p>
                                         </div>
                                     </div>

@@ -36,7 +36,7 @@ export function HomeWelcome() {
                 <div className="stats shadow">
                     <div className="stat place-items-center">
                         <div className="stat-value">{data.users}</div>
-                        <div className="stat-desc">Volunários cadastrados</div>
+                        <div className="stat-desc">Voluntários cadastrados</div>
                     </div>
                     <div className="stat place-items-center">
                         <div className="stat-value text-blueberry">{data.campaigns}</div>
