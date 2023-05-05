@@ -19,9 +19,7 @@ interface PostProps {
 
 
 export function FeedPosts(props : PostProps) {
-    console.log(props)
     const [showCommentInput, setShowCommentInput] = useState({});
-    // console.log(props.created)
     const dataFormatada = format(new Date(props.created), "d 'de' MMMM 'às' HH:mm", { locale: pt });
     const [liked, setLiked] = useState(false);
     const photoUrls = props.images.map((photo) => photo.photo_url);
@@ -53,15 +51,16 @@ export function FeedPosts(props : PostProps) {
 
     }
 
+
     return (
         <div className="bg-base-100 shadow-xl w-1/3 text-primary-content rounded-lg">
             <div className="card-body gap-5">
                 <div className={"gap-5 flex flex-row"}>
                     <div className={"avatar"}>
                         <div className="w-16 rounded-xl ring ring-primary ring-tufts-blue ring-offset-2 bg-blueberry">
-                                <Link to={`/perfil/${props.type}/${props.idUser}`}>
-                                    <img src={props.photoUser} />
-                                </Link>
+                            <Link to={`/perfil/${props.type}/${props.idUser}`}>
+                                <img src={props.photoUser} />
+                            </Link>
                         </div>
                     </div>
                     <div className={""}>
@@ -71,20 +70,20 @@ export function FeedPosts(props : PostProps) {
                 </div>
                 <p className={"text-neutral-900"}>{props.content}</p>
                 <div className="card-actions justify-start">
-                        <div className="carousel w-full">
-                            {photoUrls.map((url, index) => (
-                                <div id={`slide${index + 1}`} className="carousel-item relative w-full" key={index}>
-                                    <img src={url} className="w-full rounded-3xl" alt={`Photo ${index + 1}`} />
-                                    {showNavigation && (
-                                        <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-                                            <a href={`#slide${index === 0 ? photoUrls.length : index}`} className="btn btn-circle">❮</a>
-                                            <a href={`#slide${index === photoUrls.length - 1 ? 1 : index + 2}`} className="btn btn-circle">❯</a>
-                                        </div>
-                                    )}
-                                </div>
-                            ))}
-                        </div>
+                    <div className="carousel w-full">
+                        {photoUrls.map((url, index) => (
+                            <div id={`slide${index + 1}`} className="carousel-item relative w-full" key={index}>
+                                <img src={url} className="w-full rounded-3xl" alt={`Photo ${index + 1}`} />
+                                {showNavigation && (
+                                    <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
+                                        <a href={`#slide${index === 0 ? photoUrls.length : index}`} className="btn btn-circle">❮</a>
+                                        <a href={`#slide${index === photoUrls.length - 1 ? 1 : index + 2}`} className="btn btn-circle">❯</a>
+                                    </div>
+                                )}
+                            </div>
+                        ))}
                     </div>
+                </div>
                 <div className={"flex gap-5"}>
                     <button onClick={handleLike}>
                         <Heart
@@ -101,16 +100,42 @@ export function FeedPosts(props : PostProps) {
                     </button>
                 </div>
                 {showCommentInput[props.id] && (
-                    <div className={"flex gap-2"}>
+                    <div className={"flex flex-col gap-2"}>
                         {props.comments.map((item) => (
-                            <div className="card card-side bg-base-100 shadow-xl">
-                                <div className="card-body">
-                                    <h2 className="card-title">{item.content}</h2>
-                                    <div className="card-actions justify-end">
-                                        <button className="btn btn-primary">Watch</button>
+                            <div className="bg-base-100 text-primary-content rounded-lg">
+                                <div className="card-body gap-5">
+                                    <div className={"gap-5 flex flex-row"}>
+                                        <div className={"avatar"}>
+                                            <div className="w-12 rounded-xl ring ring-primary ring-tufts-blue ring-offset-2 bg-blueberry">
+                                                <Link to={``}>
+                                                    <img src={itemc} />
+                                                </Link>
+                                            </div>
+                                        </div>
+                                        <div className={""}>
+                                            <h2 className="card-title text-neutral-900">{item.comment_user?.[0].user?.name}</h2>
+                                            <p className={"text-neutral-800 text-xs"}>{format(new Date(item.created_at), "d 'de' MMMM 'às' HH:mm", { locale: pt })}</p>
+                                        </div>
                                     </div>
+                                    <p className={"text-neutral-900"}>{item.content}</p>
+                                </div>
+                                <div className={"flex gap-5"}>
+                                    <button onClick={handleLike}>
+                                        <Heart
+                                            size={24}
+                                            weight={liked ? 'fill' : 'regular'}
+                                            color={liked ? 'red' : 'gray'}
+                                        />
+                                    </button>
+                                    <button onClick={() => handleCommentClick(props.id)}>
+                                        <Chat
+                                            size={24}
+                                            color={'gray'}
+                                        />
+                                    </button>
                                 </div>
                             </div>
+
                         ))}
                         <textarea value={comentario} style={{ color: "black" }} className="resize-none textarea textarea-info w-full" placeholder="Digite seu comentário.."
                                   onChange={it => setComentario(it.target.value)}></textarea>
