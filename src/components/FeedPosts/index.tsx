@@ -19,10 +19,9 @@ interface PostProps {
 
 
 export function FeedPosts(props : PostProps) {
-
-
+    console.log(props)
     const [showCommentInput, setShowCommentInput] = useState({});
-    console.log(props.created)
+    // console.log(props.created)
     const dataFormatada = format(new Date(props.created), "d 'de' MMMM 'às' HH:mm", { locale: pt });
     const [liked, setLiked] = useState(false);
     const photoUrls = props.images.map((photo) => photo.photo_url);

@@ -50,6 +50,7 @@ export default function Perfil() {
                 const {data} = await api.get(`/ngo/${id}`)
                 setData(data)
             }
+            console.log(data?.post_user[0].created_at)
 
         }
 
@@ -79,21 +80,34 @@ export default function Perfil() {
                     {
                         id === userId ?
                         <NovoPost /> : (
-                            <div className={'flex justify-center items-center flex-col gap-7'}>
+                            <div className={'flex justify-center items-center w-full'}>
                                 {
-                                    data.post_user ? (
+                                    data?.post_user ? (
                                     data?.post_user.map((item) => (
-                                            <FeedPosts id={item.id}
+                                            <FeedPosts id={item.post.id}
                                                        idUser={id}
                                                        type={decodeJwt().type}
                                                        nameUser={data?.name}
                                                        photoUser={data?.photo_url}
-                                                       content={item.content}
-                                                       created={item.created_at}
-                                                       images={item.post_photo}
-                                                       comments={item.comment}/>
+                                                       content={item.post.content}
+                                                       created={item.post.created_at}
+                                                       images={item.post.post_photo}
+                                                       comments={item.post.comment}/>
 
-                                ))) : <></>
+                                ))) : (
+                                        data?.post_ngo.map((item) => (
+                                            <FeedPosts id={item.post.id}
+                                                       idUser={id}
+                                                       type={decodeJwt().type}
+                                                       nameUser={data?.name}
+                                                       photoUser={data?.photo_url}
+                                                       content={item.post.content}
+                                                       created={item.post.created_at}
+                                                       images={item.post.post_photo}
+                                                       comments={item.post.comment}/>
+
+                                        )
+                                    ))
                                 }
                             </div>
                             )
