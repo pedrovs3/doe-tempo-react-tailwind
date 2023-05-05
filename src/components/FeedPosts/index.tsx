@@ -108,7 +108,7 @@ export function FeedPosts(props : PostProps) {
                                         <div className={"avatar"}>
                                             <div className="w-12 rounded-xl ring ring-primary ring-tufts-blue ring-offset-2 bg-blueberry">
                                                 <Link to={``}>
-                                                    <img src={itemc} />
+                                                    <img src={props.photoUser} />
                                                 </Link>
                                             </div>
                                         </div>
