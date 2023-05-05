@@ -1,8 +1,10 @@
 import {Header} from "../../components/HeaderHome";
 import Hello from "../../assets/img/Hello.svg";
+import Wave from "../../assets/img/wave-footer.svg";
 import {HomeWelcome} from "../../components/HomeWelcome";
 import {HomeWelcomeDois} from "../../components/HomeWelcomeDois";
 import CampanhasList from "../CampanhasList";
+import {Footer} from "../../components/Footer";
 
 export default function Home() {
     return (
@@ -18,6 +20,8 @@ export default function Home() {
             </div>
             <HomeWelcomeDois/>
             <CampanhasList/>
+            <img src={Wave} className={"w-full"}/>
+            <Footer/>
         </div>
 
     )

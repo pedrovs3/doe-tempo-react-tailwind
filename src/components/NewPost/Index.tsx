@@ -47,7 +47,7 @@ export function NewPost(props : PostProps) {
             const publish = await api.post(`/post/?user=${props.idUser}`, {
                 content: contentState,
                 type_of_user: props.typeUser,
-                photos: images || null,
+                photos: images,
             })
 
             if (publish.data) {
