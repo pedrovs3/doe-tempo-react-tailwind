@@ -8,6 +8,7 @@ import {useParams} from "react-router-dom";
 import NovoPost from "../NovoPost";
 import {FeedPosts} from "../../components/FeedPosts";
 import 'react-toastify/dist/ReactToastify.css';
+import {CardHistorico} from "../../components/CardHistorico";
 
 export default function Perfil() {
     const routeParams = useParams();

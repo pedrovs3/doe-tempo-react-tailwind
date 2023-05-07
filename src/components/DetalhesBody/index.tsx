@@ -18,10 +18,6 @@ export function DetalhesBody(props : CampaignProps) {
             <h1 className={'text-5xl font-bold text-start pt-8'}>{props.title}</h1>
             <div className={"flex gap-5"}>
                 <button className="btn gap-2 w-48 rounded-full bg-maya_blue border-0 text-neutral-900 hover:bg-turquoise-700">
-                    <HeartStraight size={32}/>
-                    Favoritar
-                </button>
-                <button className="btn gap-2 w-48 rounded-full bg-maya_blue border-0 text-neutral-900 hover:bg-turquoise-700">
                     <ShareNetwork size={32}/>
                     Compartilhar
                 </button>

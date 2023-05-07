@@ -79,8 +79,7 @@ export function FeedPosts(props : PostProps) {
                     <label tabIndex={0} className="btn-unstyled m-1 text-neutral-800 text-4xl">...</label>
                     <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
                         <li className={"text-[#ef4444] text-lg font-bold"}>
-                            <button onClick={handleDeletePost}></button>
-                            <TrashSimple size={32} color={"red"}/>Apagar Post
+                            <button onClick={handleDeletePost}><TrashSimple size={32} color={"red"}/>Apagar Post</button>
                         </li>
                     </ul>
                 </div>

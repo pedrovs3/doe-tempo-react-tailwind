@@ -15,6 +15,7 @@ export default function DetalhesCampanha() {
     const id = routeParams.id
     const [user, setUser ] = useState<object>();
     let decodeJWT;
+
     if (localStorage.getItem("token")) {
         decodeJWT = decodeJwt();
         const userId = decodeJWT.id;
@@ -65,6 +66,13 @@ export default function DetalhesCampanha() {
 
     console.log(data)
 
+    const currentDate = new Date();
+    const endDate = new Date(data?.end_date);
+    const isExpired = currentDate > endDate
+
+    console.log (currentDate)
+    console.log(endDate)
+
 return (
     <div>
         {loading ? (
@@ -91,15 +99,19 @@ return (
                 <div className={"flex pt-5"}>
                     <div>
                         {
-                            decodeJWT ? (
-                                decodeJWT.type === 'ONG' ? (
-                                    <button className="hidden"></button>
-                                ) : (
-                                    <label onClick={handleInscricao} htmlFor="my-modal"
-                                           className="btn gap-2 w-48 rounded-full bg-maya_blue border-0 text-neutral-900 hover:bg-turquoise-700">QUERO ME INSCREVER</label>
-                                )
+                            isExpired ? (
+                                <button className="btn btn-error no-animation text-neutral-50 text-lg ">CAMPANHA ENCERRADA</button>
+                            ) : (
+                                decodeJWT ? (
+                                    decodeJWT.type === 'ONG' ? (
+                                        <button className="hidden"></button>
+                                    ) : (
+                                        <label onClick={handleInscricao} htmlFor="my-modal"
+                                               className="btn gap-2 w-48 rounded-full bg-maya_blue border-0 text-neutral-900 hover:bg-turquoise-700">QUERO ME INSCREVER</label>
+                                    )
                                 ) : (<button className="hidden"></button>)
-                            }
+                            )
+                        }
                     </div>
                     <input type="checkbox" id="my-modal" class="modal-toggle" />
                     <div class="modal">
@@ -107,7 +119,7 @@ return (
                             <h3 class="font-bold text-lg">{campaign.message}</h3>
                             <p class="py-4">Obrigado por se inscrever! Seu cadastro foi {campaign.message}</p>
                             <div class="modal-action">
-                                <Link to={'/'}>
+                                <Link to={'/campanhas'}>
                                 <label for="my-modal" class="btn"> 👍 Entendido!</label>
                                 </Link>
                             </div>
@@ -118,6 +130,5 @@ return (
         )}
     </div>
 )
-
 }
 
