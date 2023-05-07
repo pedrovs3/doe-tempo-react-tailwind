@@ -158,21 +158,6 @@ export function FeedPosts(props : PostProps) {
                                     </div>
                                     <p className={"text-neutral-900"}>{item.content}</p>
                                 </div>
-                                <div className={"flex gap-5"}>
-                                    <button onClick={handleLike}>
-                                        <Heart
-                                            size={24}
-                                            weight={liked ? 'fill' : 'regular'}
-                                            color={liked ? 'red' : 'gray'}
-                                        />
-                                    </button>
-                                    <button onClick={() => handleCommentClick(props.id)}>
-                                        <Chat
-                                            size={24}
-                                            color={'gray'}
-                                        />
-                                    </button>
-                                </div>
                             </div>
 
                         ))}

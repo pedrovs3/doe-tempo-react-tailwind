@@ -64,7 +64,7 @@ export default function Perfil() {
             <HeaderPosts id={user?.user?.id || user?.id} photoURL={user?.user?.photo_url || user?.photo_url}/>
             </div>
             <img src={data?.banner_photo} alt="Header image" className="object-cover w-full h-64 md:h-96 lg:h-128" />
-            <img src={wave} className={'relative -mt-8 w-full'}/>
+            <img src={wave} className={'relative -mt-12 w-full'}/>
             <div className="flex flex-row">
                 <div className="w-full sm:w-1/3">
                     {
@@ -75,7 +75,6 @@ export default function Perfil() {
                         )
                     }
                 </div>
-                <div className="w-full">
                     {
                         id === userId ?
                         <NovoPost /> : (
@@ -107,16 +106,14 @@ export default function Perfil() {
                                                        images={item.post.post_photo}
                                                        comments={item.post.comment}
                                                     />
-
-
                                         )
                                     ))
+
                                 }
                             </div>
                             )
                     }
-
-                </div>
+                    <CardHistorico/>
             </div>
         </div>
     )
