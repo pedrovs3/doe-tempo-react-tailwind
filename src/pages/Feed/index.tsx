@@ -5,7 +5,8 @@ import {NewPost} from "../../components/NewPost";
 import {decodeJwt} from "../../utils/jwtDecode";
 import {api} from "../../lib/axios";
 import {FeedPosts} from "../../components/FeedPosts";
-import {Post} from "../../models/Post";
+import { ToastContainer, toast } from 'react-toastify';
+
 
 
 export default function Feed() {
@@ -68,39 +69,45 @@ export default function Feed() {
     console.log(AllPosts)
 
     return (
-                <div className={''}>
-                    <div className={'navbar bg-turquoise-500'}>
-                        <HeaderPosts id={user?.user?.id || user?.id} photoURL={user?.user?.photo_url || user?.photo_url}/>
-                    </div>
-                    <img className={'w-full'} src={WaveDown}/>
-                    <div className={'flex justify-center items-center pb-8 w-1/3 mx-auto'}>
-                        <NewPost typeUser={decodeJWT?.type} idUser={decodeJWT?.id}/>
-                    </div>
-                    <div className={'flex justify-center items-center flex-col gap-7'}>
+        <><ToastContainer/>
+            <div className={''}>
+                <div className={'navbar bg-turquoise-500'}>
+                    <HeaderPosts id={user?.user?.id || user?.id} photoURL={user?.user?.photo_url || user?.photo_url}/>
+                </div>
+                <img className={'w-full'} src={WaveDown}/>
+                <div className={'flex justify-center items-center pb-8 mx-auto'}>
+                    <NewPost typeUser={decodeJWT?.type} idUser={decodeJWT?.id}/>
+                </div>
+                <div className={'flex justify-center items-center flex-col gap-7'}>
                     {AllPosts.map((item) => (
                         item.post_ngo.length < 1 ?
                             (
                                 <FeedPosts id={item.id}
-                                                            idUser={item.post_user[0].user.id}
+                                           idUser={item.post_user[0].user.id}
                                            type={item.post_user[0].user.type.name}
-                                                            nameUser={item.post_user[0].user.name}
-                                                            photoUser={item.post_user[0].user.photo_url}
-                                                            content={item.content} created={item.created_at}
-                                                            images={item.post_photo}
-                                                            comments={item.comment}/>
+                                           nameUser={item.post_user[0].user.name}
+                                           photoUser={item.post_user[0].user.photo_url}
+                                           content={item.content} created={item.created_at}
+                                           images={item.post_photo}
+                                           comments={item.comment}
+                                           count_likes={item._count?.post_likes}
+                                           count_comments={item._count?.comment}/>
                             ) : (
                                 <FeedPosts id={item.id}
                                            type={item.post_ngo[0].ngo.type.name}
-                                           idUser={ item.post_ngo[0].ngo.id}
+                                           idUser={item.post_ngo[0].ngo.id}
                                            nameUser={item.post_ngo[0].ngo.name}
                                            photoUser={item.post_ngo[0].ngo.photo_url}
                                            content={item.content} created={item.created_at}
                                            images={item.post_photo}
-                                           comments={item.comment}/>
+                                           comments={item.comment}
+                                           count_likes={item._count?.post_likes}
+                                           count_comments={item._count?.comment}/>
                             )
                     ))}
-                    </div>
                 </div>
+            </div>
+        </>
     )
 }
 

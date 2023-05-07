@@ -66,36 +66,36 @@ export function NewPost(props : PostProps) {
 
     return (
         <form onSubmit={handleSubmitForm} className={"w-full flex justify-center"}>
-        <div className="w-full flex items-center bg-base-100 shadow-xl rounded-lg">
-            <div className="card-body">
-                <h2 className="card-title text-blueberry justify-center">Nova Publicação</h2>
-                <div className={'flex flex-row gap-5 justify-center'}>
-                    <textarea placeholder="Fale um pouco sobre sua última ação..."
-                              className="resize-none textarea textarea-bordered textarea-md w-full"
-                              value={contentState}
-                              onChange={it => setContentState(it.target.value)}
-                              required
-                    >
-                    </textarea>
-                <div className="card-actions justify-end">
-                    <button className="text-sm btn btn-square border-neutral-300 bg-neutral-100 hover:bg-neutral-300 hover:border-neutral-300">
-                        <Check size={32} className={''} color={'blue'} type='submit'/>
-                    </button>
-                </div>
-                </div>
-                <div className="card-actions">
+            <div className="w-full lg:w-3/4 xl:w-1/2 flex items-center bg-base-100 shadow-xl rounded-lg">
+                <div className="card-body w-full">
+                    <h2 className="card-title text-blueberry justify-center">Nova Publicação</h2>
+                    <div className={'flex flex-col lg:flex-row gap-5 justify-center'}>
+                <textarea placeholder="Fale um pouco sobre sua última ação..."
+                          className="resize-none textarea textarea-bordered textarea-md w-full lg:w-3/4"
+                          value={contentState}
+                          onChange={it => setContentState(it.target.value)}
+                          required
+                >
+                </textarea>
+                        <div className="card-actions justify-center lg:justify-end">
+                            <button className="text-sm btn btn-square border-neutral-300 bg-neutral-100 hover:bg-neutral-300 hover:border-neutral-300">
+                                <Check size={32} className={''} color={'blue'} type='submit'/>
+                            </button>
+                        </div>
+                    </div>
+                    <div className="card-actions">
                         <label className="text-sm btn btn-square border-neutral-300 bg-neutral-100 hover:bg-neutral-300 hover:border-neutral-300 flex items-center justify-center">
                             <Camera size={32} color={'gray'}/>
                             <input type="file" className="sr-only" onChange={handleImageChange} multiple />
                         </label>
-                            {/*<progress className="progress progress-info w-56" value={progress} max="100"></progress>*/}
-                    {images.map((image, index) => (
-                            <img key={index} src={image} alt="Imagem" className="w-[20rem] h-[13rem] object-cover rounded-lg grid grid-cols-2 gap-4 w-full" />
+                        {images.map((image, index) => (
+                            <img key={index} src={image} alt="Imagem" className="w-full lg:w-1/2 xl:w-1/3 h-[13rem] object-cover rounded-lg grid grid-cols-2 gap-4 mt-4" />
                         ))}
-                </div>
+                    </div>
                 </div>
             </div>
         </form>
+
     )
 }
 

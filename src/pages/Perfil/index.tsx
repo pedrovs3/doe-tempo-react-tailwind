@@ -2,22 +2,20 @@ import React, {useEffect, useState} from "react";
 import {HeaderPosts} from "../../components/HeaderPosts";
 import {decodeJwt} from "../../utils/jwtDecode";
 import {api} from "../../lib/axios";
-import header from "../../assets/img/header-profile.png";
 import wave from "../../assets/img/wave_white.svg";
 import {CardPerfil} from "../../components/CardPerfil";
 import {useParams} from "react-router-dom";
 import NovoPost from "../NovoPost";
-import Feed from "../Feed";
 import {FeedPosts} from "../../components/FeedPosts";
-
-
-
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Perfil() {
     const routeParams = useParams();
-    const [data, setData] = useState({})
+    const [data, setData] = useState({ post_user: [], post_ngo: [] });
     const id = routeParams.id
     const typeUser = routeParams.type
+
+    console.log(data)
 
     const decodeJWT = decodeJwt();
     const userType = decodeJWT.type;
@@ -67,7 +65,7 @@ export default function Perfil() {
             <img src={data?.banner_photo} alt="Header image" className="object-cover w-full h-64 md:h-96 lg:h-128" />
             <img src={wave} className={'relative -mt-8 w-full'}/>
             <div className="flex flex-row">
-                <div className="w-1/3 px-10">
+                <div className="w-full sm:w-1/3">
                     {
                         typeUser === 'USER' ? (
                             <CardPerfil id={data?.id} name={data?.name} photoURL={data?.photo_url} postal_code={data?.user_address?.address?.postal_code}  attached_link={data?.attached_link} description={data?.description}/>
@@ -76,48 +74,49 @@ export default function Perfil() {
                         )
                     }
                 </div>
-                <div className="w-1/3 justify-center items-center">
+                <div className="w-full">
                     {
                         id === userId ?
                         <NovoPost /> : (
-                            <div className={'flex justify-center items-center w-full'}>
-                                {/*{*/}
-                                {/*    data?.post_user ? (*/}
-                                {/*    data?.post_user.map((item) => (*/}
-                                {/*            <FeedPosts id={item.post.id}*/}
-                                {/*                       idUser={id}*/}
-                                {/*                       type={decodeJwt().type}*/}
-                                {/*                       nameUser={data?.name}*/}
-                                {/*                       photoUser={data?.photo_url}*/}
-                                {/*                       content={item.post.content}*/}
-                                {/*                       created={item.post.created_at}*/}
-                                {/*                       images={item.post.post_photo}*/}
-                                {/*                       comments={item.post.comment}/>*/}
+                            <div className={'flex flex-col gap-5'}>
+                                {
+                                    data?.post_user ? (
+                                    data?.post_user.map((item) => (
+                                            <FeedPosts id={item.post.id}
+                                                       idUser={id}
+                                                       type={decodeJwt().type}
+                                                       nameUser={data?.name}
+                                                       photoUser={data?.photo_url}
+                                                       content={item.post.content}
+                                                       created={item.post.created_at}
+                                                       images={item.post.post_photo}
+                                                       comments={item.post.comment}
+                                                       count_comments={item._count?.comments}
+                                                       count_likes={item._count?.post_likes}/>
 
-                                {/*))) : (*/}
-                                {/*        data?.post_ngo.map((item) => (*/}
-                                {/*            <FeedPosts id={item.post.id}*/}
-                                {/*                       idUser={id}*/}
-                                {/*                       type={decodeJwt().type}*/}
-                                {/*                       nameUser={data?.name}*/}
-                                {/*                       photoUser={data?.photo_url}*/}
-                                {/*                       content={item.post.content}*/}
-                                {/*                       created={item.post.created_at}*/}
-                                {/*                       images={item.post.post_photo}*/}
-                                {/*                       comments={item.post.comment}/>*/}
+                                ))) : (
+                                        data?.post_ngo.map((item) => (
+                                            <FeedPosts id={item.post.id}
+                                                       idUser={id}
+                                                       type={decodeJwt().type}
+                                                       nameUser={data?.name}
+                                                       photoUser={data?.photo_url}
+                                                       content={item.post.content}
+                                                       created={item.post.created_at}
+                                                       images={item.post.post_photo}
+                                                       comments={item.post.comment}
+                                                    />
 
-                                {/*        )*/}
-                                {/*    ))*/}
-                                {/*}*/}
+
+                                        )
+                                    ))
+                                }
                             </div>
                             )
-                            // <FeedPorUsuario id={id}}></FeedPorUsuario>
                     }
 
                 </div>
             </div>
-
-
         </div>
     )
 }

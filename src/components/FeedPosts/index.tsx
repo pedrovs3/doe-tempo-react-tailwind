@@ -1,9 +1,13 @@
 import { format } from 'date-fns'
 import { pt } from 'date-fns/locale'
 import React, {FormEvent, useState} from "react";
-import {Chat, Heart, PaperPlaneRight} from "phosphor-react";
+import {Chat, Gear, Heart, PaperPlaneRight, TrashSimple} from "phosphor-react";
 import {Link} from "react-router-dom";
 import {api} from "../../lib/axios";
+import {decodeJwt} from "../../utils/jwtDecode";
+import { toast } from 'react-toastify';
+
+
 
 interface PostProps {
     id : string,
@@ -12,9 +16,11 @@ interface PostProps {
     nameUser: string,
     content : string,
     created : string,
-    images: []
-    comments: []
-    type: string
+    images: [],
+    comments: [],
+    type: string,
+    count_likes: string,
+    count_comments: string
 }
 
 
@@ -25,17 +31,31 @@ export function FeedPosts(props : PostProps) {
     const photoUrls = props.images.map((photo) => photo.photo_url);
     const showNavigation = photoUrls.length > 1;
     const [comentario, setComentario] = useState('');
+    const decodeJWT = decodeJwt();
+    const isCurrentUserOwner = decodeJWT.id === props.idUser;
 
-    console.log(props.comments)
+
+    const handleDeletePost = async () => {
+        try {
+            const response = await api.delete(`/post/${props.id}`);
+            toast.success('Post excluído com sucesso!');
+        } catch (error) {
+            console.error(error);
+            toast.error('Houve um erro ao excluir o post!');
+        }
+    };
+
 
     function handleLike() {
+        const url = `/post/${props.id}/like`
+        const like = api.post(`${url}`)
         setLiked(!liked)
 
     }
 
 
     const handleCommentClick = (postId) => {
-        setShowCommentInput(prevState => ({ ...prevState, [postId]: true }));
+        setShowCommentInput(prevState => ({ ...prevState, [props.id]: !prevState[props.id] }));
     }
 
     const handleSubmitForm = async () => {
@@ -52,9 +72,20 @@ export function FeedPosts(props : PostProps) {
 
     }
 
-
     return (
-        <div className="bg-base-100 shadow-xl w-1/3 text-primary-content rounded-lg">
+        <div className="bg-base-100 shadow-xl w-full md:w-1/2 lg:w-1/3 text-primary-content rounded-lg relative">
+            {isCurrentUserOwner && (
+                <div className="dropdown absolute top-0 right-0 p-2">
+                    <label tabIndex={0} className="btn-unstyled m-1 text-neutral-800 text-4xl">...</label>
+                    <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                        <li className={"text-[#ef4444] text-lg font-bold"}>
+                            <button onClick={handleDeletePost}></button>
+                            <TrashSimple size={32} color={"red"}/>Apagar Post
+                        </li>
+                    </ul>
+                </div>
+
+            )}
             <div className="card-body gap-5">
                 <div className={"gap-5 flex flex-row"}>
                     <div className={"avatar"}>
@@ -85,7 +116,8 @@ export function FeedPosts(props : PostProps) {
                         ))}
                     </div>
                 </div>
-                <div className={"flex gap-5"}>
+                <div className={"flex gap-2"}>
+                    <h2 className={"text-xl font-bold text-neutral-500"}>{props.count_likes}</h2>
                     <button onClick={handleLike}>
                         <Heart
                             size={32}
@@ -93,6 +125,7 @@ export function FeedPosts(props : PostProps) {
                             color={liked ? 'red' : 'gray'}
                         />
                     </button>
+                    <h2 className={"text-xl font-bold text-neutral-500"}>{props.count_comments}</h2>
                     <button onClick={() => handleCommentClick(props.id)}>
                         <Chat
                             size={32}
@@ -154,4 +187,5 @@ export function FeedPosts(props : PostProps) {
             </div>
         </div>
     );
+
 }

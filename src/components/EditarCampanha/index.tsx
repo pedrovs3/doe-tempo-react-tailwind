@@ -1,7 +1,6 @@
 import {CalendarBlank, CaretDown, Clock, HouseSimple, Plus} from "phosphor-react";
 import React, {FormEvent, useEffect, useState} from "react";
 import {getDownloadURL, ref, uploadBytesResumable} from "firebase/storage";
-import {storage} from "../../firebase";
 import {api} from "../../lib/axios";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
