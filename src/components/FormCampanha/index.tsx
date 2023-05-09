@@ -5,24 +5,16 @@ import {storage} from "../../firebase";
 import {api} from "../../lib/axios";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
-import Loading from "../Loading";
-import {Navigate, NavLink, useNavigate} from "react-router-dom";
 import {apiCep} from "../../api/consulta_cep";
 
 interface AddressProps {
     idOng : string,
     cep : number,
     logradouro : string,
-    numero: number,
+    numero: string,
     localidade? : string,
     uf?: string,
     complemento?: string
-}
-
-interface itemProps {
-    id: string,
-    title: string
-
 }
 
 
@@ -39,13 +31,13 @@ export function CampanhaForm(props : AddressProps) {
         const [beginDateState, setStateDateBegin] = useState('')
         const [endDateState, setStateDateEnd] = useState('')
         const [selectedOption, setSelectedOption] = useState([]);
-
         const [cepState, setCepState] = useState('');
         const [logradouroState, setLogradouroState] = useState(props.logradouro);
         const [numeroState, setNumeroState] = useState(props.numero);
         const [complementoState, setComplementoState] = useState(props.complemento);
         const [localidadeState, setLocalidadeState] = useState(props.localidade);
         const [UfState, setUfState] = useState(props.uf);
+
 
         const checkCEP = async (e: any) => {
         setCepState(e.target.value.replace(/\D/g, ''))
@@ -81,13 +73,12 @@ export function CampanhaForm(props : AddressProps) {
     }
 
 
+    function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+        const files = Array.from(event.target.files);
+        console.log(files);
 
-    function handleChange(event) {
-            const files = Array.from(event.target.files);
-        console.log(files)
-
-            if (!files) return
-        files.forEach((file) => {
+        if (!files) return;
+        files.forEach((file: File) => {
             const storageRef = ref(storage, `images/${file.name}`);
             const uploadTask = uploadBytesResumable(storageRef, file);
 
@@ -97,16 +88,15 @@ export function CampanhaForm(props : AddressProps) {
             });
 
             uploadTask.then(() => {
-                getDownloadURL(storageRef).then((url) => {
-                    setImgURL((prevImages) => [...prevImages, url]);
-                     });
+                getDownloadURL(storageRef).then((url: string) => {
+                    setImgURL((prevImages: string[]) => [...prevImages, url]);
                 });
             });
-        }
+        });
+    }
 
         const handleFileSelect = (event) => {
             const files = event.target.files;
-            console.log(files);
         }
 
 

@@ -2,7 +2,6 @@ import {Clock, GlobeHemisphereEast, Heart, HeartStraight, MagnifyingGlass, MapPi
 import avatar from '../../assets/img/avatar-ong.png'
 
 interface CampaignProps {
-    id: string,
     title: string,
     description: string,
     how_to_contribute: string,

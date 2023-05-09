@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import {Article, House, Megaphone} from "phosphor-react";
 import {Link, useNavigate} from "react-router-dom";
 import {decodeJwt} from "../../utils/jwtDecode";

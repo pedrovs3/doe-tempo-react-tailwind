@@ -7,14 +7,116 @@ import {getDownloadURL, ref, uploadBytesResumable} from 'firebase/storage';
 import {storage} from "../../firebase";
 import {format} from "date-fns";
 import {toast} from "react-toastify";
+interface Data {
+    user: User;
+}
+
+interface User {
+    id:                  string;
+    name:                string;
+    email:               string;
+    password:            string;
+    cpf:                 string;
+    id_gender:           string;
+    birthdate:           Date;
+    rg:                  null;
+    id_type:             string;
+    description:         null;
+    banner_photo:        string;
+    attached_link:       null;
+    photo_url:           string;
+    created_at:          Date;
+    user_address:        UserAddress;
+    gender:              Gender;
+    user_phone:          null;
+    supported_campaigns: SupportedCampaign[];
+    post_user:           PostUser[];
+    _count:              UserCount;
+}
+
+interface UserCount {
+    supported_campaigns: number;
+    following:           number;
+}
+
+interface Gender {
+    name:         string;
+    abbreviation: string;
+}
+
+interface PostUser {
+    post: Post;
+}
+
+interface Post {
+    id:         string;
+    content:    string;
+    post_likes: PostLike[];
+    created_at: Date;
+    post_photo: PostPhoto[];
+    comment:    Comment[];
+    _count:     PostCount;
+}
+
+interface PostCount {
+    comment:    string;
+    post_ngo:   number;
+    post_photo: number;
+    post_user:  number;
+    post_likes: number;
+}
+
+interface Comment {
+    id:         string;
+    content:    string;
+    created_at: Date;
+    id_post:    string;
+}
+
+interface PostLike {
+    id:      string;
+    id_user: string;
+    id_ngo:  null;
+    id_post: string;
+}
+
+interface PostPhoto {
+    id:        string;
+    id_post:   string;
+    photo_url: string;
+}
+
+interface SupportedCampaign {
+    campaign: Campaign;
+}
+
+interface Campaign {
+    id:    string;
+    title: string;
+}
+
+interface UserAddress {
+    id:         string;
+    id_address: string;
+    id_user:    string;
+    address:    Address;
+}
+
+interface Address {
+    id:          string;
+    postal_code: string;
+    number:      string;
+    complement:  null;
+}
+
 export function FormEditarPerfil(){
     const navigate = useNavigate();
     const routeParams = useParams();
-    const [data, setData] = useState({})
     const id = routeParams.id
     const decodeJWT = decodeJwt();
     const userType = decodeJWT.type;
     const userId = decodeJWT.id;
+    const [data, setData] = useState<User | null>(null);
     const [user, setUser ] = useState<object>();
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
@@ -31,8 +133,8 @@ export function FormEditarPerfil(){
     const [complement, setComplement] = useState('')
     const [gender, setGender] = useState('')
     const [editSuccess, setEditSuccess] = useState(false);
-    const [imgURL, setImgURL] = useState([])
-    const [IconURL, setIconURL] = useState([])
+    const [imgURL, setImgURL] = useState<string[]>([]);
+    const [iconURL, setIconURL] = useState<string[]>([]);
 
     useEffect(() => {
         if(data?.name) {
@@ -99,7 +201,7 @@ export function FormEditarPerfil(){
                 gender: gender,
                 rg: rg,
                 banner_photo: imgURL[0],
-                photo_url: IconURL[0],
+                photo_url: iconURL[0],
                 attached_link: attached,
             })
 
@@ -118,11 +220,11 @@ export function FormEditarPerfil(){
         }
     }, [editSuccess]);
 
-    function handleChange(event) {
+    function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
         const files = Array.from(event.target.files);
-        console.log(files)
 
-        if (!files) return
+        if (!files) return;
+
         files.forEach((file) => {
             const storageRef = ref(storage, `images/${file.name}`);
             const uploadTask = uploadBytesResumable(storageRef, file);
@@ -139,11 +241,11 @@ export function FormEditarPerfil(){
         });
     }
 
-    function handleChangeIcon(event) {
+    function handleChangeIcon(event: React.ChangeEvent<HTMLInputElement>) {
         const files = Array.from(event.target.files);
 
+        if (!files) return;
 
-        if (!files) return
         files.forEach((file) => {
             const storageRef = ref(storage, `images/${file.name}`);
             const uploadTask = uploadBytesResumable(storageRef, file);
@@ -159,6 +261,7 @@ export function FormEditarPerfil(){
             });
         });
     }
+
 
     function handlePasswordChange(event) {
         setPassword(event.target.value);
@@ -202,7 +305,7 @@ export function FormEditarPerfil(){
                 </label>
             </div>
             <div className="relative rounded w-24 h-24 bg-gray-200">
-                <img className="w-24 max-w-24 rounded-xl ring ring-blueberry ring-offset-2 -mt-10" src={IconURL[0] || data?.photo_url} alt={""} />
+                <img className="w-24 max-w-24 rounded-xl ring ring-blueberry ring-offset-2 -mt-10" src={iconURL[0] || data?.photo_url} alt={""} />
                     <label htmlFor="uploadIcon"
                            className="absolute inset-0 flex flex-col items-center justify-center cursor-pointer">
                         <span className="bg-blueberry rounded-xl"><Plus size={32} color={"white"} /></span>

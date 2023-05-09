@@ -1,16 +1,26 @@
-import {Link, NavLink} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 import { useForm } from "react-hook-form";
 import {apiCep} from "../../api/consulta_cep";
 import {FormEvent, useEffect, useState} from "react";
 import {api} from "../../lib/axios";
-import {formToJSON} from "axios";
-import getFieldValue from "react-hook-form/dist/logic/getFieldValue";
 import {Gender} from "../../models/Gender";
 
+interface Cep {
+	cep:         string;
+	logradouro:  string;
+	complemento: string;
+	bairro:      string;
+	localidade:  string;
+	uf:          string;
+	ibge:        string;
+	gia:         string;
+	ddd:         string;
+	siafi:       string;
+}
 
 export const Form = () => {
 
-	const {register, handleSubmit, setValue, setFocus} = useForm();
+	const {register, setValue} = useForm();
 
 	const [filled, setFilled] = useState(false);
 	const [cepState, setCepState] = useState('');
@@ -28,30 +38,20 @@ export const Form = () => {
 
 	useEffect(() => {
 		const fetchData = async () => {
-			// get the data from the api
 			const data = await api.get('/gender');
-			// convert the data to json
-
-			// set state with the result
 			setGender(data.data.genders);
 		}
 
-
 		fetchData().catch(console.error);
 
-
-		console.log(gender)
 	},[])
 
-	const checkCEP = async (e: Event) => {
-		// @ts-ignore
+	const checkCEP = async (e: React.ChangeEvent<HTMLInputElement>) => {
 		setCepState(e?.target.value.replace(/\D/g, ''))
 
 		if(cepState.length === 7) {
-			console.log(cepState)
 			const cep = e.target.value;
-
-			const { data } = await apiCep.get(`/${cep}/json/`)
+			const { data } = await apiCep.get<Cep>(`/${cep}/json/`)
 
 			setValue('address', data.logradouro);
 			setValue('neighborhood', data.bairro);

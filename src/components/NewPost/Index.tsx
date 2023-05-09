@@ -1,10 +1,9 @@
-import React, {FormEvent, useEffect, useState} from "react";
+import React, {FormEvent, useState} from "react";
 import {Camera, Check} from "phosphor-react";
 import {api} from "../../lib/axios";
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { initializeApp } from "firebase/app";
 import {storage} from "../../firebase";
-import {data} from "autoprefixer";
+
 interface PostProps {
     typeUser: string,
     idUser: string
@@ -17,10 +16,9 @@ export function NewPost(props : PostProps) {
     const [images, setImages] = useState([]);
     const [progress, setProgress] = useState(0);
 
-    const handleImageChange = (e) => {
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = Array.from(e.target.files);
-        console.log(files)
-        const urls = []; // novo array para armazenar os URLs das imagens
+        const urls: string[] = []; // novo array para armazenar os URLs das imagens
         files.forEach((file) => {
             const storageRef = ref(storage, `images/${file.name}`);
             const uploadTask = uploadBytesResumable(storageRef, file);
@@ -37,8 +35,6 @@ export function NewPost(props : PostProps) {
             });
         });
     };
-
-    console.log(images)
 
     const handleSubmitForm = async (e: FormEvent) => {
         e.preventDefault()

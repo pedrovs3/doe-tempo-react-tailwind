@@ -1,6 +1,4 @@
-import Line from "../../assets/img/linha.png";
-import {NavLink, useNavigate} from "react-router-dom";
-import Google from "../../assets/img/google.png";
+import {useNavigate} from "react-router-dom";
 import {FormEvent, useEffect, useState} from "react";
 import {api} from "../../lib/axios";
 

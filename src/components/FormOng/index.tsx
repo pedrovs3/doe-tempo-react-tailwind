@@ -1,13 +1,13 @@
-import {Link, NavLink} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 import { useForm } from "react-hook-form";
 import {apiCep} from "../../api/consulta_cep";
-import {FormEvent, useEffect, useState} from "react";
+import {FormEvent, useState} from "react";
 import {api} from "../../lib/axios";
 
 
 export const Form = () => {
 
-    const {register, handleSubmit, setValue, setFocus} = useForm();
+    const {register, setValue} = useForm();
 
     const [filled, setFilled] = useState(false);
     const [cepState, setCepState] = useState('');

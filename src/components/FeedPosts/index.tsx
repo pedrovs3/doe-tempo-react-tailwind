@@ -1,13 +1,25 @@
 import { format } from 'date-fns'
 import { pt } from 'date-fns/locale'
-import React, {FormEvent, useState} from "react";
-import {Chat, Gear, Heart, PaperPlaneRight, TrashSimple} from "phosphor-react";
+import React, {useState} from "react";
+import {Chat, Heart, PaperPlaneRight, TrashSimple} from "phosphor-react";
 import {Link} from "react-router-dom";
 import {api} from "../../lib/axios";
 import {decodeJwt} from "../../utils/jwtDecode";
 import { toast } from 'react-toastify';
 
+interface DecodedJwt {
+    id:    string;
+    email: string;
+    type:  string;
+    iat:   number;
+    exp:   number;
+}
 
+
+interface Image {
+    photo_url: string;
+    id: string;
+}
 
 interface PostProps {
     id : string,
@@ -16,14 +28,12 @@ interface PostProps {
     nameUser: string,
     content : string,
     created : string,
-    images: [],
+    images: Image[],
     comments: [],
     type: string,
     count_likes: string,
     count_comments: string
 }
-
-
 export function FeedPosts(props : PostProps) {
     const [showCommentInput, setShowCommentInput] = useState({});
     const dataFormatada = format(new Date(props.created), "d 'de' MMMM 'às' HH:mm", { locale: pt });
@@ -31,9 +41,10 @@ export function FeedPosts(props : PostProps) {
     const photoUrls = props.images.map((photo) => photo.photo_url);
     const showNavigation = photoUrls.length > 1;
     const [comentario, setComentario] = useState('');
-    const decodeJWT = decodeJwt();
+    const decodedJwt: DecodedJwt | null = decodeJwt();
     const isCurrentUserOwner = decodeJWT.id === props.idUser;
 
+    console.log(props.images)
 
     const handleDeletePost = async () => {
         try {

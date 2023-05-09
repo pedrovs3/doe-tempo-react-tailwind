@@ -1,7 +1,6 @@
-import avatar from "../../assets/img/avatar-ong.png";
 import React, {useEffect, useState} from "react";
 import {api} from "../../lib/axios";
-import {BrowserRouter as Router, Route, NavLink, useNavigate, Link} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 
 interface CardProps {
     id: string,

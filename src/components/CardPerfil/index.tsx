@@ -5,6 +5,15 @@ import {apiCep} from "../../api/consulta_cep";
 import {decodeJwt} from "../../utils/jwtDecode";
 import {useNavigate} from "react-router-dom";
 
+interface DecodedJwt {
+    id:    string;
+    email: string;
+    type:  string;
+    iat:   number;
+    exp:   number;
+}
+
+
 interface UserProps {
     id : string,
     name: string,
@@ -14,11 +23,24 @@ interface UserProps {
     description: string,
 }
 
-export function CardPerfil(props : UserProps) {
+interface Cep {
+    cep:         string;
+    logradouro:  string;
+    complemento: string;
+    bairro:      string;
+    localidade:  string;
+    uf:          string;
+    ibge:        string;
+    gia:         string;
+    ddd:         string;
+    siafi:       string;
+}
+
+export function CardPerfil(props : UserProps & Cep) {
     const [data, setData] = useState([])
-    const [cep, setCep] = useState('');
-    const decodedJwt = decodeJwt()
-    const userId = decodedJwt.id
+    const [cep, setCep] = useState<Cep | null>(null);
+    const decodedJwt: DecodedJwt | null = decodeJwt();
+    const userId = decodedJwt && decodedJwt.id;
     const navigate = useNavigate();
 
     function editarPerfil() {
@@ -41,7 +63,7 @@ export function CardPerfil(props : UserProps) {
     const link = props.attached_link;
     const maxLength = 20;
 
-    function limitLinkSize(link, maxLength) {
+    function limitLinkSize(link: string, maxLength: number): string {
         if (!link) {
             return '';
         }
@@ -53,7 +75,6 @@ export function CardPerfil(props : UserProps) {
         }
     }
 
-    console.log(limitLinkSize(link, maxLength));
 
     useEffect(() => {
 
@@ -66,6 +87,7 @@ export function CardPerfil(props : UserProps) {
         fetchAPI().catch(console.error)
     }, [props.postal_code])
 
+    console.log(cep)
 
 
     return (

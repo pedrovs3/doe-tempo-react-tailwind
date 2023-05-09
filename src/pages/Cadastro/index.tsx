@@ -1,5 +1,5 @@
-import {Header} from "../../components/Header";
-import {Form} from "../../components/Form";
+import {Header} from "../../components/Header/Index";
+import {Form} from "../../components/Form/Index";
 
 export default function Cadastro() {
     return (

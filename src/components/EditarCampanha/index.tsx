@@ -1,11 +1,25 @@
-import {CalendarBlank, CaretDown, Clock, HouseSimple, Plus} from "phosphor-react";
+import {CalendarBlank, HouseSimple} from "phosphor-react";
 import React, {FormEvent, useEffect, useState} from "react";
 import {getDownloadURL, ref, uploadBytesResumable} from "firebase/storage";
+import { storage } from "../../firebase.js";
 import {api} from "../../lib/axios";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import {format} from "date-fns";
 import {apiCep} from "../../api/consulta_cep";
+
+interface Cep {
+    cep:         string;
+    logradouro:  string;
+    complemento: string;
+    bairro:      string;
+    localidade:  string;
+    uf:          string;
+    ibge:        string;
+    gia:         string;
+    ddd:         string;
+    siafi:       string;
+}
 
 interface AddressProps {
     idOng : string,
@@ -43,8 +57,8 @@ export function EditCampanhaForm(props : AddressProps & CampaignProps) {
     const [endDateState, setStateDateEnd] = useState('')
     const [selectedOption, setSelectedOption] = useState([]);
     const [value, setValue] = useState(false);
-    const [cep, setCep] = useState(props.cep);
-    console.log(cep)
+    const [cep, setCep] = useState<Cep | null>(null);
+
 
 
     useEffect(() => {
@@ -58,18 +72,18 @@ export function EditCampanhaForm(props : AddressProps & CampaignProps) {
             setValue(props.home_office)
             setStateContribute(props. contribute)
             setStatePrerequisites(props. prerequisites)
-            setCep(props.cep)
+            setCep(cep)
 
         }
     }, [props.title]);
 
 
-    function handleChange(event) {
+    function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
         const files = Array.from(event.target.files);
-        console.log(files)
+        console.log(files);
 
-        if (!files) return
-        files.forEach((file) => {
+        if (!files) return;
+        files.forEach((file: File) => {
             const storageRef = ref(storage, `images/${file.name}`);
             const uploadTask = uploadBytesResumable(storageRef, file);
 
@@ -79,12 +93,13 @@ export function EditCampanhaForm(props : AddressProps & CampaignProps) {
             });
 
             uploadTask.then(() => {
-                getDownloadURL(storageRef).then((url) => {
-                    setImgURL((prevImages) => [...prevImages, url]);
+                getDownloadURL(storageRef).then((url: string) => {
+                    setImgURL((prevImages: string[]) => [...prevImages, url]);
                 });
             });
         });
     }
+
 
 
     const handleFileSelect = (event) => {

@@ -1,10 +1,20 @@
-import {CalendarCheck, Clock, GlobeHemisphereEast, Heart, HeartStraight, MapPin, ShareNetwork} from "phosphor-react";
+import {CalendarCheck, GlobeHemisphereEast, MapPin} from "phosphor-react";
 import { format } from "date-fns";
-import {CardsCampanha} from "../CardsCampanha";
 import React, {useEffect, useState} from "react";
-import {api} from "../../lib/axios";
 import {apiCep} from "../../api/consulta_cep";
 
+interface Cep {
+    cep:         string;
+    logradouro:  string;
+    complemento: string;
+    bairro:      string;
+    localidade:  string;
+    uf:          string;
+    ibge:        string;
+    gia:         string;
+    ddd:         string;
+    siafi:       string;
+}
 
 
 interface CampaignProps {
@@ -13,14 +23,14 @@ interface CampaignProps {
     begin_date: string,
     end_date: string,
     home_office: boolean,
-    postal_code: number,
-    number: number,
+    postal_code: string,
+    number: string,
     complement: string,
 }
 
 
 export function DetalhesBodyDois(props : CampaignProps) {
-    const [cep, setCep] = useState('');
+    const [cep, setCep] = useState<Cep | null>(null);
     const titulos = props.causes.map((causa) => (causa.causes.title));
 
 

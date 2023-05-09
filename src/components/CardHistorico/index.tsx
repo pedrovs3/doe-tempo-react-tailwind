@@ -1,12 +1,7 @@
 import avatar from "../../assets/img/pedro-avatar.jpeg";
 import {
     ClockCounterClockwise,
-    FacebookLogo,
     Info,
-    InstagramLogo,
-    PencilSimple,
-    TwitterLogo,
-    UserPlus
 } from "phosphor-react";
 import React from "react";
 
