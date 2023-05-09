@@ -15,14 +15,12 @@ export default function Perfil() {
     const [data, setData] = useState({ post_user: [], post_ngo: [] });
     const id = routeParams.id
     const typeUser = routeParams.type
-
-    console.log(data)
-
     const decodeJWT = decodeJwt();
     const userType = decodeJWT.type;
     const userId = decodeJWT.id;
     const [user, setUser ] = useState<object>();
 
+    console.log(userId)
     useEffect(() => {
         const fetchData = async () => {
             let endpoint = "";
@@ -57,6 +55,8 @@ export default function Perfil() {
         fetchData().catch(console.error);
 
     }, [id])
+
+    console.log(user)
 
     return (
         <div className={'bg-little-white'}>

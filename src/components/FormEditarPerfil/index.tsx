@@ -85,7 +85,7 @@ export function FormEditarPerfil(){
         e.preventDefault();
 
         try {
-            const {data} = await api.post(`/user/${id}`, {
+            const {data} = await api.put(`/user/${id}`, {
                 name: name,
                 email: email,
                 password: password,
@@ -114,7 +114,7 @@ export function FormEditarPerfil(){
 
     useEffect(() => {
         if (editSuccess) {
-            navigate("/perfil/:id");
+            navigate(`/perfil/${id}`);
         }
     }, [editSuccess]);
 
@@ -194,7 +194,7 @@ export function FormEditarPerfil(){
     return (
         <form name={"edit"} className={''} onSubmit={handleSubmitForm}>
             <div className="relative w-full sm:w-[28rem] bg-gray-200">
-                <img className="rounded-xl max-w-[28rem] max-h-[28rem]" src={imgURL[0] || data?.banner_photo} alt={""} />
+                <img className="rounded-xl h-[200px] w-full" src={imgURL[0] || data?.banner_photo} alt={""} />
                 <label htmlFor="uploadHeader"
                        className="absolute inset-0 flex flex-col items-center justify-center cursor-pointer">
                     <span className="bg-blueberry rounded-xl"><Plus size={32} color={"white"} /></span>
