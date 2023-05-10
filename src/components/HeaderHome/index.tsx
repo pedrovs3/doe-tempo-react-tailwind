@@ -45,13 +45,13 @@ export function Header() {
                         <div className="menu flex-none">
                             <ul className="menu-horizontal px-1 ">
                                 <Link to="/sobre">
-                                    <li><a className={'hover:text-blueberry'}>Sobre nós</a></li>
+                                    <li><a className={'hover:text-blueberry active:bg-transparent hover:rounded-2xl'}>Sobre nós</a></li>
                                 </Link>
                                 <Link to="/feed">
-                                    <li><a className={'hover:text-blueberry'}>Feed</a></li>
+                                    <li><a className={'hover:text-blueberry active:bg-transparent hover:rounded-2xl'}>Feed</a></li>
                                 </Link>
                                 <Link to="/ongs">
-                                    <li><a className={'hover:text-blueberry'}>Ong's</a></li>
+                                    <li><a className={'hover:text-blueberry active:bg-transparent hover:rounded-2xl'}>Ong's</a></li>
                                 </Link>
                                 <Link to="/login">
                                     <li><a className={'rounded-full px-8 pr-16 bg-turquoise-700 hover:bg-blueberry'}>Entrar</a></li>

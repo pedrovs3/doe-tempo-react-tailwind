@@ -1,5 +1,4 @@
 import {CaretLeft} from "phosphor-react";
-import avatar from "../../assets/img/avatar-ong.png"
 
 export function Header() {
     return (
@@ -8,13 +7,6 @@ export function Header() {
                 <CaretLeft size={32} />
                 Voltar
             </button>
-
-            <div className="avatar bg-inherit">
-                <div className="w-12 rounded-xl ring ring-primary ring-tufts-blue ring-offset-2">
-                    <img src={avatar}/>
-                </div>
-            </div>
-
         </div>
 
     )
