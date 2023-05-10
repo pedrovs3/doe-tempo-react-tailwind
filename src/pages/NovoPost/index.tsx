@@ -1,12 +1,18 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import {decodeJwt} from "../../utils/jwtDecode";
-import {api} from "../../lib/axios";
-import Loading from "../../components/Loading";
 import {NewPost} from "../../components/NewPost";
+
+interface Jwt {
+    id:    string;
+    email: string;
+    type:  string;
+    iat:   number;
+    exp:   number;
+}
 
 export default function NovoPost() {
     const decodeJWT = decodeJwt();
-    console.log(decodeJWT)
+    const jwt = decodeJWT as Jwt;
 
-    return (<NewPost typeUser={decodeJWT?.type} idUser={decodeJWT?.id}/>)
+    return (<NewPost typeUser={jwt.type} idUser={jwt.id}/>)
 }

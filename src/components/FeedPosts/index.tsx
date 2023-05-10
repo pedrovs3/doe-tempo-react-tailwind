@@ -7,12 +7,37 @@ import {api} from "../../lib/axios";
 import {decodeJwt} from "../../utils/jwtDecode";
 import { toast } from 'react-toastify';
 
-interface DecodedJwt {
-    id:    string;
-    email: string;
-    type:  string;
-    iat:   number;
-    exp:   number;
+export interface Comentario {
+    id:            string;
+    content:       string;
+    created_at:    string;
+    comment_likes: any[];
+    comment_user:  CommentUser[];
+    comment_ngo:   any[];
+    _count:        Count;
+}
+
+export interface Count {
+    comment_ngo:   number;
+    comment_user:  number;
+    comment_likes: number;
+}
+
+export interface CommentUser {
+    user: User;
+}
+
+export interface User {
+    id:        string;
+    name:      string;
+    email:     string;
+    type:      Type;
+    photo_url: string;
+}
+
+export interface Type {
+    id:   string;
+    name: string;
 }
 
 
@@ -29,11 +54,21 @@ interface PostProps {
     content : string,
     created : string,
     images: Image[],
-    comments: [],
+    comments: Comentario[],
     type: string,
-    count_likes: string,
-    count_comments: string
+    count_likes: number,
+    count_comments: number
 }
+
+interface Jwt {
+    id:    string;
+    email: string;
+    type:  string;
+    iat:   number;
+    exp:   number;
+}
+
+
 export function FeedPosts(props : PostProps) {
     const [showCommentInput, setShowCommentInput] = useState({});
     const dataFormatada = format(new Date(props.created), "d 'de' MMMM 'às' HH:mm", { locale: pt });
@@ -41,8 +76,9 @@ export function FeedPosts(props : PostProps) {
     const photoUrls = props.images.map((photo) => photo.photo_url);
     const showNavigation = photoUrls.length > 1;
     const [comentario, setComentario] = useState('');
-    const decodedJwt: DecodedJwt | null = decodeJwt();
-    const isCurrentUserOwner = decodeJWT.id === props.idUser;
+    const decodeJWT = decodeJwt();
+    const jwt = decodeJWT as Jwt;
+    const isCurrentUserOwner = jwt.id === props.idUser;
 
     console.log(props.images)
 

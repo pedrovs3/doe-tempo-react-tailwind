@@ -7,8 +7,19 @@ interface UserProps {
     photoURL : string,
 }
 
+interface Jwt {
+    id:    string;
+    email: string;
+    type:  string;
+    iat:   number;
+    exp:   number;
+}
+
+
 export function HeaderPosts(props : UserProps) {
     const navigate = useNavigate()
+    const decodeJWT = decodeJwt();
+    const jwt = decodeJWT as Jwt;
 
     const handleLogout = () => {
         localStorage.removeItem('token');
@@ -68,7 +79,7 @@ export function HeaderPosts(props : UserProps) {
                             </div>
                         </label>
                         <ul tabIndex={0} className="bg- mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52">
-                            <Link to={`/perfil/${decodeJwt().type}/${props.id}`} >
+                            <Link to={`/perfil/${jwt.type}/${props.id}`} >
                             <li><a className={"active:bg-turquoise-500"}>Perfil</a></li>
                             </Link>
                             <li><a className={"active:bg-turquoise-500"}>Configurações</a></li>

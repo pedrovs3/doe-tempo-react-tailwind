@@ -3,9 +3,18 @@ import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import {api} from "../../lib/axios";
 
+export interface Counts {
+    users:     number;
+    ngos:      number;
+    campaigns: number;
+    error:     boolean;
+}
+
+
 export function HomeWelcome() {
 
-    const [data, setData] = useState({})
+    const [data, setData] = useState<Counts>({ users: 0, ngos: 0, campaigns: 0, error: false });
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -13,6 +22,7 @@ export function HomeWelcome() {
             setData(data.counts)
         }
 
+        console.log(data)
 
         fetchData().catch(console.error);
 

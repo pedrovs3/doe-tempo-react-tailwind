@@ -5,20 +5,104 @@ import {NewPost} from "../../components/NewPost";
 import {decodeJwt} from "../../utils/jwtDecode";
 import {api} from "../../lib/axios";
 import {FeedPosts} from "../../components/FeedPosts";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 
+export interface AllPosts {
+    id:         string;
+    content:    string;
+    created_at: string;
+    post_ngo:   any[];
+    post_user:  PostUser[];
+    post_photo: PostPhoto[];
+    comment:    Comment[];
+    _count:     WelcomeCount;
+}
 
+export interface WelcomeCount {
+    comment:    number;
+    post_ngo:   number;
+    post_photo: number;
+    post_user:  number;
+    post_likes: number;
+}
+
+export interface Comment {
+    id:            string;
+    content:       string;
+    created_at:    string;
+    comment_likes: any[];
+    comment_user:  CommentUser[];
+    comment_ngo:   any[];
+    _count:        CommentCount;
+}
+
+export interface CommentCount {
+    comment_ngo:   number;
+    comment_user:  number;
+    comment_likes: number;
+}
+
+export interface CommentUser {
+    user: CommentUserUser;
+}
+
+export interface CommentUserUser {
+    id:        string;
+    name:      string;
+    email:     string;
+    type:      PurpleType;
+    photo_url: string;
+}
+
+export interface PurpleType {
+    id:   string;
+    name: string;
+}
+
+export interface PostPhoto {
+    photo_url: string;
+    id:        string;
+}
+
+export interface PostUser {
+    user: PostUserUser;
+}
+
+export interface PostUserUser {
+    id:        string;
+    name:      string;
+    email:     string;
+    photo_url: string;
+    gender:    Gender;
+    type:      FluffyType;
+}
+
+export interface Gender {
+    name:         string;
+    abbreviation: string;
+}
+
+export interface FluffyType {
+    name: string;
+}
+
+interface Jwt {
+    id:    string;
+    email: string;
+    type:  string;
+    iat:   number;
+    exp:   number;
+}
 
 export default function Feed() {
 
     const decodeJWT = decodeJwt();
-    const userType = decodeJWT.type;
-    const userId = decodeJWT.id;
+    const jwt = decodeJWT as Jwt;
+    const userType = jwt.type;
+    const userId = jwt.id;
     const [user, setUser ] = useState<object>();
-    const [AllPosts, setAllPosts ] = useState<object>([]);
-    const [userInfo, setUserInfo ] = useState<object>([]);
-    const [hasNewPosts, setHasNewPosts] = useState(false);
-    console.log(hasNewPosts)
+    const [allPosts, setAllPosts] = useState<AllPosts[]>([]);
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -64,9 +148,9 @@ export default function Feed() {
         }
 
         fetchAPI().catch(console.error)
-    }, [AllPosts])
+    }, [])
 
-    console.log(AllPosts)
+    console.log(allPosts)
 
     return (
         <><ToastContainer/>
@@ -76,10 +160,10 @@ export default function Feed() {
                 </div>
                 <img className={'w-full'} src={WaveDown}/>
                 <div className={'flex justify-center items-center pb-8 mx-auto'}>
-                    <NewPost typeUser={decodeJWT?.type} idUser={decodeJWT?.id}/>
+                    <NewPost typeUser={jwt.type} idUser={jwt.id}/>
                 </div>
                 <div className={'flex justify-center items-center flex-col gap-7'}>
-                    {AllPosts.map((item) => (
+                    {allPosts.map((item) => (
                         item.post_ngo.length < 1 ?
                             (
                                 <FeedPosts id={item.id}

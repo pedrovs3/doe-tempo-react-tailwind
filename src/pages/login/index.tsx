@@ -1,4 +1,4 @@
-import {Header} from "../../components/HeaderLogin";
+import {Header} from "../../components/HeaderLogin/Index";
 import { LoginForm } from "../../components/FormLogin";
 import DoeTempo from "../../assets/img/logo-login.svg"
 

@@ -25,7 +25,7 @@ interface AddressProps {
     idOng : string,
     cep : string,
     logradouro : string,
-    numero: number,
+    numero: string,
     localidade? : string,
     uf?: string,
     complemento?: string
@@ -76,6 +76,8 @@ export function EditCampanhaForm(props : AddressProps & CampaignProps) {
 
         }
     }, [props.title]);
+
+    console.log(cep)
 
 
     function handleChange(event: React.ChangeEvent<HTMLInputElement>) {

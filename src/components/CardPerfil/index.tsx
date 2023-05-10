@@ -5,15 +5,6 @@ import {apiCep} from "../../api/consulta_cep";
 import {decodeJwt} from "../../utils/jwtDecode";
 import {useNavigate} from "react-router-dom";
 
-interface DecodedJwt {
-    id:    string;
-    email: string;
-    type:  string;
-    iat:   number;
-    exp:   number;
-}
-
-
 interface UserProps {
     id : string,
     name: string,
@@ -36,11 +27,20 @@ interface Cep {
     siafi:       string;
 }
 
+interface Jwt {
+    id:    string;
+    email: string;
+    type:  string;
+    iat:   number;
+    exp:   number;
+}
+
 export function CardPerfil(props : UserProps & Cep) {
     const [data, setData] = useState([])
     const [cep, setCep] = useState<Cep | null>(null);
-    const decodedJwt: DecodedJwt | null = decodeJwt();
-    const userId = decodedJwt && decodedJwt.id;
+    const decodeJWT = decodeJwt();
+    const jwt = decodeJWT as Jwt;
+    const userId = jwt.id;
     const navigate = useNavigate();
 
     function editarPerfil() {

@@ -9,7 +9,7 @@ import {apiCep} from "../../api/consulta_cep";
 
 interface AddressProps {
     idOng : string,
-    cep : number,
+    cep : string,
     logradouro : string,
     numero: string,
     localidade? : string,

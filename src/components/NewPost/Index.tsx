@@ -7,7 +7,6 @@ import {storage} from "../../firebase";
 interface PostProps {
     typeUser: string,
     idUser: string
-    handlePost: unknown
 }
 
 export function NewPost(props : PostProps) {

@@ -6,12 +6,109 @@ import Loading from "../../components/Loading";
 import {decodeJwt} from "../../utils/jwtDecode";
 import {DetalhesBodyDois} from "../../components/DetalhesBodyDois";
 
-export interface CampaignResponse {
+
+interface UserResponse {
+    user: User;
+}
+
+interface User {
+    id:                  string;
+    name:                string;
+    email:               string;
+    password:            string;
+    cpf:                 string;
+    id_gender:           string;
+    birthdate:           Date;
+    rg:                  string;
+    id_type:             string;
+    description:         string;
+    banner_photo:        string;
+    attached_link:       string;
+    photo_url:           string;
+    created_at:          Date;
+    user_address:        UserAddress;
+    gender:              Gender;
+    user_phone:          null;
+    supported_campaigns: SupportedCampaign[];
+    post_user:           PostUser[];
+    _count:              UserCount;
+}
+
+interface UserCount {
+    supported_campaigns: number;
+    following:           number;
+}
+
+interface Gender {
+    name:         string;
+    abbreviation: string;
+}
+
+interface PostUser {
+    post: Post;
+}
+
+interface Post {
+    id:         string;
+    content:    string;
+    post_likes: PostLike[];
+    created_at: Date;
+    post_photo: PostPhoto[];
+    comment:    Comment[];
+    _count:     PostCount;
+}
+
+interface PostCount {
+    comment:    number;
+    post_ngo:   number;
+    post_photo: number;
+    post_user:  number;
+    post_likes: number;
+}
+
+interface Comment {
+    id:         string;
+    content:    string;
+    created_at: Date;
+    id_post:    string;
+}
+
+interface PostLike {
+    id:      string;
+    id_user: null | string;
+    id_ngo:  null | string;
+    id_post: string;
+}
+
+interface PostPhoto {
+    id:        string;
+    id_post:   string;
+    photo_url: string;
+}
+
+interface SupportedCampaign {
+    campaign: Campaign;
+}
+
+interface Campaign {
+    id:    string;
+    title: string;
+}
+
+interface UserAddress {
+    id:         string;
+    id_address: string;
+    id_user:    string;
+    address:    Address;
+}
+
+
+interface CampaignResponse {
     message: string;
     data:    Response;
 }
 
-export interface Response {
+interface Response {
     id:          string;
     id_campaign: string;
     id_user:     string;
@@ -98,12 +195,12 @@ export default function DetalhesCampanha() {
             }
         }
     });
-
-    const [campaign, setCampaign] = useState({})
+    const [user, setUser] = useState<UserResponse | null>(null);
+    const [campaign, setCampaign] = useState<CampaignResponse>({ message: "", data: { id: "", id_campaign: "", id_user: "" } });
     const [loading, setLoading] = useState(true);
     const routeParams = useParams();
     const id = routeParams.id
-    const [user, setUser] = useState([]);
+
     let decodeJWT;
 
     console.log(data)
@@ -113,116 +210,113 @@ export default function DetalhesCampanha() {
         const userId = decodeJWT.id;
 
 
+        useEffect(() => {
+            const fetchAPI = async () => {
+                const userResponse = await api.get(`/user/${decodeJWT.id}`);
+                setUser(userResponse.data);
+            };
+
+            fetchAPI().catch(console.error);
+        }, []);
+
+        console.log(user)
 
         useEffect(() => {
-
-            const fetchAPI = async () => {
-                const userResponse = await api.get(`/user/${decodeJWT.id}`)
-                const user = await userResponse.data
-                setUser(user)
-
+            const fetchData = async () => {
+                const {data} = await api.get(`/campaign/${id}`);
+                setData(data)
+                setLoading(false)
             }
 
-            fetchAPI().catch(console.error)
+
+            fetchData().catch(console.error);
+
         }, [])
-    }
 
+        const navigate = useNavigate();
 
+        const handleInscricao = async () => {
+            const idUser = user?.user.id;
+            const idCampaign = id;
+            const url = `/user/campaign/?idUser=${idUser}&idCampaign=${idCampaign}`;
+            const campaignResponse = await api.post(url);
+            setCampaign(campaignResponse.data);
 
-    useEffect(() => {
+        }
         const fetchData = async () => {
-            const {data} = await api.get(`/campaign/${id}`);
-            setData(data)
-            setLoading(false)
+            const {data} = await api.get(`/count`);
+            setData(data.counts)
         }
 
 
-        fetchData().catch(console.error);
+        const currentDate = new Date();
+        const endDate = new Date(data?.end_date);
+        const isExpired = currentDate > endDate
 
-    }, [])
+        console.log(currentDate)
+        console.log(endDate)
 
-    const navigate = useNavigate();
-
-    const handleInscricao = async () => {
-        const idUser = user?.user.id;
-        const idCampaign = id;
-        const url = `/user/campaign/?idUser=${idUser}&idCampaign=${idCampaign}`
-        const campaign = await api.post<CampaignResponse>(url);
-        setCampaign(campaign.data.data);
-        console.log(campaign)
-
-    }
-    const fetchData = async () => {
-        const {data} = await api.get(`/count`);
-        setData(data.counts)
-    }
-
-
-
-    const currentDate = new Date();
-    const endDate = new Date(data?.end_date);
-    const isExpired = currentDate > endDate
-
-    console.log (currentDate)
-    console.log(endDate)
-
-return (
-    <div>
-        {loading ? (
-            <Loading />
-        ) : (
-            <div className={'p-20'}>
-                <div className={'flex w-full justify-between'}>
-                    <DetalhesBody title={data?.title}
-                                  description={data?.description}
-                                  how_to_contribute={data?.how_to_contribute}
-                                  descriptionOng={data?.ngo?.description}
-                                  prerequisite={data?.prerequisites}
-                                  nameOng={data?.ngo?.name}
-                                  profileOng={data?.ngo?.photo_url}
-                                 />
-                    <DetalhesBodyDois  begin_date={data?.begin_date}
-                                       end_date={data?.end_date}
-                                       causes={data?.campaign_causes}
-                                       home_office={data?.home_office}
-                                       photoUrl={data?.campaign_photos[0].photo_url}
-                                       postal_code={data?.campaign_address?.address?.postal_code}
-                                       complement={data?.campaign_address?.address?.complement}
-                                       number={data?.campaign_address?.address?.number}/>
-                </div>
-                <div className={"flex pt-5"}>
-                    <div>
-                        {
-                            isExpired ? (
-                                <button className="btn btn-error no-animation text-neutral-50 text-lg ">CAMPANHA ENCERRADA</button>
-                            ) : (
-                                decodeJWT ? (
-                                    decodeJWT.type === 'ONG' ? (
-                                        <button className="hidden"></button>
+        return (
+            <div>
+                {loading ? (
+                    <Loading/>
+                ) : (
+                    <div className={'p-20'}>
+                        <div className={'flex w-full justify-between'}>
+                            <DetalhesBody title={data?.title}
+                                          description={data?.description}
+                                          how_to_contribute={data?.how_to_contribute}
+                                          descriptionOng={data?.ngo?.description}
+                                          prerequisite={data?.prerequisites}
+                                          nameOng={data?.ngo?.name}
+                                          profileOng={data?.ngo?.photo_url}
+                            />
+                            <DetalhesBodyDois begin_date={data?.begin_date}
+                                              end_date={data?.end_date}
+                                              causes={data?.campaign_causes}
+                                              home_office={data?.home_office}
+                                              photoUrl={data?.campaign_photos[0].photo_url}
+                                              postal_code={data?.campaign_address?.address?.postal_code}
+                                              complement={data?.campaign_address?.address?.complement}
+                                              number={data?.campaign_address?.address?.number}/>
+                        </div>
+                        <div className={"flex pt-5"}>
+                            <div>
+                                {
+                                    isExpired ? (
+                                        <button className="btn btn-error no-animation text-neutral-50 text-lg ">CAMPANHA
+                                            ENCERRADA</button>
                                     ) : (
-                                        <label onClick={handleInscricao} htmlFor="my-modal"
-                                               className="btn gap-2 w-48 rounded-full bg-maya_blue border-0 text-neutral-900 hover:bg-turquoise-700">QUERO ME INSCREVER</label>
+                                        decodeJWT ? (
+                                            decodeJWT.type === 'ONG' ? (
+                                                <button className="hidden"></button>
+                                            ) : (
+                                                <label onClick={handleInscricao} htmlFor="my-modal"
+                                                       className="btn gap-2 w-48 rounded-full bg-maya_blue border-0 text-neutral-900 hover:bg-turquoise-700">QUERO
+                                                    ME INSCREVER</label>
+                                            )
+                                        ) : (<button className="hidden"></button>)
                                     )
-                                ) : (<button className="hidden"></button>)
-                            )
-                        }
-                    </div>
-                    <input type="checkbox" id="my-modal" className="modal-toggle" />
-                    <div className="modal">
-                        <div className="modal-box">
-                            <h3 className="font-bold text-lg">{campaign.message}</h3>
-                            <p className="py-4">Obrigado por se inscrever! Seu cadastro foi {campaign.message}</p>
-                            <div className="modal-action">
-                                <Link to={'/campanhas'}>
-                                <label htmlFor="my-modal" className="btn"> 👍 Entendido!</label>
-                                </Link>
+                                }
+                            </div>
+                            <input type="checkbox" id="my-modal" className="modal-toggle"/>
+                            <div className="modal">
+                                <div className="modal-box">
+                                    <h3 className="font-bold text-lg">{campaign.message}</h3>
+                                    <p className="py-4">Obrigado por se inscrever! Seu cadastro
+                                        foi {campaign.message}</p>
+                                    <div className="modal-action">
+                                        <Link to={'/campanhas'}>
+                                            <label htmlFor="my-modal" className="btn"> 👍 Entendido!</label>
+                                        </Link>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                )}
             </div>
-        )}
-    </div>
-)
+        )
+    }
 }
 

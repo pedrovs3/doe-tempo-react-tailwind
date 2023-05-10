@@ -109,13 +109,23 @@ interface Address {
     complement:  null;
 }
 
+interface Jwt {
+    id:    string;
+    email: string;
+    type:  string;
+    iat:   number;
+    exp:   number;
+}
+
+
 export function FormEditarPerfil(){
+    const decodeJWT = decodeJwt();
+    const jwt = decodeJWT as Jwt;
+    const userType = jwt.type;
+    const userId = jwt.id;
     const navigate = useNavigate();
     const routeParams = useParams();
     const id = routeParams.id
-    const decodeJWT = decodeJwt();
-    const userType = decodeJWT.type;
-    const userId = decodeJWT.id;
     const [data, setData] = useState<User | null>(null);
     const [user, setUser ] = useState<object>();
     const [name, setName] = useState('')

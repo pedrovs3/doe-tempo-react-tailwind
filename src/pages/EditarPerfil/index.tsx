@@ -7,19 +7,129 @@ import edit from "../../assets/img/edit.svg";
 import {useParams} from "react-router-dom";
 import {FormEditarPerfil} from "../../components/FormEditarPerfil";
 import {PencilSimple} from "phosphor-react";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 
+export interface UserResponse {
+    user: User;
+}
 
+export interface User {
+    id:                  string;
+    name:                string;
+    email:               string;
+    password:            string;
+    cpf:                 string;
+    id_gender:           string;
+    birthdate:           Date;
+    rg:                  string;
+    id_type:             string;
+    description:         string;
+    banner_photo:        string;
+    attached_link:       string;
+    photo_url:           string;
+    created_at:          Date;
+    user_address:        UserAddress;
+    gender:              Gender;
+    user_phone:          null;
+    supported_campaigns: SupportedCampaign[];
+    post_user:           PostUser[];
+    _count:              UserCount;
+}
+
+export interface UserCount {
+    supported_campaigns: number;
+    following:           number;
+}
+
+export interface Gender {
+    name:         string;
+    abbreviation: string;
+}
+
+export interface PostUser {
+    post: Post;
+}
+
+export interface Post {
+    id:         string;
+    content:    string;
+    post_likes: PostLike[];
+    created_at: Date;
+    post_photo: PostPhoto[];
+    comment:    Comment[];
+    _count:     PostCount;
+}
+
+export interface PostCount {
+    comment:    number;
+    post_ngo:   number;
+    post_photo: number;
+    post_user:  number;
+    post_likes: number;
+}
+
+export interface Comment {
+    id:         string;
+    content:    string;
+    created_at: Date;
+    id_post:    string;
+}
+
+export interface PostLike {
+    id:      string;
+    id_user: null | string;
+    id_ngo:  null | string;
+    id_post: string;
+}
+
+export interface PostPhoto {
+    id:        string;
+    id_post:   string;
+    photo_url: string;
+}
+
+export interface SupportedCampaign {
+    campaign: Campaign;
+}
+
+export interface Campaign {
+    id:    string;
+    title: string;
+}
+
+export interface UserAddress {
+    id:         string;
+    id_address: string;
+    id_user:    string;
+    address:    Address;
+}
+
+export interface Address {
+    id:          string;
+    postal_code: string;
+    number:      string;
+    complement:  string;
+}
+
+interface Jwt {
+    id:    string;
+    email: string;
+    type:  string;
+    iat:   number;
+    exp:   number;
+}
 
 
 export default function EditarPerfil() {
+    const decodeJWT = decodeJwt();
+    const jwt = decodeJWT as Jwt;
     const routeParams = useParams();
     const [data, setData] = useState({})
     const id = routeParams.id
-    const decodeJWT = decodeJwt();
-    const userType = decodeJWT.type;
-    const userId = decodeJWT.id;
-    const [user, setUser ] = useState<object>();
+    const userType = jwt.type;
+    const userId = jwt.id;
+    const [user, setUser] = useState<UserResponse | null>(null);
+
 
 
 

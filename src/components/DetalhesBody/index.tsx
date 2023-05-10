@@ -1,5 +1,4 @@
-import {Clock, GlobeHemisphereEast, Heart, HeartStraight, MagnifyingGlass, MapPin, ShareNetwork} from "phosphor-react";
-import avatar from '../../assets/img/avatar-ong.png'
+import {ShareNetwork} from "phosphor-react";
 
 interface CampaignProps {
     title: string,

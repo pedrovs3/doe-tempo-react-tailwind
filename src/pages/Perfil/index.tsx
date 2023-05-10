@@ -10,33 +10,29 @@ import {FeedPosts} from "../../components/FeedPosts";
 import 'react-toastify/dist/ReactToastify.css';
 import {CardHistorico} from "../../components/CardHistorico";
 
+interface Jwt {
+    id:    string;
+    email: string;
+    type:  string;
+    iat:   number;
+    exp:   number;
+}
+
+
+
 export default function Perfil() {
     const routeParams = useParams();
     const [data, setData] = useState({ post_user: [], post_ngo: [] });
     const id = routeParams.id
     const typeUser = routeParams.type
     const decodeJWT = decodeJwt();
-    const userType = decodeJWT.type;
-    const userId = decodeJWT.id;
+    const jwt = decodeJWT as Jwt;
+    const userType = jwt.type;
+    const userId = jwt.id;
+
     const [user, setUser ] = useState<object>();
 
-    console.log(userId)
-    useEffect(() => {
-        const fetchData = async () => {
-            let endpoint = "";
-            if (userType === "ONG") {
-                endpoint = `/ngo/${userId}`;
-            } else if (userType === "USER") {
-                endpoint = `/user/${userId}`;
-            }
-
-            const response = await api.get(endpoint);
-            const user = response.data;
-            setUser(user);
-        };
-
-        fetchData();
-    }, [userId, userType]);
+    console.log(data)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -84,7 +80,7 @@ export default function Perfil() {
                                     data?.post_user.map((item) => (
                                             <FeedPosts id={item.post.id}
                                                        idUser={id}
-                                                       type={decodeJwt().type}
+                                                       type={userType}
                                                        nameUser={data?.name}
                                                        photoUser={data?.photo_url}
                                                        content={item.post.content}
@@ -98,14 +94,15 @@ export default function Perfil() {
                                         data?.post_ngo.map((item) => (
                                             <FeedPosts id={item.post.id}
                                                        idUser={id}
-                                                       type={decodeJwt().type}
+                                                       type={userType}
                                                        nameUser={data?.name}
                                                        photoUser={data?.photo_url}
                                                        content={item.post.content}
                                                        created={item.post.created_at}
                                                        images={item.post.post_photo}
                                                        comments={item.post.comment}
-                                                    />
+                                                       count_comments={item._count?.comments}
+                                                       count_likes={item._count?.post_likes}/>
                                         )
                                     ))
 
