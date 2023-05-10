@@ -1,6 +1,6 @@
 import React from "react";
 import {decodeJwt} from "../../utils/jwtDecode";
-import {NewPost} from "../../components/NewPost";
+import {NewPost} from "../../components/NewPost/Index";
 
 interface Jwt {
     id:    string;

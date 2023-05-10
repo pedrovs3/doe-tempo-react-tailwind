@@ -1,7 +1,7 @@
 import {CardsCampanha} from "../../components/CardsCampanha";
 import React, {useEffect, useState} from "react";
 import {api} from "../../lib/axios";
-import Loading from "../../components/Loading";
+import Loading from "../../components/Loading/Index";
 import {MagnifyingGlass} from "phosphor-react";
 
 

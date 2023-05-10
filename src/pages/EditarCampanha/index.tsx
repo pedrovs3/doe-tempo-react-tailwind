@@ -171,6 +171,14 @@ export interface Ngo {
     photo_url:   string;
 }
 
+interface Jwt {
+    id:    string;
+    email: string;
+    type:  string;
+    iat:   number;
+    exp:   number;
+}
+
 export default function EditarCampanha() {
     const [data, setData] = useState<Data>({
         id: "",
@@ -201,8 +209,10 @@ export default function EditarCampanha() {
             }
         }
     });
-    const [user, setUser] = useState<UserResponse | null>(null);
+
     const decodeJWT = decodeJwt();
+    const jwt = decodeJWT as Jwt;
+    const [user, setUser] = useState<UserResponse | null>(null);
     const routeParams = useParams();
     const id = routeParams.id
     useEffect(() => {
@@ -210,7 +220,7 @@ export default function EditarCampanha() {
             const {data} = await api.get(`/campaign/${id}`)
             setData(data)
 
-            const userResponse = await api.get(`/ngo/${decodeJWT.id}`)
+            const userResponse = await api.get(`/ngo/${jwt.id}`)
             const user = await userResponse.data
             setUser(user)
             console.log(user)

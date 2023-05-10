@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {HeaderPosts} from "../../components/HeaderPosts";
 import WaveDown from "../../assets/img/Wave_down_turquoise.svg";
-import {NewPost} from "../../components/NewPost";
+import {NewPost} from "../../components/NewPost/Index";
 import {decodeJwt} from "../../utils/jwtDecode";
 import {api} from "../../lib/axios";
 import {FeedPosts} from "../../components/FeedPosts";

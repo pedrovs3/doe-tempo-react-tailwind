@@ -2,7 +2,7 @@ import {DetalhesBody} from "../../components/DetalhesBody";
 import {useParams, useNavigate, Link} from "react-router-dom"
 import React, {useEffect, useState} from "react";
 import {api} from "../../lib/axios";
-import Loading from "../../components/Loading";
+import Loading from "../../components/Loading/Index";
 import {decodeJwt} from "../../utils/jwtDecode";
 import {DetalhesBodyDois} from "../../components/DetalhesBodyDois";
 
