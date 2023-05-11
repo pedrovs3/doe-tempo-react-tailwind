@@ -111,7 +111,7 @@ export interface Data {
     end_date:              string;
     ngo:                   Ngo;
     campaign_photos:       CampaignPhoto[];
-    campaign_causes:       CampaignCause[];
+    campaign_causes:       [];
     campaign_participants: CampaignParticipant[];
     campaign_address:      CampaignAddress;
 }
@@ -256,7 +256,6 @@ export default function EditarCampanha() {
                                   idCampaign={data?.id}
                                   numero={data?.campaign_address?.address?.number}
                                   complemento={data?.campaign_address?.address?.complement}
-
                 />
             </div>
         </div>

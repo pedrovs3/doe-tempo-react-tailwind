@@ -57,16 +57,20 @@ export default function Perfil() {
     return (
         <div className={'bg-little-white'}>
             <div className={"navbar absolute top-0 left-0 w-full bg-transparent"}>
+                {/*// @ts-ignore*/}
             <HeaderPosts id={user?.user?.id || user?.id} photoURL={user?.user?.photo_url || user?.photo_url}/>
             </div>
+            {/*// @ts-ignore*/}
             <img src={data?.banner_photo} alt="Header image" className="object-cover w-full h-64 md:h-96 lg:h-128" />
             <img src={wave} className={'relative -mt-12 w-full'}/>
             <div className="flex flex-row">
                 <div className="w-full sm:w-1/3">
                     {
                         typeUser === 'USER' ? (
+                               // @ts-ignore
                             <CardPerfil id={data?.id} name={data?.name} photoURL={data?.photo_url} postal_code={data?.user_address?.address?.postal_code}  attached_link={data?.attached_link} description={data?.description}/>
                         ) : (
+                            // @ts-ignore
                             <CardPerfil id={data?.id} name={data?.name} photoURL={data?.photo_url} postal_code={data?.ngo_address?.address?.postal_code}  attached_link={data?.attached_link} description={data?.description}/>
                         )
                     }
@@ -81,7 +85,9 @@ export default function Perfil() {
                                             <FeedPosts id={item.post.id}
                                                        idUser={id}
                                                        type={userType}
+                                                // @ts-ignore
                                                        nameUser={data?.name}
+                                                // @ts-ignore
                                                        photoUser={data?.photo_url}
                                                        content={item.post.content}
                                                        created={item.post.created_at}
@@ -95,7 +101,9 @@ export default function Perfil() {
                                             <FeedPosts id={item.post.id}
                                                        idUser={id}
                                                        type={userType}
+                                                // @ts-ignore
                                                        nameUser={data?.name}
+                                                // @ts-ignore
                                                        photoUser={data?.photo_url}
                                                        content={item.post.content}
                                                        created={item.post.created_at}

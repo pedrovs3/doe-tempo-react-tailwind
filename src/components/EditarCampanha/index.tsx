@@ -24,7 +24,7 @@ interface Cep {
 interface AddressProps {
     idOng : string,
     cep : string,
-    logradouro : string,
+    logradouro? : string,
     numero: string,
     localidade? : string,
     uf?: string,

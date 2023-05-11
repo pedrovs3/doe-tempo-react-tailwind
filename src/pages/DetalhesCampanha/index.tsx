@@ -184,7 +184,7 @@ export default function DetalhesCampanha() {
             photo_url: ""
         },
         campaign_photos: [],
-        campaign_causes: [],
+        campaign_causes: [{ causes: { id: "", description: "", title: ""}}],
         campaign_participants: [],
         campaign_address: {
             address: {
@@ -273,6 +273,7 @@ export default function DetalhesCampanha() {
                             />
                             <DetalhesBodyDois begin_date={data?.begin_date}
                                               end_date={data?.end_date}
+                                // @ts-ignore
                                               causes={data?.campaign_causes}
                                               home_office={data?.home_office}
                                               photoUrl={data?.campaign_photos[0].photo_url}

@@ -100,7 +100,7 @@ export default function Feed() {
     const jwt = decodeJWT as Jwt;
     const userType = jwt.type;
     const userId = jwt.id;
-    const [user, setUser ] = useState<object>();
+    const [user, setUser ] = useState<any>();
     const [allPosts, setAllPosts] = useState<AllPosts[]>([]);
 
 
