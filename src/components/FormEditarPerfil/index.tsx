@@ -158,6 +158,9 @@ export function FormEditarPerfil(){
             setPostalNumber(data?.user_address?.address.number)
             setComplement(data?.user_address?.address.complement)
             setGender(data?.id_gender)
+            setRg(data?.rg)
+            setAttached(data.attached_link)
+            setPhone(data.user_phone)
 
 
         }
@@ -191,8 +194,6 @@ export function FormEditarPerfil(){
 
     }, [])
 
-    console.log(data)
-
     const handleSubmitForm = async (e: FormEvent)    => {
         e.preventDefault();
 
@@ -225,9 +226,12 @@ export function FormEditarPerfil(){
     }
 
     useEffect(() => {
-        if (editSuccess) {
-            navigate(`/perfil/${id}`);
+        if (editSuccess && userType === 'ONG') {
+            navigate(`/perfil/ONG/${id}`);
+        }else if (editSuccess && userType === 'USER') {
+            navigate(`/perfil/USER/${userId}`);
         }
+
     }, [editSuccess]);
 
     function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -326,9 +330,8 @@ export function FormEditarPerfil(){
             <input type="text" placeholder="Nome" className="input input-bordered input-info w-full" value={name}  onChange={it => setName(it.target.value)}/>
                 <input type="email" placeholder="Email" className="input input-bordered input-info w-full" value={email} />
             </div>
-
             <div className="flex flex-col items-center w-full gap-2">
-                <div className="pt-2 flex flex-row gap-2">
+                <div className="pt-2 flex flex-row gap-2 w-full">
                     <input type="password"
                            placeholder="Nova Senha" className="input input-bordered input-info w-full"
                            value={password}
@@ -360,7 +363,7 @@ export function FormEditarPerfil(){
                 >
 
                 </textarea>
-                <div className="pt-2 flex flex-row gap-2">
+                <div className="pt-2 flex flex-row gap-2 w-full">
                     <input type="text"
                            placeholder="RG"
                            className="input input-bordered input-info w-full"

@@ -152,6 +152,8 @@ export default function Feed() {
 
     console.log(allPosts)
 
+    console.log(user?.user?.id)
+
     return (
         <><ToastContainer/>
             <div className={''}>

@@ -9,6 +9,7 @@ import NovoPost from "../NovoPost";
 import {FeedPosts} from "../../components/FeedPosts";
 import 'react-toastify/dist/ReactToastify.css';
 import {CardHistorico} from "../../components/CardHistorico";
+import {Footer} from "../../components/Footer";
 
 interface Jwt {
     id:    string;
@@ -22,7 +23,7 @@ interface Jwt {
 
 export default function Perfil() {
     const routeParams = useParams();
-    const [data, setData] = useState({ post_user: [], post_ngo: [] });
+    const [data, setData] = useState<any>()
     const id = routeParams.id
     const typeUser = routeParams.type
     const decodeJWT = decodeJwt();
@@ -32,18 +33,15 @@ export default function Perfil() {
 
     const [user, setUser ] = useState<object>();
 
-    console.log(data)
-
     useEffect(() => {
         const fetchData = async () => {
             if (typeUser === 'USER') {
-                const {data} = await api.get(`/user/${id}`);
-                setData(data.user)
+                const data = await api.get(`/user/${id}`);
+                setData(data.data.user)
             } else {
-                const {data} = await api.get(`/ngo/${id}`)
+                const { data } = await api.get(`/ngo/${id}`);
                 setData(data)
             }
-            console.log(data?.post_user[0].created_at)
 
         }
 
@@ -52,10 +50,9 @@ export default function Perfil() {
 
     }, [id])
 
-    console.log(user)
 
     return (
-        <div className={'bg-little-white'}>
+        <div className={''}>
             <div className={"navbar absolute top-0 left-0 w-full bg-transparent"}>
                 {/*// @ts-ignore*/}
             <HeaderPosts id={user?.user?.id || user?.id} photoURL={user?.user?.photo_url || user?.photo_url}/>
@@ -75,51 +72,59 @@ export default function Perfil() {
                         )
                     }
                 </div>
-                    {
-                        id === userId ?
-                        <NovoPost /> : (
-                            <div className={'flex flex-col gap-5'}>
+                {
+                    id === userId ?
+                        <NovoPost /> :
+                        (
+                            <div className="flex flex-col gap-5">
                                 {
-                                    data?.post_user ? (
-                                    data?.post_user.map((item) => (
-                                            <FeedPosts id={item.post.id}
-                                                       idUser={id}
-                                                       type={userType}
-                                                // @ts-ignore
-                                                       nameUser={data?.name}
-                                                // @ts-ignore
-                                                       photoUser={data?.photo_url}
-                                                       content={item.post.content}
-                                                       created={item.post.created_at}
-                                                       images={item.post.post_photo}
-                                                       comments={item.post.comment}
-                                                       count_comments={item._count?.comments}
-                                                       count_likes={item._count?.post_likes}/>
-
-                                ))) : (
-                                        data?.post_ngo.map((item) => (
-                                            <FeedPosts id={item.post.id}
-                                                       idUser={id}
-                                                       type={userType}
-                                                // @ts-ignore
-                                                       nameUser={data?.name}
-                                                // @ts-ignore
-                                                       photoUser={data?.photo_url}
-                                                       content={item.post.content}
-                                                       created={item.post.created_at}
-                                                       images={item.post.post_photo}
-                                                       comments={item.post.comment}
-                                                       count_comments={item._count?.comments}
-                                                       count_likes={item._count?.post_likes}/>
-                                        )
+                                    // @ts-ignore
+                                    data?.post_user?.map((item) => (
+                                        <FeedPosts
+                                            id={item.post.id}
+                                            idUser={id}
+                                            type={userType}
+                                            // @ts-ignore
+                                            nameUser={data?.name}
+                                            // @ts-ignore
+                                            photoUser={data?.photo_url}
+                                            content={item.post.content}
+                                            created={item.post.created_at}
+                                            images={item.post.post_photo}
+                                            comments={item.post.comment}
+                                            count_comments={item._count?.comments}
+                                            count_likes={item._count?.post_likes}
+                                        />
                                     ))
-
+                                }
+                                {
+                                    // @ts-ignore
+                                    data?.post_ngo?.map((item) => (
+                                        <FeedPosts
+                                            id={item.post.id}
+                                            idUser={id}
+                                            type={userType}
+                                            // @ts-ignore
+                                            nameUser={data?.name}
+                                            // @ts-ignore
+                                            photoUser={data?.photo_url}
+                                            content={item.post.content}
+                                            created={item.post.created_at}
+                                            images={item.post.post_photo}
+                                            comments={item.post.comment}
+                                            count_comments={item._count?.comments}
+                                            count_likes={item._count?.post_likes}
+                                        />
+                                    ))
                                 }
                             </div>
-                            )
-                    }
-                    <CardHistorico/>
+                        )
+                }
             </div>
+            <div className="fixed bottom-0 left-0 w-full">
+                <Footer />
+            </div>
+
         </div>
     )
 }

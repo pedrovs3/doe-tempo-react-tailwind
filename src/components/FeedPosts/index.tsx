@@ -80,8 +80,6 @@ export function FeedPosts(props : PostProps) {
     const jwt = decodeJWT as Jwt;
     const isCurrentUserOwner = jwt.id === props.idUser;
 
-    console.log(props.images)
-
     const handleDeletePost = async () => {
         try {
             const response = await api.delete(`/post/${props.id}`);

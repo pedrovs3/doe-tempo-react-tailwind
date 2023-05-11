@@ -43,6 +43,7 @@ export function CardPerfil(props : UserProps & Cep) {
     const userId = jwt.id;
     const navigate = useNavigate();
 
+
     function editarPerfil() {
         navigate(`/editar-perfil/${userId}`);
     }
@@ -104,11 +105,10 @@ export function CardPerfil(props : UserProps & Cep) {
                     <p className={"text-xl font-semibold"}>Conexões</p>
                 </div>
                 {props.id === userId && (
-                        <button className="gap-2 btn w-40 rounded-full bg-blueberry border-0 text-white flex justify-center hover:bg-accent" onClick={editarPerfil}>
-                        <PencilSimple size={26} />
-                        Editar Perfil
+                        <button className="gap-2 btn w-40 h-full rounded-full bg-blueberry border-0 text-white flex justify-center hover:bg-accent" onClick={editarPerfil}>
+                        <PencilSimple size={24} />
+                        Editar
                     </button>
-
                 )}
                 {props.id !== userId && (
                     <button className="gap-2 btn w-40 rounded-full bg-blueberry border-0 text-white flex justify-center hover:bg-accent">
