@@ -11,6 +11,7 @@ import EditarCampanha from "../pages/EditarCampanha";
 import Feed from "../pages/Feed";
 import Perfil from "../pages/Perfil";
 import EditarPerfil from "../pages/EditarPerfil";
+import DashboardUser from "../pages/DashboardUser";
 
 export const routes = createBrowserRouter([
     // {
@@ -63,5 +64,9 @@ export const routes = createBrowserRouter([
     {
         path: '/editar-perfil/:id',
         element: <EditarPerfil />,
+    },
+    {
+        path: '/dashboard/:id',
+        element: <DashboardUser />,
     },
 ])

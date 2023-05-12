@@ -23,3 +23,9 @@
 .rc-time-picker-input {
     border: none !important;
 }
+
+.bg-dashboard {
+    background-image: url("./assets/img/background-wave-end.svg");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
