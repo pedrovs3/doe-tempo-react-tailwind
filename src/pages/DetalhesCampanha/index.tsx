@@ -5,6 +5,7 @@ import {api} from "../../lib/axios";
 import Loading from "../../components/Loading/Index";
 import {decodeJwt} from "../../utils/jwtDecode";
 import {DetalhesBodyDois} from "../../components/DetalhesBodyDois";
+import {Header} from "../../components/HeaderCampanha";
 
 
 interface UserResponse {
@@ -262,6 +263,7 @@ export default function DetalhesCampanha() {
                     <Loading/>
                 ) : (
                     <div className={'p-20'}>
+                        <Header/>
                         <div className={'flex w-full justify-between'}>
                             <DetalhesBody title={data?.title}
                                           description={data?.description}
@@ -285,7 +287,7 @@ export default function DetalhesCampanha() {
                             <div>
                                 {
                                     isExpired ? (
-                                        <button className="btn btn-error no-animation text-neutral-50 text-lg ">CAMPANHA
+                                        <button className="btn btn-error no-animation text-neutral-50 text-lg cursor-auto">CAMPANHA
                                             ENCERRADA</button>
                                     ) : (
                                         decodeJWT ? (

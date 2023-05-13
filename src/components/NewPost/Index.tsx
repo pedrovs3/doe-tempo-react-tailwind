@@ -14,10 +14,13 @@ export function NewPost(props : PostProps) {
     const [contentState, setContentState] = useState('');
     const [images, setImages] = useState([]);
     const [progress, setProgress] = useState(0);
+    const [isLoadingImage, setIsLoadingImage] = useState(false);
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = Array.from(e.target.files);
         const urls: string[] = []; // novo array para armazenar os URLs das imagens
+        setIsLoadingImage(true);
+
         files.forEach((file) => {
             const storageRef = ref(storage, `images/${file.name}`);
             const uploadTask = uploadBytesResumable(storageRef, file);
@@ -30,6 +33,7 @@ export function NewPost(props : PostProps) {
             uploadTask.then(() => {
                 getDownloadURL(storageRef).then((url) => {
                     setImages((prevImages) => [...prevImages, url]);
+                    setIsLoadingImage(false);
                 });
             });
         });
@@ -83,10 +87,18 @@ export function NewPost(props : PostProps) {
                             <Camera size={32} color={'gray'}/>
                             <input type="file" className="sr-only" onChange={handleImageChange} multiple />
                         </label>
-                        {images.map((image, index) => (
-                            <img key={index} src={image} alt="Imagem" className="w-full lg:w-1/2 xl:w-1/3 h-[13rem] object-cover rounded-lg grid grid-cols-2 gap-4 mt-4" />
-                        ))}
-                    </div>
+                        {isLoadingImage ? (
+                            <div className={"pl-10 flex justify-center items-center"}>
+                                <progress className="progress w-56"></progress>
+                            </div>
+                        ) : (
+                            <div className={"flex flex-row gap-5 justify-start"}>
+                                {images.map((image, index) => (
+                                    <img key={index} src={image} alt="Imagem" className="w-full lg:w-1/2 xl:w-1/3 object-cover rounded-lg grid grid-cols-2 gap-4 mt-4" />
+                                ))}
+                            </div>
+                        )}
+                </div>
                 </div>
             </div>
         </form>

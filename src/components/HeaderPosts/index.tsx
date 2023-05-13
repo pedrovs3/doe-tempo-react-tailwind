@@ -1,5 +1,5 @@
 import React from "react";
-import {Article, House, Megaphone} from "phosphor-react";
+import {Article, CaretLeft, House, Megaphone} from "phosphor-react";
 import {Link, useNavigate} from "react-router-dom";
 import {decodeJwt} from "../../utils/jwtDecode";
 interface UserProps {
@@ -35,7 +35,9 @@ export function HeaderPosts(props : UserProps) {
         return null;
     }
 
-
+    const handleClick = () => {
+        history.back()
+    };
 
     return (
         <div className="navbar">
@@ -44,6 +46,10 @@ export function HeaderPosts(props : UserProps) {
                     <label tabIndex={0} className="btn btn-ghost lg:hidden">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
                     </label>
+                    <button  onClick={handleClick} className={'btn w-40 rounded-full bg-blueberry border-0 text-white flex justify-center hover:bg-accent'} type={'submit'}>
+                        <CaretLeft size={32} />
+                        Voltar
+                    </button>
                     <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
                         <Link to={"/"} >
                         <li className={'bg-little-white rounded'}><a className={'tooltip tooltip-bottom active:bg-little-white'} data-tip="Home"><House size={32} color="#4F79FE"/></a></li>

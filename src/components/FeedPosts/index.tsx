@@ -1,6 +1,6 @@
 import { format } from 'date-fns'
 import { pt } from 'date-fns/locale'
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Chat, Heart, PaperPlaneRight, TrashSimple} from "phosphor-react";
 import {Link} from "react-router-dom";
 import {api} from "../../lib/axios";
@@ -79,6 +79,7 @@ export function FeedPosts(props : PostProps) {
     const decodeJWT = decodeJwt();
     const jwt = decodeJWT as Jwt;
     const isCurrentUserOwner = jwt.id === props.idUser;
+    const [countLikes, setCountLikes] = useState(props.count_likes);
 
     const handleDeletePost = async () => {
         try {
@@ -90,13 +91,22 @@ export function FeedPosts(props : PostProps) {
         }
     };
 
-
     function handleLike() {
-        const url = `/post/${props.id}/like`
-        const like = api.post(`${url}`)
-        setLiked(!liked)
+        const url = `/post/${props.id}/like`;
+        setLiked(!liked);
+        setCountLikes((prevCountLikes) => prevCountLikes + (liked ? -1 : 1));
 
+        api.post(url).then((response) => {
+            if (response.data) {
+                setCountLikes(countLikes);
+            }
+        }).catch((error) => {
+            console.log(error);
+            setLiked(liked);
+            setCountLikes((prevCountLikes) => prevCountLikes - (liked ? -1 : 1));
+        });
     }
+
 
 
     const handleCommentClick = (postId) => {
@@ -118,7 +128,7 @@ export function FeedPosts(props : PostProps) {
     }
 
     return (
-        <div className="bg-base-100 shadow-xl w-full md:w-1/2 lg:w-1/3 text-primary-content rounded-lg relative">
+        <div className="bg-base-100 shadow-xl w-full md:w-1/2 lg:w-1/2 text-primary-content rounded-lg relative">
             {isCurrentUserOwner && (
                 <div className="dropdown absolute top-0 right-0 p-2">
                     <label tabIndex={0} className="btn-unstyled m-1 text-neutral-800 text-4xl">...</label>
@@ -161,7 +171,7 @@ export function FeedPosts(props : PostProps) {
                     </div>
                 </div>
                 <div className={"flex gap-2"}>
-                    <h2 className={"text-xl font-bold text-neutral-500"}>{props.count_likes}</h2>
+                    <h2 className={"text-xl font-bold text-neutral-500"}>{countLikes}</h2>
                     <button onClick={handleLike}>
                         <Heart
                             size={32}

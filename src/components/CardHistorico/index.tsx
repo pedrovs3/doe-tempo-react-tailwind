@@ -9,7 +9,7 @@ export function CardHistorico() {
 
 
     return (
-        <div className="card w-full sm:w-1/2 md:w-1/3 bg-base-100 shadow-xl">
+        <div className="card w-full h-80 bg-base-100 shadow-xl">
             <div className="card-body">
                 <div className="card-title flex justify-center flex-row gap-2 pb-3.5">
                     <ClockCounterClockwise size={36} />

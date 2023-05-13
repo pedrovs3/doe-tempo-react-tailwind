@@ -121,8 +121,8 @@ export function CardPerfil(props : UserProps & Cep) {
                     <MapPin size={32} />
                 <p className={"text-xl font-semibold text-gray-apagado"}>{cep?.localidade}, {cep?.uf}</p>
                 </div>
-                <div className={"flex items-start flex-col gap-2"}>
-                    <p className={"text-xl font-bold"}>Sobre</p>
+                <div className={"flex justify-start flex-col gap-2"}>
+                    <p className={"text-xl font-bold items-start"}>Sobre</p>
                     <p className={"text-xl font-semibold"}>{props.description}</p>
                 </div>
                 <div className={"flex flex-row gap-2 badge badge-ghost h-10"}>

@@ -252,7 +252,7 @@ export default function EditarCampanha() {
                                   prerequisites={data?.prerequisites}
                                   cep={data?.campaign_address?.address?.postal_code}
                                   photoURL={photoURL}
-                                  idOng={user?.user.id}
+                                  idOng={jwt.id}
                                   idCampaign={data?.id}
                                   numero={data?.campaign_address?.address?.number}
                                   complemento={data?.campaign_address?.address?.complement}

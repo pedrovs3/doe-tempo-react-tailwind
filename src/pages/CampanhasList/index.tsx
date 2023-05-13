@@ -3,6 +3,7 @@ import React, {useEffect, useState} from "react";
 import {api} from "../../lib/axios";
 import Loading from "../../components/Loading/Index";
 import {MagnifyingGlass} from "phosphor-react";
+import {Header} from "../../components/HeaderCampanha";
 
 
 export default function CampanhasList() {
@@ -84,6 +85,7 @@ export default function CampanhasList() {
             <Loading />
         ) : (
             <div className={'p-4'}>
+                <Header/>
                 <h1 className={'text-4xl font-bold text-blueberry text-start pt-8'}>Oportunidades</h1>
                 <div className={'pt-5 h-full w-full flex justify-between'}>
                     <select className="select select-ghost w-full max-w-xs" onChange={(event) => setSelectedId(event.target.value)}>

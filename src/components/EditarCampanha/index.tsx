@@ -127,7 +127,7 @@ export function EditCampanhaForm(props : AddressProps & CampaignProps) {
 
         fetchData().catch(console.error);
 
-    }, [props.cep !== undefined])
+    }, [props.cep])
 
     const [progress, setProgress] = useState(0)
 
