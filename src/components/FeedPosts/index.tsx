@@ -114,7 +114,6 @@ export function FeedPosts(props : PostProps) {
     }
 
     const handleSubmitForm = async () => {
-
         try {
             const comment = await api.post(`/post/${props.id}/comment`, {
                 content: comentario,
@@ -124,7 +123,7 @@ export function FeedPosts(props : PostProps) {
             console.log(e)
             alert("Houve um erro!")
         }
-
+        setComentario("")
     }
 
     return (
@@ -196,7 +195,13 @@ export function FeedPosts(props : PostProps) {
                                         <div className={"avatar"}>
                                             <div className="w-12 rounded-xl ring ring-primary ring-tufts-blue ring-offset-2 bg-blueberry">
                                                 <Link to={``}>
-                                                    <img src={props.photoUser} />
+                                                    {
+                                                        item._count.comment_user === 1 ? (
+                                                            <img src={item?.comment_user[0].user?.photo_url}/>
+                                                        ) : (
+                                                            <img src={item?.comment_ngo[0].ngo?.photo_url}/>
+                                                        )
+                                                    }
                                                 </Link>
                                             </div>
                                         </div>
@@ -205,7 +210,7 @@ export function FeedPosts(props : PostProps) {
                                                 item._count.comment_user === 1 ? (
                                                     <h2 className="card-title text-neutral-900">{item?.comment_user[0].user?.name}</h2>
                                                 ) : (
-                                                    <h2 className="card-title text-neutral-900">{item?.comment_ngo[0].user?.name}</h2>
+                                                    <h2 className="card-title text-neutral-900">{item?.comment_ngo[0].ngo?.name}</h2>
                                                 )
                                             }
                                             <p className={"text-neutral-800 text-xs"}>{format(new Date(item.created_at), "d 'de' MMMM 'às' HH:mm", { locale: pt })}</p>

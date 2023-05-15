@@ -8,11 +8,11 @@ import { Link } from "react-router-dom";
 import {useParams} from "react-router-dom";
 import {toast, ToastContainer} from "react-toastify";
 
-interface Ngo {
+export interface Ngo {
     id:              string;
     photo_url:       string;
-    created_at:      Date;
-    attached_link:   null;
+    created_at:      string;
+    attached_link:   any[];
     banner_photo:    string;
     post_ngo:        PostNgo[];
     ngo_address:     NgoAddress;
@@ -20,7 +20,7 @@ interface Ngo {
     email:           string;
     name:            string;
     password:        string;
-    foundation_date: Date;
+    foundation_date: string;
     type:            Type;
     cnpj:            string;
     campaign:        Campaign[];
@@ -29,33 +29,79 @@ interface Ngo {
     ngo_phone:       any[];
 }
 
-interface Campaign {
-    title: string;
-    id:    string;
+export interface Campaign {
+    title:           string;
+    id:              string;
+    description:     string;
+    is_active:       boolean;
+    campaign_photos: CampaignPhoto[];
 }
 
-interface NgoAddress {
+export interface CampaignPhoto {
+    photo_url: string;
+}
+
+export interface NgoAddress {
     address: Address;
 }
 
-interface Address {
+export interface Address {
     id:          string;
     complement:  null;
     postal_code: string;
     number:      string;
 }
 
-interface PostNgo {
+export interface PostNgo {
     post: Post;
 }
 
-interface Post {
+export interface Post {
     id:         string;
     content:    string;
     created_at: Date;
+    post_photo: PostPhoto[];
+    post_likes: PostLike[];
+    comment:    Comment[];
 }
 
-interface Type {
+export interface Comment {
+    id:            string;
+    content:       string;
+    created_at:    Date;
+    id_post:       string;
+    comment_likes: any[];
+    comment_ngo:   any[];
+    comment_user:  CommentUser[];
+    _count:        Count;
+}
+
+export interface Count {
+    comment_ngo:   number;
+    comment_user:  number;
+    comment_likes: number;
+}
+
+export interface CommentUser {
+    id:         string;
+    id_comment: string;
+    id_user:    string;
+}
+
+export interface PostLike {
+    id:      string;
+    id_user: string;
+    id_ngo:  null;
+    id_post: string;
+}
+
+export interface PostPhoto {
+    id:        string;
+    id_post:   string;
+    photo_url: string;
+}
+
+export interface Type {
     name: string;
 }
 
@@ -68,8 +114,8 @@ export default function DashboardOng() {
     const [ngoData, setNgoData] = useState<Ngo>({
         id: "",
         photo_url: "",
-        created_at: new Date(),
-        attached_link: null,
+        created_at: "",
+        attached_link: [],
         banner_photo: "",
         post_ngo: [],
         ngo_address: { address: { id: "", complement: null, postal_code: "", number: "" } },
@@ -77,7 +123,7 @@ export default function DashboardOng() {
         email: "",
         name: "",
         password: "",
-        foundation_date: new Date(),
+        foundation_date: "",
         type: { name: "" },
         cnpj: "",
         campaign: [],
@@ -85,6 +131,7 @@ export default function DashboardOng() {
         following: [],
         ngo_phone: [],
     });
+
 
 
     useEffect(() => {
@@ -163,7 +210,7 @@ export default function DashboardOng() {
                                     <h1 className="text-4xl font-medium text-neutral-600 pb-5">Suas Campanhas</h1>
                                     <div className={"pb-5"}>
                                     <Link to={"/nova-campanha/"}>
-                                    <button className="btn gap-2 w-48 rounded-full bg-blueberry text-base-100 border-0 text-neutral-900 hover:bg-turquoise-700">
+                                    <button className="btn gap-2 w-48 rounded-full bg-blueberry border-0 text-neutral-100 hover:bg-turquoise-700">
                                         <Megaphone size={22} color={"white"} />
                                         Nova Campanha
                                     </button>
@@ -175,7 +222,7 @@ export default function DashboardOng() {
                                             <div className="card w-96 bg-base-100 shadow-xl" key={campanha.id}>
                                                 <div className="dropdown absolute top-0 right-0 p-2">
                                                     <label tabIndex={0}
-                                                           className="btn-unstyled m-1 text-neutral-200 text-4xl">...</label>
+                                                           className="btn-unstyled m-1 text-blueberry text-4xl">...</label>
                                                     <ul tabIndex={0}
                                                         className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
                                                         <Link to={`/editar-campanha/${campanha.id}`}>
@@ -194,10 +241,11 @@ export default function DashboardOng() {
                                                 </div>
                                                 <figure>
                                                     <img className={"rounded-t-lg"}
-                                                    src={"https://firebasestorage.googleapis.com/v0/b/doe-tempo-50ccb.appspot.com/o/images%2FFXMBvDUWIAI4b6y.jpeg?alt=media&token=7710cab2-27be-446c-980b-03ebe1e58bd7"}
+                                                    src={campanha.campaign_photos[0].photo_url}
                                                     alt="Shoes"/></figure>
                                                 <div className="card-body">
                                                     <h2 className="card-title">{campanha.title}</h2>
+                                                    <span>{campanha.description}</span>
                                                 </div>
                                             </div>
                                         ))}

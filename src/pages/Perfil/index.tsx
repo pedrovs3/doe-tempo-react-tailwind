@@ -65,7 +65,7 @@ export default function Perfil() {
                     {
                         typeUser === 'USER' ? (
                                // @ts-ignore
-                            <CardPerfil id={data?.id} name={data?.name} photoURL={data?.photo_url} postal_code={data?.user_address?.address?.postal_code}  attached_link={data?.attached_link} description={data?.description}/>
+                            <CardPerfil id={data?.id} name={data?.name} photoURL={data?.photo_url} postal_code={data?.user_address?.address?.postal_code}  attached_link={typeof data?.attached_link === 'object' ? data?.attached_link[0].attached_link : data?.attached_link} description={data?.description}/>
                         ) : (
                             // @ts-ignore
                             <CardPerfil id={data?.id} name={data?.name} photoURL={data?.photo_url} postal_code={data?.ngo_address?.address?.postal_code}  attached_link={data?.attached_link} description={data?.description}/>

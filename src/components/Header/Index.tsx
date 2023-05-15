@@ -1,6 +1,7 @@
 import {CaretLeft} from "phosphor-react";
 import Voluntaries from "../../assets/img/voluntaries.svg";
 
+
 export function Header() {
 	return (
 			<div className={'h-full w-full flex flex-col justify-between'}>

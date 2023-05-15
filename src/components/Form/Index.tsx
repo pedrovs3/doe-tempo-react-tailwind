@@ -1,4 +1,4 @@
-import {NavLink} from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom";
 import { useForm } from "react-hook-form";
 import {apiCep} from "../../api/consulta_cep";
 import {FormEvent, useEffect, useState} from "react";
@@ -21,7 +21,7 @@ interface Cep {
 export const Form = () => {
 
 	const {register, setValue} = useForm();
-
+	const navigate = useNavigate();
 	const [filled, setFilled] = useState(false);
 	const [cepState, setCepState] = useState('');
 	const [genderSelect, setGenderSelect] = useState('')
@@ -33,6 +33,7 @@ export const Form = () => {
 	const [gender, setGender] = useState<Gender[]>([]);
 	const [addressNumber, setAddressNumber] = useState('');
 	const [complement, setComplement] = useState('');
+	const [subscribeSuccess, setSubcscribeSuccess] = useState(false);
 
 
 
@@ -80,8 +81,7 @@ export const Form = () => {
 				gender: genderSelect
 			})
 
-			alert(`Parabens ${user.data.name} seu perfil foi criado com sucesso!`)
-
+			setSubcscribeSuccess(true)
 		}
 		catch (e) {
 			console.log(e)
@@ -89,6 +89,13 @@ export const Form = () => {
 		}
 
 	}
+
+	useEffect(() => {
+		if (subscribeSuccess) {
+			navigate("/login");
+		}
+	}, [subscribeSuccess]);
+
 
 	const handleChangeNumber = (e) => {
 		setAddressNumber(e.target.value)

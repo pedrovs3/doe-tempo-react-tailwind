@@ -213,7 +213,12 @@ export function FormEditarPerfil(){
                 rg: rg,
                 banner_photo: imgURL[0],
                 photo_url: iconURL[0],
-                attached_link: attached,
+                attached_link: [
+                    {
+                        link: attached,
+                        source: "aee387d7-f314-11ed-ad6b-6045bdf0a5e7",
+                    }
+                ]
             })
 
             console.log(data)

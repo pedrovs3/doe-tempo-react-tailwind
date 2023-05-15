@@ -10,7 +10,7 @@ interface UserProps {
     name: string,
     photoURL : string,
     postal_code: string,
-    attached_link: string,
+    attached_link: [],
     description: string,
 }
 

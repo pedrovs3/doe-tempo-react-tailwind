@@ -295,7 +295,7 @@ export default function DetalhesCampanha() {
                                                 <button className="hidden"></button>
                                             ) : (
                                                 <label onClick={handleInscricao} htmlFor="my-modal"
-                                                       className="btn gap-2 w-48 rounded-full bg-maya_blue border-0 text-neutral-900 hover:bg-turquoise-700">QUERO
+                                                       className="btn gap-2 w-48 rounded-full bg-maya_blue border-0 text-neutral-100 hover:bg-turquoise-700">QUERO
                                                     ME INSCREVER</label>
                                             )
                                         ) : (<button className="hidden"></button>)
