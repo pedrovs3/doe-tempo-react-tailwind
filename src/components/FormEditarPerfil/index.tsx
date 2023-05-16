@@ -381,6 +381,13 @@ export function FormEditarPerfil(){
                            value={cpf}
                            disabled/>
                 </div>
+                <div className="pt-2 flex flex-row gap-2 w-full">
+                <select className="select select-info">
+                    <option disabled selected>Selecione uma rede social</option>
+                    <option>English</option>
+                    <option>Japanese</option>
+                    <option>Italian</option>
+                </select>
                 <input type="text"
                        placeholder="Link Opcional"
                        className="input input-bordered input-info w-full"
@@ -388,6 +395,7 @@ export function FormEditarPerfil(){
                        onChange={it => setAttached(it.target.value)}
                        />
 
+            </div>
             </div>
             <div className={'pt-5 flex justify-end'}>
                 <button
