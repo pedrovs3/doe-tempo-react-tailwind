@@ -2,16 +2,38 @@ import React, {FormEvent, useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import {api} from "../../lib/axios";
 import {decodeJwt} from "../../utils/jwtDecode";
-import {Plus} from "phosphor-react";
+import {Plus, X} from "phosphor-react";
 import {getDownloadURL, ref, uploadBytesResumable} from 'firebase/storage';
 import {storage} from "../../firebase";
 import {format} from "date-fns";
 import {toast} from "react-toastify";
-interface Data {
-    user: User;
+
+export interface Link {
+    id: string;
+    attached_link: string;
+    id_source: string;
+    id_user: string;
+    id_ngo: string | null;
+    source: {
+        id: string;
+        name: string;
+    };
+}
+export interface SourceResponse {
+    sources: Source[];
 }
 
-interface User {
+export interface Source {
+    id:     string;
+    name:   string;
+    _count: Count;
+}
+
+export interface Count {
+    attached_link: number;
+}
+
+export interface User {
     id:                  string;
     name:                string;
     email:               string;
@@ -23,90 +45,77 @@ interface User {
     id_type:             string;
     description:         null;
     banner_photo:        string;
-    attached_link:       null;
     photo_url:           string;
     created_at:          Date;
+    attached_link:       AttachedLink[];
     user_address:        UserAddress;
     gender:              Gender;
-    user_phone:          null;
+    user_phone:          UserPhone;
     supported_campaigns: SupportedCampaign[];
-    post_user:           PostUser[];
-    _count:              UserCount;
+    post_user:           any[];
+    _count:              Count;
 }
 
-interface UserCount {
+export interface Count {
     supported_campaigns: number;
     following:           number;
 }
 
-interface Gender {
+export interface AttachedLink {
+    id:            string;
+    attached_link: string;
+    id_source:     string;
+    id_user:       string;
+    id_ngo:        null;
+    source:        Source;
+}
+
+export interface Source {
+    id:   string;
+    name: string;
+}
+
+export interface Gender {
     name:         string;
     abbreviation: string;
 }
 
-interface PostUser {
-    post: Post;
-}
-
-interface Post {
-    id:         string;
-    content:    string;
-    post_likes: PostLike[];
-    created_at: Date;
-    post_photo: PostPhoto[];
-    comment:    Comment[];
-    _count:     PostCount;
-}
-
-interface PostCount {
-    comment:    string;
-    post_ngo:   number;
-    post_photo: number;
-    post_user:  number;
-    post_likes: number;
-}
-
-interface Comment {
-    id:         string;
-    content:    string;
-    created_at: Date;
-    id_post:    string;
-}
-
-interface PostLike {
-    id:      string;
-    id_user: string;
-    id_ngo:  null;
-    id_post: string;
-}
-
-interface PostPhoto {
-    id:        string;
-    id_post:   string;
-    photo_url: string;
-}
-
-interface SupportedCampaign {
+export interface SupportedCampaign {
     campaign: Campaign;
 }
 
-interface Campaign {
-    id:    string;
-    title: string;
+export interface Campaign {
+    id:              string;
+    title:           string;
+    description:     string;
+    campaign_photos: CampaignPhoto[];
+    is_active:       boolean;
 }
 
-interface UserAddress {
+export interface CampaignPhoto {
+    photo_url: string;
+}
+
+export interface UserAddress {
     id:         string;
     id_address: string;
     id_user:    string;
     address:    Address;
 }
 
-interface Address {
+export interface Address {
     id:          string;
     postal_code: string;
     number:      string;
     complement:  null;
+}
+
+export interface UserPhone {
+    phone: Phone;
+}
+
+export interface Phone {
+    number: string;
 }
 
 interface Jwt {
@@ -123,11 +132,13 @@ export function FormEditarPerfil(){
     const jwt = decodeJWT as Jwt;
     const userType = jwt.type;
     const userId = jwt.id;
+    const maxLength = 20;
     const navigate = useNavigate();
     const routeParams = useParams();
     const id = routeParams.id
     const [data, setData] = useState<User | null>(null);
     const [user, setUser ] = useState<object>();
+    const [linkSocial, setLinkSocial] = useState<Source[]>([]);
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -135,6 +146,7 @@ export function FormEditarPerfil(){
     const [cpf, setCpf] = useState('')
     const [rg, setRg] = useState('')
     const [attached, setAttached] = useState('')
+    const [attachedLink, setAttachedLink] = useState<Link[]>([]);
     const [confirmPassword, setConfirmPassword] = useState('');
     const [birthdate, setBirthdate] = useState('')
     const [description, setDescription] = useState('')
@@ -145,6 +157,22 @@ export function FormEditarPerfil(){
     const [editSuccess, setEditSuccess] = useState(false);
     const [imgURL, setImgURL] = useState<string[]>([]);
     const [iconURL, setIconURL] = useState<string[]>([]);
+
+
+    function limitLinkSize(link: string, maxLength: number): string {
+        if (!link) {
+            return '';
+        }
+
+        if (link.length <= maxLength) {
+            return link;
+        } else {
+            return link.substring(0, maxLength - 3) + '...';
+        }
+    }
+
+
+    console.log(data)
 
     useEffect(() => {
         if(data?.name) {
@@ -159,12 +187,27 @@ export function FormEditarPerfil(){
             setComplement(data?.user_address?.address.complement)
             setGender(data?.id_gender)
             setRg(data?.rg)
-            setAttached(data.attached_link)
-            setPhone(data.user_phone)
+            setPhone(data.user_phone.phone.number)
+            setAttachedLink(data?.attached_link)
 
 
         }
     }, [data?.banner_photo]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const response = await api.get("/sources");
+            const data = response.data;
+            setLinkSocial(data.sources)
+        };
+
+
+        if (linkSocial) {
+            fetchData();
+        }
+    }, [linkSocial]);
+
+    console.log(linkSocial)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -216,7 +259,7 @@ export function FormEditarPerfil(){
                 attached_link: [
                     {
                         link: attached,
-                        source: "aee387d7-f314-11ed-ad6b-6045bdf0a5e7",
+                        source: attachedLink,
                     }
                 ]
             })
@@ -313,6 +356,12 @@ export function FormEditarPerfil(){
         }
     }
 
+    const handleSelectChange = (event) => {
+        const selectedId = event.target.value;
+        setAttachedLink(selectedId);
+    };
+
+
     return (
         <form name={"edit"} className={''} onSubmit={handleSubmitForm}>
             <div className="relative w-full sm:w-[28rem] bg-gray-200">
@@ -333,7 +382,7 @@ export function FormEditarPerfil(){
             </div>
             <div className={"pt-5 grid grid-cols-1 gap-3"}>
             <input type="text" placeholder="Nome" className="input input-bordered input-info w-full" value={name}  onChange={it => setName(it.target.value)}/>
-                <input type="email" placeholder="Email" className="input input-bordered input-info w-full" value={email} />
+                <input type="email" placeholder="Email" className="input input-bordered input-info w-full" value={email}  onChange={it => setEmail(it.target.value)} />
             </div>
             <div className="flex flex-col items-center w-full gap-2">
                 <div className="pt-2 flex flex-row gap-2 w-full">
@@ -382,11 +431,13 @@ export function FormEditarPerfil(){
                            disabled/>
                 </div>
                 <div className="pt-2 flex flex-row gap-2 w-full">
-                <select className="select select-info">
+                <select className="select select-info" onChange={handleSelectChange}>
                     <option disabled selected>Selecione uma rede social</option>
-                    <option>English</option>
-                    <option>Japanese</option>
-                    <option>Italian</option>
+                    {linkSocial.map((option) => (
+                        <option key={option.id} value={option.id}>
+                            {option.name}
+                        </option>
+                    ))}
                 </select>
                 <input type="text"
                        placeholder="Link Opcional"
@@ -394,9 +445,34 @@ export function FormEditarPerfil(){
                        value={attached}
                        onChange={it => setAttached(it.target.value)}
                        />
+            </div>
+                <div className={"flex flex-col gap-2"}>
+                    {attachedLink.map((link : Link) => (
+                        <div key={link.id} className={"flex flex-row gap-2 badge badge-ghost h-10"}>
+                            {link.source.name === "Twitter" && (
+                                <i className="fa-brands fa-twitter fa-xl"></i>
+                            )}
+                            {link.source.name === "LinkedIn" && (
+                                <i className="fa-brands fa-linkedin fa-xl"></i>
+                            )}
+                            {link.source.name === "Instagram" && (
+                                <i className="fa-brands fa-instagram fa-xl"></i>
+                            )}
+                            {link.source.name === "Facebook" && (
+                                <i className="fa-brands fa-facebook fa-xl"></i>
+                            )}
+                            <a href={link.attached_link} target="_blank" rel="noopener noreferrer" className="link link-hover text-xl font-semibold">
+                                {limitLinkSize(link.attached_link, maxLength)}
+                            </a>
+                            <button className="btn btn-circle btn-xs" type={"button"}>
+                                <X size={20} />
+                            </button>
+                        </div>
 
+                    ))}
+                </div>
             </div>
-            </div>
+
             <div className={'pt-5 flex justify-end'}>
                 <button
                     className={'btn w-40 rounded-full bg-accent border-0 text-white flex justify-center hover:bg-turquoise-500'}

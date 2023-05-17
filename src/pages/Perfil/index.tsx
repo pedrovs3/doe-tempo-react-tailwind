@@ -30,7 +30,6 @@ export default function Perfil() {
     const jwt = decodeJWT as Jwt;
     const userType = jwt.type;
     const userId = jwt.id;
-
     const [user, setUser ] = useState<object>();
 
     useEffect(() => {
@@ -50,12 +49,13 @@ export default function Perfil() {
 
     }, [id])
 
+    console.log(data)
 
     return (
         <div className={'bg-little-white'}>
             <div className={"navbar absolute top-0 left-0 w-full bg-transparent"}>
                 {/*// @ts-ignore*/}
-            <HeaderPosts id={user?.user?.id || user?.id} photoURL={user?.user?.photo_url || user?.photo_url}/>
+            <HeaderPosts id={data?.id} photoURL={data?.photo_url}/>
             </div>
             {/*// @ts-ignore*/}
             <img src={data?.banner_photo} alt="Header image" className="object-cover w-full h-64 md:h-96 lg:h-128" />
@@ -65,10 +65,22 @@ export default function Perfil() {
                     {
                         typeUser === 'USER' ? (
                                // @ts-ignore
-                            <CardPerfil id={data?.id} name={data?.name} photoURL={data?.photo_url} postal_code={data?.user_address?.address?.postal_code}  attached_link={typeof data?.attached_link === 'object' ? data?.attached_link[0].attached_link : data?.attached_link} description={data?.description}/>
+                            <CardPerfil
+                                id={data?.id}
+                                name={data?.name}
+                                photoURL={data?.photo_url}
+                                postal_code={data?.user_address?.address?.postal_code}
+                                attached_link={typeof data?.attached_link === 'object' ? data?.attached_link : data?.attached_link}
+                                description={data?.description}/>
                         ) : (
                             // @ts-ignore
-                            <CardPerfil id={data?.id} name={data?.name} photoURL={data?.photo_url} postal_code={data?.ngo_address?.address?.postal_code}  attached_link={data?.attached_link} description={data?.description}/>
+                            <CardPerfil
+                                id={data?.id}
+                                name={data?.name}
+                                photoURL={data?.photo_url}
+                                postal_code={data?.ngo_address?.address?.postal_code}
+                                attached_link={typeof data?.attached_link === 'object' ? data?.attached_link[0].attached_link : data?.attached_link}
+                                description={data?.description}/>
                         )
                     }
                 </div>

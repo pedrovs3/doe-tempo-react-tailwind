@@ -80,7 +80,7 @@ export function HeaderPosts(props : UserProps) {
                 <div className="flex-none gap-2">
                     <div className="dropdown dropdown-end">
                         <label tabIndex={0} className="h-24 btn btn-ghost rounded-btn avatar">
-                            <div className="w-16 rounded-xl ring ring-primary ring-turquoise-700 ring-offset-2 ring-offset-accent">
+                            <div className="w-16 rounded-xl ring ring-turquoise-700 ring-offset-2 ring-offset-accent">
                                 <img src={props.photoURL} />
                             </div>
                         </label>
@@ -88,7 +88,19 @@ export function HeaderPosts(props : UserProps) {
                             <Link to={`/perfil/${jwt.type}/${props.id}`} >
                             <li><a className={"active:bg-turquoise-500"}>Perfil</a></li>
                             </Link>
-                            <li><a className={"active:bg-turquoise-500"}>Configurações</a></li>
+                            {jwt.type === 'ONG' ? (
+                                <Link to={`/dashboard-ong/${props.id}`}>
+                                    <li>
+                                        <a className={"active:bg-turquoise-500"}>Dashboard</a>
+                                    </li>
+                                </Link>
+                            ) : (
+                                <Link to={`/dashboard-user/${props.id}`}>
+                                    <li>
+                                        <a className={"active:bg-turquoise-500"}>Dashboard</a>
+                                    </li>
+                                </Link>
+                            )}
                             <li><a className={"active:bg-turquoise-500"} onClick={handleLogout}>Logout</a></li>
                         </ul>
                     </div>

@@ -4,6 +4,8 @@ import {Link, MapPin, PencilSimple, UserPlus} from "phosphor-react";
 import {apiCep} from "../../api/consulta_cep";
 import {decodeJwt} from "../../utils/jwtDecode";
 import {useNavigate} from "react-router-dom";
+import {format} from "date-fns";
+import {Source} from "../FormEditarPerfil";
 
 interface UserProps {
     id : string,
@@ -12,6 +14,18 @@ interface UserProps {
     postal_code: string,
     attached_link: [],
     description: string,
+}
+
+export interface Link {
+    id: string;
+    attached_link: string;
+    id_source: string;
+    id_user: string;
+    id_ngo: string | null;
+    source: {
+        id: string;
+        name: string;
+    };
 }
 
 interface Cep {
@@ -38,6 +52,8 @@ interface Jwt {
 export function CardPerfil(props : UserProps & Cep) {
     const [data, setData] = useState([])
     const [cep, setCep] = useState<Cep | null>(null);
+    const [linkSocial, setLinkSocial] = useState<[]>([]);
+    const maxLength = 20;
     const decodeJWT = decodeJwt();
     const jwt = decodeJWT as Jwt;
     const userId = jwt.id;
@@ -59,10 +75,6 @@ export function CardPerfil(props : UserProps & Cep) {
 
     }, [])
 
-
-
-    const link = props.attached_link;
-    const maxLength = 20;
 
     function limitLinkSize(link: string, maxLength: number): string {
         if (!link) {
@@ -125,10 +137,28 @@ export function CardPerfil(props : UserProps & Cep) {
                     <p className={"text-xl font-bold items-start"}>Sobre</p>
                     <p className={"text-xl font-semibold"}>{props.description}</p>
                 </div>
-                <div className={"flex flex-row gap-2 badge badge-ghost h-10"}>
-                    <Link size={32} />
-                    <a href={link} target="_blank" rel="noopener noreferrer" className="link link-hover text-xl font-semibold">{limitLinkSize(link, maxLength)}</a>
-                </div>
+                {props.attached_link && props.attached_link.map((link : Link) => (
+                    <div key={link.id} className={"flex flex-row gap-2 badge badge-ghost h-10"}>
+                        {link.source.name === "Twitter" && (
+                            <i className="fa-brands fa-twitter fa-xl"></i>
+                        )}
+                        {link.source.name === "LinkedIn" && (
+                            <i className="fa-brands fa-linkedin fa-xl"></i>
+                        )}
+                        {link.source.name === "Instagram" && (
+                            <i className="fa-brands fa-instagram fa-xl"></i>
+                        )}
+                        {link.source.name === "Facebook" && (
+                            <i className="fa-brands fa-facebook fa-xl"></i>
+                        )}
+                        <a href={link.attached_link} target="_blank" rel="noopener noreferrer" className="link link-hover text-xl font-semibold">
+                            {limitLinkSize(link.attached_link, maxLength)}
+                        </a>
+                    </div>
+                ))}
+
+
+
             </div>
         </div>
     )
