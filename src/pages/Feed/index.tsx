@@ -7,18 +7,18 @@ import {api} from "../../lib/axios";
 import {FeedPosts} from "../../components/FeedPosts";
 import { ToastContainer } from 'react-toastify';
 
-export interface AllPosts {
+interface AllPosts {
     id:         string;
     content:    string;
-    created_at: string;
-    post_ngo:   any[];
-    post_user:  PostUser[];
+    created_at: Date;
+    post_ngo:   PostNgo[];
+    post_user:  any[];
+    post_likes: PostLike[];
     post_photo: PostPhoto[];
     comment:    Comment[];
-    _count:     WelcomeCount;
 }
 
-export interface WelcomeCount {
+interface WelcomeCount {
     comment:    number;
     post_ngo:   number;
     post_photo: number;
@@ -26,27 +26,27 @@ export interface WelcomeCount {
     post_likes: number;
 }
 
-export interface Comment {
+interface Comment {
     id:            string;
     content:       string;
-    created_at:    string;
+    created_at:    Date;
     comment_likes: any[];
-    comment_user:  CommentUser[];
-    comment_ngo:   any[];
+    comment_user:  any[];
+    comment_ngo:   CommentNgo[];
     _count:        CommentCount;
 }
 
-export interface CommentCount {
+interface CommentCount {
     comment_ngo:   number;
     comment_user:  number;
     comment_likes: number;
 }
 
-export interface CommentUser {
-    user: CommentUserUser;
+interface CommentNgo {
+    ngo: CommentNgoNgo;
 }
 
-export interface CommentUserUser {
+interface CommentNgoNgo {
     id:        string;
     name:      string;
     email:     string;
@@ -54,37 +54,55 @@ export interface CommentUserUser {
     photo_url: string;
 }
 
-export interface PurpleType {
+interface PurpleType {
     id:   string;
     name: string;
 }
 
-export interface PostPhoto {
-    photo_url: string;
-    id:        string;
+interface PostLike {
+    id:      string;
+    ngo:     null;
+    user:    User;
+    id_post: string;
 }
 
-export interface PostUser {
-    user: PostUserUser;
+interface User {
+    id:           string;
+    name:         string;
+    email:        string;
+    password:     string;
+    cpf:          string;
+    id_gender:    string;
+    birthdate:    Date;
+    rg:           string;
+    id_type:      string;
+    description:  string;
+    banner_photo: string;
+    photo_url:    string;
+    created_at:   Date;
 }
 
-export interface PostUserUser {
+interface PostNgo {
+    ngo: PostNgoNgo;
+}
+
+interface PostNgoNgo {
     id:        string;
     name:      string;
     email:     string;
     photo_url: string;
-    gender:    Gender;
     type:      FluffyType;
 }
 
-export interface Gender {
-    name:         string;
-    abbreviation: string;
-}
-
-export interface FluffyType {
+interface FluffyType {
     name: string;
 }
+
+interface PostPhoto {
+    photo_url: string;
+    id:        string;
+}
+
 
 interface Jwt {
     id:    string;
@@ -102,7 +120,6 @@ export default function Feed() {
     const userId = jwt.id;
     const [user, setUser ] = useState<any>();
     const [allPosts, setAllPosts] = useState<AllPosts[]>([]);
-
 
     useEffect(() => {
         const fetchData = async () => {
@@ -150,10 +167,6 @@ export default function Feed() {
         fetchAPI().catch(console.error)
     }, [allPosts])
 
-    console.log(allPosts)
-
-    console.log(user?.user?.id)
-
     return (
         <><ToastContainer/>
             <div className={''}>
@@ -177,16 +190,21 @@ export default function Feed() {
                                            images={item.post_photo}
                                            comments={item.comment}
                                            count_likes={item._count?.post_likes}
-                                           count_comments={item._count?.comment}/>
+                                           post_likes={item.post_likes}
+                                           count_comments={item._count?.comment}
+
+                                />
                             ) : (
                                 <FeedPosts id={item.id}
                                            type={item.post_ngo[0].ngo.type.name}
                                            idUser={item.post_ngo[0].ngo.id}
                                            nameUser={item.post_ngo[0].ngo.name}
                                            photoUser={item.post_ngo[0].ngo.photo_url}
-                                           content={item.content} created={item.created_at}
+                                           content={item.content}
+                                           created={item.created_at}
                                            images={item.post_photo}
                                            comments={item.comment}
+                                           post_likes={item.post_likes}
                                            count_likes={item._count?.post_likes}
                                            count_comments={item._count?.comment}/>
                             )

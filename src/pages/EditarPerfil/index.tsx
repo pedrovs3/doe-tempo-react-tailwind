@@ -131,8 +131,6 @@ export default function EditarPerfil() {
     const [user, setUser] = useState<UserResponse | null>(null);
 
 
-
-
     useEffect(() => {
         const fetchData = async () => {
             let endpoint = "";
@@ -150,16 +148,16 @@ export default function EditarPerfil() {
         fetchData();
     }, [userId, userType]);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const {data} = await api.get(`/user/${id}`);
-            setData(data.user)
-        }
-
-
-        fetchData().catch(console.error);
-
-    }, [])
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         const {data} = await api.get(`/user/${id}`);
+    //         setData(data.user)
+    //     }
+    //
+    //
+    //     fetchData().catch(console.error);
+    //
+    // }, [])
 
     return (
         <><ToastContainer/>

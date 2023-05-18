@@ -6,6 +6,7 @@ import {Link} from "react-router-dom";
 import {api} from "../../lib/axios";
 import {decodeJwt} from "../../utils/jwtDecode";
 import { toast } from 'react-toastify';
+import {PostLike} from "../../models/PostLike";
 
 export interface Comentario {
     id:            string;
@@ -55,6 +56,8 @@ interface PostProps {
     created : string,
     images: Image[],
     comments: Comentario[],
+    post_likes: PostLike[];
+    liked: [string],
     type: string,
     count_likes: number,
     count_comments: number
@@ -72,7 +75,7 @@ interface Jwt {
 export function FeedPosts(props : PostProps) {
     const [showCommentInput, setShowCommentInput] = useState({});
     const dataFormatada = format(new Date(props.created), "d 'de' MMMM 'às' HH:mm", { locale: pt });
-    const [liked, setLiked] = useState(false);
+    const [liked, setLiked] = useState();
     const photoUrls = props.images.map((photo) => photo.photo_url);
     const showNavigation = photoUrls.length > 1;
     const [comentario, setComentario] = useState('');
@@ -80,6 +83,7 @@ export function FeedPosts(props : PostProps) {
     const jwt = decodeJWT as Jwt;
     const isCurrentUserOwner = jwt.id === props.idUser;
     const [countLikes, setCountLikes] = useState(props.count_likes);
+
 
     const handleDeletePost = async () => {
         try {
@@ -92,19 +96,10 @@ export function FeedPosts(props : PostProps) {
     };
 
     function handleLike() {
-        const url = `/post/${props.id}/like`;
-        setLiked(!liked);
-        setCountLikes((prevCountLikes) => prevCountLikes + (liked ? -1 : 1));
+        const url = `/post/${props.id}/like`
+        const like = api.post(`${url}`)
+        setLiked(liked)
 
-        api.post(url).then((response) => {
-            if (response.data) {
-                setCountLikes(countLikes);
-            }
-        }).catch((error) => {
-            console.log(error);
-            setLiked(liked);
-            setCountLikes((prevCountLikes) => prevCountLikes - (liked ? -1 : 1));
-        });
     }
 
 

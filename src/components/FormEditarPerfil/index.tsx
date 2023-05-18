@@ -8,6 +8,25 @@ import {storage} from "../../firebase";
 import {format} from "date-fns";
 import {toast} from "react-toastify";
 
+interface UserPayload {
+    name: string;
+    email: string;
+    password: string;
+    cpf: string;
+    birthdate: string;
+    description: string;
+    address: {
+        postal_code: string;
+        number: string;
+        complement: string;
+    };
+    gender: string;
+    rg: string;
+    banner_photo: string;
+    photo_url: string;
+    phone?: { number: string }[];
+    attached_link?: { link: string; source: string }[];
+}
 export interface Link {
     id: string;
     attached_link: string;
@@ -146,6 +165,7 @@ export function FormEditarPerfil(){
     const [cpf, setCpf] = useState('')
     const [rg, setRg] = useState('')
     const [attached, setAttached] = useState('')
+    const [sourceLink, setSourcelink] = useState('')
     const [attachedLink, setAttachedLink] = useState<Link[]>([]);
     const [confirmPassword, setConfirmPassword] = useState('');
     const [birthdate, setBirthdate] = useState('')
@@ -187,7 +207,7 @@ export function FormEditarPerfil(){
             setComplement(data?.user_address?.address.complement)
             setGender(data?.id_gender)
             setRg(data?.rg)
-            setPhone(data.user_phone.phone.number)
+            setPhone(data?.user_phone?.phone.number)
             setAttachedLink(data?.attached_link)
 
 
@@ -228,25 +248,32 @@ export function FormEditarPerfil(){
 
     useEffect(() => {
         const fetchData = async () => {
-            const {data} = await api.get(`/user/${id}`);
-            setData(data.user)
-        }
+            let endpoint = "";
+            if (userType === "ONG") {
+                endpoint = `/ngo/${userId}`;
+            } else if (userType === "USER") {
+                endpoint = `/user/${userId}`;
+            }
+
+            const response = await api.get(endpoint);
+            const user = response.data;
+            setUser(user);
+        };
+
+        fetchData();
+    }, [userId, userType]);
 
 
-        fetchData().catch(console.error);
-
-    }, [])
-
-    const handleSubmitForm = async (e: FormEvent)    => {
+    const handleSubmitForm = async (e: FormEvent) => {
         e.preventDefault();
-
         try {
-            const {data} = await api.put(`/user/${id}`, {
+            const payload: UserPayload = {
                 name: name,
                 email: email,
                 password: password,
                 cpf: cpf,
                 birthdate: birthdate,
+                description: description,
                 address: {
                     postal_code: postalCode,
                     number: postalNumber,
@@ -256,22 +283,28 @@ export function FormEditarPerfil(){
                 rg: rg,
                 banner_photo: imgURL[0],
                 photo_url: iconURL[0],
-                attached_link: [
-                    {
-                        link: attached,
-                        source: attachedLink,
-                    }
-                ]
-            })
+            };
 
-            console.log(data)
-            setEditSuccess(true)
+            if (phone) {
+                payload.phone = [{ number: phone }];
+            }
 
+            if (attached) {
+                payload.attached_link = [{ link: attached, source: sourceLink }];
+            }
+
+            const { data } = await api.put(`/user/${id}`, payload);
+            console.log(data);
+            setEditSuccess(true);
         } catch (e) {
-            console.log(e)
-            alert("Não mudou nada.")
+            console.log(e);
+            alert("Não mudou nada.");
         }
-    }
+    };
+
+
+
+
 
     useEffect(() => {
         if (editSuccess && userType === 'ONG') {
@@ -358,7 +391,7 @@ export function FormEditarPerfil(){
 
     const handleSelectChange = (event) => {
         const selectedId = event.target.value;
-        setAttachedLink(selectedId);
+        setSourcelink(selectedId);
     };
 
 

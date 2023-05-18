@@ -79,7 +79,7 @@ export default function Perfil() {
                                 name={data?.name}
                                 photoURL={data?.photo_url}
                                 postal_code={data?.ngo_address?.address?.postal_code}
-                                attached_link={typeof data?.attached_link === 'object' ? data?.attached_link[0].attached_link : data?.attached_link}
+                                attached_link={typeof data?.attached_link === 'object' ? data?.attached_link : data?.attached_link}
                                 description={data?.description}/>
                         )
                     }

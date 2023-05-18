@@ -144,7 +144,7 @@ export default function DashboardOng() {
 
         fetchData().catch(console.error);
 
-    }, [])
+    }, [ngoData])
 
     console.log(ngoData)
 
