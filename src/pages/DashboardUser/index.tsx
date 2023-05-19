@@ -232,7 +232,7 @@ export default function DashboardUser() {
                                             <div className="card w-96 bg-base-100 shadow-xl" key={campanha.campaign.id}>
                                                 <figure>
                                                     <img className={"rounded-t-lg"}
-                                                         src={"https://firebasestorage.googleapis.com/v0/b/doe-tempo-50ccb.appspot.com/o/images%2FFXMBvDUWIAI4b6y.jpeg?alt=media&token=7710cab2-27be-446c-980b-03ebe1e58bd7"}
+                                                         src={""}
                                                          alt="Shoes"/></figure>
                                                 <div className="card-body">
                                                     <h2 className="card-title">{campanha.campaign.title}</h2>

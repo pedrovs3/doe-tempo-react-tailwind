@@ -246,6 +246,7 @@ export function FormEditarPerfil(){
         fetchData();
     }, [userId, userType]);
 
+    console.log(imgURL)
 
     const handleSubmitForm = async (e: FormEvent) => {
         e.preventDefault();
@@ -280,11 +281,10 @@ export function FormEditarPerfil(){
             console.log(data);
             setEditSuccess(true);
         } catch (e) {
-            console.log(e);
+            console.log(data);
             alert("Não mudou nada.");
         }
     };
-
 
 
 
@@ -462,31 +462,31 @@ export function FormEditarPerfil(){
                        onChange={it => setAttached(it.target.value)}
                        />
             </div>
-                {/*<div className={"flex flex-col gap-2"}>*/}
-                {/*    {attachedLink.map((link : Link) => (*/}
-                {/*        <div key={link.id} className={"flex flex-row gap-2 badge badge-ghost h-10"}>*/}
-                {/*            {link.source.name === "Twitter" && (*/}
-                {/*                <i className="fa-brands fa-twitter fa-xl"></i>*/}
-                {/*            )}*/}
-                {/*            {link.source.name === "LinkedIn" && (*/}
-                {/*                <i className="fa-brands fa-linkedin fa-xl"></i>*/}
-                {/*            )}*/}
-                {/*            {link.source.name === "Instagram" && (*/}
-                {/*                <i className="fa-brands fa-instagram fa-xl"></i>*/}
-                {/*            )}*/}
-                {/*            {link.source.name === "Facebook" && (*/}
-                {/*                <i className="fa-brands fa-facebook fa-xl"></i>*/}
-                {/*            )}*/}
-                {/*            <a href={link.attached_link} target="_blank" rel="noopener noreferrer" className="link link-hover text-xl font-semibold">*/}
-                {/*                {limitLinkSize(link.attached_link, maxLength)}*/}
-                {/*            </a>*/}
-                {/*            <button className="btn btn-circle btn-xs" type={"button"}>*/}
-                {/*                <X size={20} />*/}
-                {/*            </button>*/}
-                {/*        </div>*/}
+                <div className={"flex flex-col gap-2"}>
+                    {attachedLink.map((link : Link) => (
+                        <div key={link.id} className={"flex flex-row gap-2 badge badge-ghost h-10"}>
+                            {link.source.name === "Twitter" && (
+                                <i className="fa-brands fa-twitter fa-xl"></i>
+                            )}
+                            {link.source.name === "LinkedIn" && (
+                                <i className="fa-brands fa-linkedin fa-xl"></i>
+                            )}
+                            {link.source.name === "Instagram" && (
+                                <i className="fa-brands fa-instagram fa-xl"></i>
+                            )}
+                            {link.source.name === "Facebook" && (
+                                <i className="fa-brands fa-facebook fa-xl"></i>
+                            )}
+                            <a href={link.attached_link} target="_blank" rel="noopener noreferrer" className="link link-hover text-xl font-semibold">
+                                {limitLinkSize(link.attached_link, maxLength)}
+                            </a>
+                            <button className="btn btn-circle btn-xs" type={"button"}>
+                                <X size={20} />
+                            </button>
+                        </div>
 
-                {/*    ))}*/}
-                {/*</div>*/}
+                    ))}
+                </div>
             </div>
 
             <div className={'pt-5 flex justify-end'}>

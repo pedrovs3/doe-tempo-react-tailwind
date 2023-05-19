@@ -7,6 +7,8 @@ import {api} from "../../lib/axios";
 import { Link } from "react-router-dom";
 import {useParams} from "react-router-dom";
 import {toast, ToastContainer} from "react-toastify";
+import {format} from "date-fns";
+import {data} from "autoprefixer";
 
 
  interface Volunteer {
@@ -197,6 +199,7 @@ export default function DashboardOng() {
 
             const responseVolunteer = await api.get(`/campaign/participants/${id}`);
             setVolunteersData(responseVolunteer.data.volunteers);
+            console.log(volunteersData)
 
         }
 
@@ -240,6 +243,8 @@ export default function DashboardOng() {
             });
 
     }
+
+    console.log(ngoData)
 
 
 
@@ -374,7 +379,9 @@ export default function DashboardOng() {
                                                         </div>
                                                     </div>
                                                     <div>
+                                                        <Link to={`/perfil/USER/${volunteer.user.id}`}>
                                                         <div className="font-bold">{volunteer.user.name}</div>
+                                                        </Link>
                                                         <div className="text-sm opacity-50">{}, {}</div>
                                                     </div>
                                                 </div>
@@ -382,7 +389,7 @@ export default function DashboardOng() {
                                             <td>
                                                 {volunteer.campaign.title}
                                                 <br />
-                                                <span className="badge badge-ghost badge-sm">{volunteer.campaign.begin_date} | {volunteer.campaign.end_date}</span>
+                                                <span className="badge badge-ghost badge-sm">{format(new Date(volunteer.campaign.begin_date), "dd-MM-yyyy")} | {format(new Date(volunteer.campaign.end_date), "dd-MM-yyyy")}</span>
                                             </td>
                                             <td>
                                                 <div className="flex gap-5">

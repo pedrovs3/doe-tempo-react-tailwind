@@ -4,6 +4,7 @@ import {useEffect, useState} from "react";
 import {api} from "../../lib/axios";
 import {EditCampanhaForm} from "../../components/EditarCampanha";
 import {decodeJwt} from "../../utils/jwtDecode";
+import * as perf_hooks from "perf_hooks";
 
 export interface UserResponse {
     user: User;
@@ -231,10 +232,9 @@ export default function EditarCampanha() {
 
     }, [])
 
-    console.log(data)
-
-
     const photoURL = data?.campaign_photos && data.campaign_photos.length > 0 ? data.campaign_photos[0].photo_url : "";
+
+    console.log(photoURL)
 
 
     return (

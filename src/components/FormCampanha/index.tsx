@@ -31,7 +31,7 @@ export function CampanhaForm(props : AddressProps) {
         const [beginDateState, setStateDateBegin] = useState('')
         const [endDateState, setStateDateEnd] = useState('')
         const [selectedOption, setSelectedOption] = useState([]);
-        const [cepState, setCepState] = useState('');
+        const [cepState, setCepState] = useState(props.cep);
         const [logradouroState, setLogradouroState] = useState(props.logradouro);
         const [numeroState, setNumeroState] = useState(props.numero);
         const [complementoState, setComplementoState] = useState(props.complemento);
@@ -136,9 +136,9 @@ export function CampanhaForm(props : AddressProps) {
                     photo_url: imgURL,
                     causes: causesJson,
                     address: {
-                        postal_code: props.cep,
-                        number: props.numero,
-                        complement: props.complemento || null
+                        postal_code: cepState,
+                        number: numeroState,
+                        complement: complementoState || null
                     }
                 })
 

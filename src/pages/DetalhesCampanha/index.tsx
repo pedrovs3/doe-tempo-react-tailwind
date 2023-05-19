@@ -237,9 +237,8 @@ export default function DetalhesCampanha() {
         const navigate = useNavigate();
 
         const handleInscricao = async () => {
-            const idUser = user?.user.id;
-            const idCampaign = id;
-            const url = `/user/campaign/?idUser=${idUser}&idCampaign=${idCampaign}`;
+            const idUser = userId;
+            const url = `/user/campaign/?idUser=${idUser}&idCampaign=${id}`;
             const campaignResponse = await api.post(url);
             setCampaign(campaignResponse.data);
 

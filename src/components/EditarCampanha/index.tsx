@@ -7,6 +7,7 @@ import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import {format} from "date-fns";
 import {apiCep} from "../../api/consulta_cep";
+import {useNavigate} from "react-router-dom";
 
 interface Cep {
     cep:         string;
@@ -58,7 +59,10 @@ export function EditCampanhaForm(props : AddressProps & CampaignProps) {
     const [selectedOption, setSelectedOption] = useState([]);
     const [value, setValue] = useState(false);
     const [cep, setCep] = useState<Cep | null>(null);
+    const [updateSuccess, setUpdateSuccess] = useState(false);
+    const navigate = useNavigate();
 
+    console.log(props.photoURL)
 
 
     useEffect(() => {
@@ -70,9 +74,10 @@ export function EditCampanhaForm(props : AddressProps & CampaignProps) {
             setStateDateBegin(dataFormatadaInicio)
             setStateDateEnd(dataFormatadaFim)
             setValue(props.home_office)
-            setStateContribute(props. contribute)
-            setStatePrerequisites(props. prerequisites)
+            setStateContribute(props.contribute)
+            setStatePrerequisites(props.prerequisites)
             setCep(cep)
+            setImgURL([props.photoURL])
 
         }
     }, [props.title]);
@@ -83,8 +88,8 @@ export function EditCampanhaForm(props : AddressProps & CampaignProps) {
     function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
         const files = Array.from(event.target.files);
         console.log(files);
-
         if (!files) return;
+
         files.forEach((file: File) => {
             const storageRef = ref(storage, `images/${file.name}`);
             const uploadTask = uploadBytesResumable(storageRef, file);
@@ -96,7 +101,7 @@ export function EditCampanhaForm(props : AddressProps & CampaignProps) {
 
             uploadTask.then(() => {
                 getDownloadURL(storageRef).then((url: string) => {
-                    setImgURL((prevImages: string[]) => [...prevImages, url]);
+                    setImgURL([url]); // Update the state with the new URL
                 });
             });
         });
@@ -128,6 +133,8 @@ export function EditCampanhaForm(props : AddressProps & CampaignProps) {
         fetchData().catch(console.error);
 
     }, [props.cep])
+
+    console.log(props.photoURL)
 
     const [progress, setProgress] = useState(0)
 
@@ -167,13 +174,22 @@ export function EditCampanhaForm(props : AddressProps & CampaignProps) {
                 }
             })
 
+            setUpdateSuccess(true)
             alert(campaign.data)
         } catch (e) {
             console.log(e)
+
             alert("Houve um erro!")
         }
 
     }
+
+    useEffect(() => {
+        if (updateSuccess) {
+            navigate(`/dashboard-ong/${props.idOng}`);
+        }
+    }, [updateSuccess]);
+
 
     const animatedComponents = makeAnimated();
 
