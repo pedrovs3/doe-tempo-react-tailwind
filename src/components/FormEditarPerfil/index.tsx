@@ -221,7 +221,6 @@ export function FormEditarPerfil(){
             setLinkSocial(data.sources)
         };
 
-
         if (linkSocial) {
             fetchData();
         }
@@ -229,22 +228,6 @@ export function FormEditarPerfil(){
 
     console.log(linkSocial)
 
-    useEffect(() => {
-        const fetchData = async () => {
-            let endpoint = "";
-            if (userType === "ONG") {
-                endpoint = `/ngo/${userId}`;
-            } else if (userType === "USER") {
-                endpoint = `/user/${userId}`;
-            }
-
-            const response = await api.get(endpoint);
-            const user = response.data;
-            setUser(user);
-        };
-
-        fetchData();
-    }, [userId, userType]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -257,7 +240,7 @@ export function FormEditarPerfil(){
 
             const response = await api.get(endpoint);
             const user = response.data;
-            setUser(user);
+            setData(user.user);
         };
 
         fetchData();
@@ -479,31 +462,31 @@ export function FormEditarPerfil(){
                        onChange={it => setAttached(it.target.value)}
                        />
             </div>
-                <div className={"flex flex-col gap-2"}>
-                    {attachedLink.map((link : Link) => (
-                        <div key={link.id} className={"flex flex-row gap-2 badge badge-ghost h-10"}>
-                            {link.source.name === "Twitter" && (
-                                <i className="fa-brands fa-twitter fa-xl"></i>
-                            )}
-                            {link.source.name === "LinkedIn" && (
-                                <i className="fa-brands fa-linkedin fa-xl"></i>
-                            )}
-                            {link.source.name === "Instagram" && (
-                                <i className="fa-brands fa-instagram fa-xl"></i>
-                            )}
-                            {link.source.name === "Facebook" && (
-                                <i className="fa-brands fa-facebook fa-xl"></i>
-                            )}
-                            <a href={link.attached_link} target="_blank" rel="noopener noreferrer" className="link link-hover text-xl font-semibold">
-                                {limitLinkSize(link.attached_link, maxLength)}
-                            </a>
-                            <button className="btn btn-circle btn-xs" type={"button"}>
-                                <X size={20} />
-                            </button>
-                        </div>
+                {/*<div className={"flex flex-col gap-2"}>*/}
+                {/*    {attachedLink.map((link : Link) => (*/}
+                {/*        <div key={link.id} className={"flex flex-row gap-2 badge badge-ghost h-10"}>*/}
+                {/*            {link.source.name === "Twitter" && (*/}
+                {/*                <i className="fa-brands fa-twitter fa-xl"></i>*/}
+                {/*            )}*/}
+                {/*            {link.source.name === "LinkedIn" && (*/}
+                {/*                <i className="fa-brands fa-linkedin fa-xl"></i>*/}
+                {/*            )}*/}
+                {/*            {link.source.name === "Instagram" && (*/}
+                {/*                <i className="fa-brands fa-instagram fa-xl"></i>*/}
+                {/*            )}*/}
+                {/*            {link.source.name === "Facebook" && (*/}
+                {/*                <i className="fa-brands fa-facebook fa-xl"></i>*/}
+                {/*            )}*/}
+                {/*            <a href={link.attached_link} target="_blank" rel="noopener noreferrer" className="link link-hover text-xl font-semibold">*/}
+                {/*                {limitLinkSize(link.attached_link, maxLength)}*/}
+                {/*            </a>*/}
+                {/*            <button className="btn btn-circle btn-xs" type={"button"}>*/}
+                {/*                <X size={20} />*/}
+                {/*            </button>*/}
+                {/*        </div>*/}
 
-                    ))}
-                </div>
+                {/*    ))}*/}
+                {/*</div>*/}
             </div>
 
             <div className={'pt-5 flex justify-end'}>

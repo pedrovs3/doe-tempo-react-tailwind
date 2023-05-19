@@ -8,6 +8,61 @@ import { Link } from "react-router-dom";
 import {useParams} from "react-router-dom";
 import {toast, ToastContainer} from "react-toastify";
 
+
+ interface Volunteer {
+    id:          string;
+    id_campaign: string;
+    id_user:     string;
+    id_status:   string;
+    campaign:    Campaign;
+    user:        User;
+}
+
+ interface CampaignAddress {
+    id:          string;
+    id_campaign: string;
+    id_address:  string;
+}
+
+interface CampaignCause {
+    id:          string;
+    id_cause:    string;
+    id_campaign: string;
+}
+
+interface User {
+    id:                  string;
+    name:                string;
+    email:               string;
+    password:            string;
+    cpf:                 string;
+    id_gender:           string;
+    birthdate:           Date;
+    rg:                  null | string;
+    id_type:             string;
+    description:         null | string;
+    banner_photo:        string;
+    photo_url:           string;
+    created_at:          Date;
+    supported_campaigns: SupportedCampaign[];
+    attached_link:       AttachedLink[];
+}
+
+interface AttachedLink {
+    id:            string;
+    attached_link: string;
+    id_source:     string;
+    id_user:       string;
+    id_ngo:        null;
+}
+
+interface SupportedCampaign {
+    id:          string;
+    id_campaign: string;
+    id_user:     string;
+    id_status:   string;
+}
+
 export interface Ngo {
     id:              string;
     photo_url:       string;
@@ -131,7 +186,7 @@ export default function DashboardOng() {
         following: [],
         ngo_phone: [],
     });
-
+    const [volunteersData, setVolunteersData] = useState<Volunteer[]>([]);
 
 
     useEffect(() => {
@@ -140,13 +195,16 @@ export default function DashboardOng() {
             const response = await api.get(`/ngo/${id}`);
             setNgoData(response.data);
 
+            const responseVolunteer = await api.get(`/campaign/participants/${id}`);
+            setVolunteersData(responseVolunteer.data.volunteers);
+
         }
 
         fetchData().catch(console.error);
 
-    }, [ngoData])
+    }, [ngoData, volunteersData])
 
-    console.log(ngoData)
+    console.log(volunteersData)
 
     const handleDeleteCampaign = async (idCampaign) => {
         try {
@@ -157,6 +215,32 @@ export default function DashboardOng() {
             toast.error('Houve um erro ao excluir a campanha!');
         }
     };
+
+    const handleApproval = (idCampanha, idUsuario) => {
+        const status = 'Aprovado';
+        const url = `/campaign/${idCampanha}/user/${idUsuario}?status=${status}`;
+        api.put(url)
+            .then(response => {
+                toast.success('O voluntário foi aprovado!');
+            })
+            .catch(error => {
+                toast.error('Houve um erro ao tentar aprovar o voluntário!');
+            });
+        }
+
+    const handleDenied = (idCampanha, idUsuario) => {
+        const status = 'Reprovado';
+        const url = `/campaign/${idCampanha}/user/${idUsuario}?status=${status}`;
+        api.put(url)
+            .then(response => {
+                toast.success('O voluntário foi reprovado!');
+            })
+            .catch(error => {
+                toast.error('Houve um erro ao tentar reprovar o voluntário!');
+            });
+
+    }
+
 
 
     return (
@@ -271,62 +355,69 @@ export default function DashboardOng() {
                                         <th></th>
                                     </tr>
                                     </thead>
-                                    <tbody>
                                     {/* row 1 */}
-                                    <tr>
-                                        <th>
-                                            <label>
-                                                <input type="checkbox" className="checkbox"/>
-                                            </label>
-                                        </th>
-                                        <td>
-                                            <div className="flex items-center space-x-3">
-                                                <div className="avatar">
-                                                    <div className="mask mask-squircle w-12 h-12">
-                                                        <img src={avatar} alt="Avatar do voluntário"/>
+                                    <tbody>
+                                    {volunteersData.map((volunteer) => (
+                                        <tr key={volunteer.id}>
+                                            <th>
+                                                <label>
+                                                    <input type="checkbox" className="checkbox" />
+                                                </label>
+                                            </th>
+                                            <td>
+                                                <div className="flex items-center space-x-3">
+                                                    <div className="avatar">
+                                                        <div className="mask mask-squircle w-12 h-12">
+                                                            <Link to={`/perfil/USER/${volunteer.user.id}`}>
+                                                            <img src={volunteer.user.photo_url} alt="Avatar do voluntário" />
+                                                            </Link>
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <div className="font-bold">{volunteer.user.name}</div>
+                                                        <div className="text-sm opacity-50">{}, {}</div>
                                                     </div>
                                                 </div>
-                                                <div>
-                                                    <div className="font-bold">Pedro Henrique</div>
-                                                    <div className="text-sm opacity-50">Osasco, SP</div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            Voluntários para uma escola
-                                            <br/>
-                                            <span className="badge badge-ghost badge-sm">10/03/2023 | 20/05/2023</span>
-                                        </td>
-                                        <td>
-                                            <div className={"flex gap-5"}>
-                                                <button className="btn btn-circle btn-outline btn-accent">
-                                                    <span className="hover:text-little-white"><Check size={32}/></span>
-                                                </button>
-                                                <label htmlFor="my-modal-5" className="btn btn-circle btn-outline btn-error">
-                                                    <span className="hover:text-little-white"><X size={32}/></span>
-                                                </label>
-                                                <input type="checkbox" id="my-modal-5" className="modal-toggle" />
-                                                <div className="modal">
-                                                    <div className="modal-box w-11/12 max-w-5xl">
-                                                        <label htmlFor="my-modal-5" className="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
-                                                        <h3 className="font-bold text-2xl">❌ Recusar</h3>
-                                                        <p className="py-4 text-xl">
-                                                            Sentimos muito por esse voluntário não se encaixar na sua campanha.
-                                                            <br/>
-                                                            Existe algum motivo específico para ele não ser aprovado?
-                                                        </p>
-                                                        <input type="text" placeholder="Motivo" className="input input-bordered input-error w-full" />
-                                                        <div className="modal-action">
-                                                            <label htmlFor="my-modal-5" className="btn btn-error text-neutral-50">Recusar</label>
+                                            </td>
+                                            <td>
+                                                {volunteer.campaign.title}
+                                                <br />
+                                                <span className="badge badge-ghost badge-sm">{volunteer.campaign.begin_date} | {volunteer.campaign.end_date}</span>
+                                            </td>
+                                            <td>
+                                                <div className="flex gap-5">
+                                                    <button className="btn btn-circle btn-outline btn-accent"
+                                                            onClick={() => handleApproval(volunteer.id_campaign, volunteer.id_user)}>
+                                                        <span className="hover:text-little-white"><Check size={32} /></span>
+                                                    </button>
+                                                    <label htmlFor="my-modal-5" className="btn btn-circle btn-outline btn-error">
+                                                        <span className="hover:text-little-white"><X size={32} /></span>
+                                                    </label>
+                                                    <input type="checkbox" id="my-modal-5" className="modal-toggle" />
+                                                    <div className="modal">
+                                                        <div className="modal-box w-11/12 max-w-5xl">
+                                                            <label htmlFor="my-modal-5" className="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
+                                                            <h3 className="font-bold text-2xl">❌ Recusar</h3>
+                                                            <p className="py-4 text-xl">
+                                                                Sentimos muito por esse voluntário não se encaixar na sua campanha.
+                                                                <br />
+                                                                Existe algum motivo específico para ele não ser aprovado?
+                                                            </p>
+                                                            <input type="text" placeholder="Motivo" className="input input-bordered input-error w-full" />
+                                                            <div className="modal-action">
+                                                                <label onClick={() => handleDenied(volunteer.id_campaign, volunteer.id_user)} htmlFor="my-modal-5" className="btn btn-error text-neutral-50">Recusar</label>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </td>
-                                        <th>
-                                            <button className="btn btn-ghost btn-xs">detalhes</button>
-                                        </th>
-                                    </tr>
+                                            </td>
+                                            <th>
+                                                <Link to={`/detalhes-campanha/${volunteer.campaign.id}`}>
+                                                <button className="btn btn-ghost btn-xs">detalhes</button>
+                                                </Link>
+                                            </th>
+                                        </tr>
+                                    ))}
                                     </tbody>
                                     {/* foot */}
                                     <tfoot>

@@ -71,7 +71,7 @@ export function HeaderPosts(props : UserProps) {
                     <Link to={"/campanhas"} >
                         <li className={'bg-little-white rounded'}><a className={'tooltip tooltip-bottom active:bg-little-white'} data-tip="Campanhas"><Megaphone size={32} color="#4F79FE"/></a></li>
                     </Link>
-                    <Link to={"/login"} >
+                    <Link to={"/feed"} >
                         <li className={'bg-little-white rounded'}><a className={'tooltip tooltip-bottom active:bg-little-white'} data-tip="Feed"><Article size={32} color="#4F79FE"/></a></li>
                     </Link>
                 </ul>

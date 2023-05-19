@@ -133,7 +133,6 @@ export function CampanhaForm(props : AddressProps) {
                     home_office: value,
                     how_to_contribute: contributeState,
                     prerequisites: prerequisitesState,
-                    id_ngo: props.idOng,
                     photo_url: imgURL,
                     causes: causesJson,
                     address: {

@@ -9,7 +9,6 @@ import NovoPost from "../NovoPost";
 import {FeedPosts} from "../../components/FeedPosts";
 import 'react-toastify/dist/ReactToastify.css';
 import {CardHistorico} from "../../components/CardHistorico";
-import {Footer} from "../../components/Footer";
 
 interface Jwt {
     id:    string;
@@ -49,13 +48,27 @@ export default function Perfil() {
 
     }, [id])
 
-    console.log(data)
+    useEffect(() => {
+        const fetchData = async () => {
+            if (typeUser === 'USER') {
+                const data = await api.get(`/user/${id}`);
+                setUser(data.data.user)
+            } else {
+                const { data } = await api.get(`/ngo/${id}`);
+                setUser(data)
+            }
+        }
+        fetchData().catch(console.error);
+
+    }, [id])
+
+    console.log(user)
 
     return (
         <div className={'bg-little-white'}>
             <div className={"navbar absolute top-0 left-0 w-full bg-transparent"}>
                 {/*// @ts-ignore*/}
-            <HeaderPosts id={data?.id} photoURL={data?.photo_url}/>
+                <HeaderPosts id={user?.id} photoURL={user?.photo_url}/>
             </div>
             {/*// @ts-ignore*/}
             <img src={data?.banner_photo} alt="Header image" className="object-cover w-full h-64 md:h-96 lg:h-128" />
@@ -122,8 +135,8 @@ export default function Perfil() {
                         </div>
 
                     ) : (
-                        <div className="flex flex-row gap-5 justify-between p-10">
-                            <div className="flex flex-col items-center justify-center gap-5">
+                        <div className="flex flex-row gap-5 justify-between w-full">
+                            <div className="flex flex-col items-center justify-center gap-5 w-full">
                                 {data?.post_user?.map((item) => (
                                     <FeedPosts
                                         id={item.post.id}
@@ -154,9 +167,11 @@ export default function Perfil() {
                                         count_likes={item._count?.post_likes}
                                     />
                                 ))}
-                            </div>
 
-                                <CardHistorico />
+                            </div>
+                            <div className={"w-1/3"}>
+                            <CardHistorico />
+                            </div>
                         </div>
 
                         )
