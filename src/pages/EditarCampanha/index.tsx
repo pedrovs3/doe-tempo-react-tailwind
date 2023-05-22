@@ -233,6 +233,7 @@ export default function EditarCampanha() {
     }, [])
 
     const photoURL = data?.campaign_photos && data.campaign_photos.length > 0 ? data.campaign_photos[0].photo_url : "";
+    console.log(photoURL)
 
     console.log(photoURL)
 

@@ -138,14 +138,9 @@ export default function Feed() {
         };
 
         fetchData();
-    }, [userId, userType]);
-
-
-    console.log(user)
-
+    }, []);
 
     useEffect(() => {
-
         const fetchAPI = async () => {
             const response = await api.get(`/post`)
             const AllPosts = await response.data.all_posts
@@ -163,7 +158,6 @@ export default function Feed() {
             });
             setAllPosts(updatedPosts)
         }
-
         fetchAPI().catch(console.error)
     }, [allPosts])
 
@@ -171,7 +165,7 @@ export default function Feed() {
         <><ToastContainer/>
             <div className={''}>
                 <div className={'navbar bg-turquoise-500'}>
-                    <HeaderPosts id={user?.user?.id || user?.id} photoURL={user?.user?.photo_url || user?.photo_url}/>
+                    <HeaderPosts id={jwt.id} photoURL={user?.user?.photo_url || user?.photo_url}/>
                 </div>
                 <img className={'w-full'} src={WaveDown}/>
                 <div className={'flex justify-center items-center pb-8 mx-auto'}>
