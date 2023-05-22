@@ -10,9 +10,6 @@ export default function CampanhasList() {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [isGeolocationEnabled, setIsGeolocationEnabled] = useState(false);
-    const handleGeolocationToggle = () => {
-        setIsGeolocationEnabled(!isGeolocationEnabled);
-    };
     const [searchTerm, setSearchTerm] = useState('');
     const [dataSearch, setDataSearch] = useState([]);
     const [causes, setCauses] = useState([]);
@@ -22,15 +19,6 @@ export default function CampanhasList() {
     const handleOptionChange = (event) => {
         setSelectedOption(event.target.value);
     };
-
-    useEffect(() => {
-        if (isGeolocationEnabled) {
-            navigator.geolocation.getCurrentPosition(position => {
-                console.log('Latitude:', position.coords.latitude);
-                console.log('Longitude:', position.coords.longitude);
-            });
-        }
-    }, [isGeolocationEnabled]);
 
     const handleInputChange = (event) => {
         setSearchTerm(event.target.value);
@@ -87,7 +75,7 @@ export default function CampanhasList() {
             <div className={'p-4'}>
                 <Header/>
                 <h1 className={'text-4xl font-bold text-blueberry text-start pt-8'}>Oportunidades</h1>
-                <div className={'pt-5 h-full w-full flex justify-between'}>
+                <div className={'pt-5 h-full w-full flex justify-start gap-5'}>
                     <select className="select select-ghost w-full max-w-xs" onChange={(event) => setSelectedId(event.target.value)}>
                         {causes.map((option) => (
                             <option key={option.id} value={option.id}>
@@ -95,7 +83,6 @@ export default function CampanhasList() {
                             </option>
                         ))}
                     </select>
-
                     <div className="form-control">
                         <div className="input-group">
                             <button className="btn btn-square" onClick={handleSearch}>
@@ -103,23 +90,15 @@ export default function CampanhasList() {
                             </button>
                             <input type="text"
                                    placeholder="Pesquisar…"
-                                   className="input input-bordered"
+                                   className="input input-bordered w-96"
                                    value={searchTerm}
                                    onChange={handleInputChange}
                             />
                         </div>
                     </div>
-                    <div className="form-control">
-                        <label className="label cursor-pointer gap-3">
-                            <span className="label-text font-medium">Localização</span>
-                            <input type="checkbox" className="toggle"
-                                   checked={isGeolocationEnabled}
-                                   onChange={handleGeolocationToggle}/>
-                        </label>
-                    </div>
                 </div>
                 <div className={'grid grid-cols-4 gap-4 w-full'}>
-                        {searchTerm && dataSearch.length === 0 && <p className={'flex text-3xl h-full items-center justify-center'}>Não encontramos nenhuma campanha :/</p>}
+                        {searchTerm && dataSearch.length === 0 && <p className={'flex text-3xl h-full '}>Não encontramos nenhuma campanha :/</p>}
                         {searchTerm && dataSearch.map((item) => (
                             <CardsCampanha key={item.id} id={item.id} title={item.title} description={item.description} imgAvatar={item?.ngo.photo_url}/>
                         ))}

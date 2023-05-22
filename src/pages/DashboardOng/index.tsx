@@ -166,6 +166,7 @@ export interface Type {
 
 export default function DashboardOng() {
     const [loading, setLoading] = useState(false);
+    const [statusFilter, setStatusFilter] = useState("Aguardando");
     const routeParams = useParams();
     const id = routeParams.id
     const [ngoData, setNgoData] = useState<Ngo>({
@@ -197,15 +198,16 @@ export default function DashboardOng() {
             const response = await api.get(`/ngo/${id}`);
             setNgoData(response.data);
 
-            const responseVolunteer = await api.get(`/campaign/participants/${id}`);
+            const responseVolunteer = await api.get(`/campaign/participants/?status=${statusFilter}`);
             setVolunteersData(responseVolunteer.data.volunteers);
             console.log(volunteersData)
+
 
         }
 
         fetchData().catch(console.error);
 
-    }, [ngoData, volunteersData])
+    }, [volunteersData])
 
     console.log(volunteersData)
 
@@ -356,7 +358,17 @@ export default function DashboardOng() {
                                         </th>
                                         <th>Nome</th>
                                         <th>Campanha</th>
-                                        <th>Status de Decisão</th>
+                                        <th>
+                                            <select
+                                                className="select select-bordered w-full max-w-xs"
+                                                value={statusFilter}
+                                                onChange={(e) => setStatusFilter(e.target.value)}
+                                            >
+                                                <option value="Aguardando">Aguardando</option>
+                                                <option value="Aprovado">Aprovado</option>
+                                                <option value="Reprovado">Reprovado</option>
+                                            </select>
+                                        </th>
                                         <th></th>
                                     </tr>
                                     </thead>
@@ -426,17 +438,6 @@ export default function DashboardOng() {
                                         </tr>
                                     ))}
                                     </tbody>
-                                    {/* foot */}
-                                    <tfoot>
-                                    <tr>
-                                        <th></th>
-                                        <th>Nome</th>
-                                        <th>Campanha</th>
-                                        <th>Status de Decisão</th>
-                                        <th></th>
-                                    </tr>
-                                    </tfoot>
-
                                 </table>
                             </div>
                             <label htmlFor="my-drawer-2"
