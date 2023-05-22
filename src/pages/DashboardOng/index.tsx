@@ -1,14 +1,13 @@
 import React, {useEffect, useState} from "react";
 import Loading from "../../components/Loading/Index";
 import logo from "../../assets/img/ampi-doe-tempo.svg";
-import avatar from "../../assets/img/pedro-avatar.jpeg";
+import empty from "../../assets/img/empty_no_data.svg";
 import {Article, Check, CheckCircle, EyeClosed, Handshake, List, Megaphone, PencilSimple, TrashSimple, UserCircle, X} from "phosphor-react";
 import {api} from "../../lib/axios";
 import { Link } from "react-router-dom";
 import {useParams} from "react-router-dom";
 import {toast, ToastContainer} from "react-toastify";
 import {format} from "date-fns";
-import {data} from "autoprefixer";
 
 
  interface Volunteer {
@@ -201,7 +200,7 @@ export default function DashboardOng() {
             const responseVolunteer = await api.get(`/campaign/participants/?status=${statusFilter}`);
             setVolunteersData(responseVolunteer.data.volunteers);
             console.log(volunteersData)
-
+            setLoading(false)
 
         }
 
@@ -253,9 +252,6 @@ export default function DashboardOng() {
     return (
         <><ToastContainer/>
             <div className="h-screen w-screen">
-                {loading ? (
-                    <Loading/>
-                ) : (
                     <div className="drawer drawer-mobile">
                         <input id="my-drawer-2" type="checkbox" className="drawer-toggle"/>
                         <div className="drawer-content flex flex-col items-center justify-center">
@@ -345,8 +341,6 @@ export default function DashboardOng() {
                             </div>
 
                             <div className="overflow-x-auto w-full p-5">
-                                <h1 className={"text-4xl font-medium text-neutral-600 pb-5"}>Solicitações de
-                                    Voluntários</h1>
                                 <table className="table w-full">
                                     {/* head */}
                                     <thead>
@@ -374,7 +368,10 @@ export default function DashboardOng() {
                                     </thead>
                                     {/* row 1 */}
                                     <tbody>
-                                    {volunteersData.map((volunteer) => (
+                                    {volunteersData.length === 0 && statusFilter === "Aguardando" && (
+                                        <span className={"text-2xl"}>Não há solicitações de voluntários para suas campanhas ;/</span>
+                                    )}
+                                    {volunteersData.length > 0 && volunteersData.map((volunteer) => (
                                         <tr key={volunteer.id}>
                                             <th>
                                                 <label>
@@ -394,7 +391,7 @@ export default function DashboardOng() {
                                                         <Link to={`/perfil/USER/${volunteer.user.id}`}>
                                                         <div className="font-bold">{volunteer.user.name}</div>
                                                         </Link>
-                                                        <div className="text-sm opacity-50">{}, {}</div>
+                                                        <div className="text-sm opacity-50">Voluntário</div>
                                                     </div>
                                                 </div>
                                             </td>
@@ -461,8 +458,6 @@ export default function DashboardOng() {
                             </ul>
                         </div>
                     </div>
-
-                )}
             </div>
         </>
 
