@@ -81,7 +81,7 @@ export function HeaderPosts(props : UserProps) {
                     <div className="dropdown dropdown-end">
                         <label tabIndex={0} className="h-24 btn btn-ghost rounded-btn avatar">
                             <div className="w-16 rounded-xl ring ring-turquoise-700 ring-offset-2 ring-offset-accent">
-                                <img src={props.photoURL} />
+                                <img src={props.photoURL}  alt={"foto de perfil"}/>
                             </div>
                         </label>
                         <ul tabIndex={0} className="bg- mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52">

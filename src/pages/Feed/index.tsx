@@ -138,7 +138,7 @@ export default function Feed() {
         };
 
         fetchData();
-    }, []);
+    }, [jwt.id]);
 
     useEffect(() => {
         const fetchAPI = async () => {

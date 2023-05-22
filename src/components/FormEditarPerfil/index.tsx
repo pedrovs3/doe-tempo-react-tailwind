@@ -59,7 +59,7 @@ export interface User {
     password:            string;
     cpf:                 string;
     id_gender:           string;
-    birthdate:           Date;
+    birthdate:           string;
     rg:                  null;
     id_type:             string;
     description:         null;
@@ -155,7 +155,7 @@ export function FormEditarPerfil(){
     const navigate = useNavigate();
     const routeParams = useParams();
     const id = routeParams.id
-    const [data, setData] = useState<User | null>(null);
+    const [data, setData] = useState<User>();
     const [user, setUser ] = useState<object>();
     const [linkSocial, setLinkSocial] = useState<Source[]>([]);
     const [name, setName] = useState('')
@@ -168,67 +168,15 @@ export function FormEditarPerfil(){
     const [sourceLink, setSourcelink] = useState('')
     const [attachedLink, setAttachedLink] = useState<Link[]>([]);
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [birthdate, setBirthdate] = useState('')
+    const [birthdate, setBirthdate] = useState<string>("")
     const [description, setDescription] = useState('')
     const [postalCode, setPostalCode] = useState('')
     const [postalNumber, setPostalNumber] = useState('')
     const [complement, setComplement] = useState('')
     const [gender, setGender] = useState('')
     const [editSuccess, setEditSuccess] = useState(false);
-    const [imgURL, setImgURL] = useState<string[]>([]);
+    const [imgURL, setImgURL] = useState<string>();
     const [iconURL, setIconURL] = useState<string[]>([]);
-
-
-    function limitLinkSize(link: string, maxLength: number): string {
-        if (!link) {
-            return '';
-        }
-
-        if (link.length <= maxLength) {
-            return link;
-        } else {
-            return link.substring(0, maxLength - 3) + '...';
-        }
-    }
-
-
-    console.log(data)
-
-    useEffect(() => {
-        if(data?.name) {
-            setName(data?.name)
-            setEmail(data?.email)
-            const dataFormatada = format(new Date(data?.birthdate), "yyyy-MM-dd");
-            setBirthdate(dataFormatada)
-            setDescription(data?.description)
-            setCpf(data?.cpf)
-            setPostalCode(data?.user_address?.address.postal_code)
-            setPostalNumber(data?.user_address?.address.number)
-            setComplement(data?.user_address?.address.complement)
-            setGender(data?.id_gender)
-            setRg(data?.rg)
-            setPhone(data?.user_phone?.phone.number)
-            setAttachedLink(data?.attached_link)
-
-
-        }
-    }, [data?.banner_photo]);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            const response = await api.get("/sources");
-            const data = response.data;
-            setLinkSocial(data.sources)
-        };
-
-        if (linkSocial) {
-            fetchData();
-        }
-    }, [linkSocial]);
-
-    console.log(linkSocial)
-
-
     useEffect(() => {
         const fetchData = async () => {
             let endpoint = "";
@@ -244,9 +192,51 @@ export function FormEditarPerfil(){
         };
 
         fetchData();
-    }, [userId, userType]);
+    }, [imgURL]);
 
-    console.log(imgURL)
+
+    function limitLinkSize(link: string, maxLength: number): string {
+        if (!link) {
+            return '';
+        }
+
+        if (link.length <= maxLength) {
+            return link;
+        } else {
+            return link.substring(0, maxLength - 3) + '...';
+        }
+    }
+
+    useEffect(() => {
+        if(data?.name) {
+            setName(data?.name)
+            setEmail(data?.email)
+            console.log(data.birthdate)
+            setBirthdate(data.birthdate.split("T")[0])
+            setDescription(data?.description)
+            setCpf(data?.cpf)
+            setPostalCode(data?.user_address?.address.postal_code)
+            setPostalNumber(data?.user_address?.address.number)
+            setComplement(data?.user_address?.address.complement)
+            setGender(data?.id_gender)
+            setRg(data?.rg)
+            setPhone(data?.user_phone?.phone.number)
+            setAttachedLink(data?.attached_link)
+
+        }
+    }, [data]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const response = await api.get("/sources");
+            const data = response.data;
+            setLinkSocial(data.sources)
+        };
+
+        if (linkSocial) {
+            fetchData();
+        }
+    }, [linkSocial]);
 
     const handleSubmitForm = async (e: FormEvent) => {
         e.preventDefault();
@@ -265,9 +255,11 @@ export function FormEditarPerfil(){
                 },
                 gender: gender,
                 rg: rg,
-                banner_photo: imgURL[0],
+                banner_photo: imgURL,
                 photo_url: iconURL[0],
             };
+
+            console.log(payload)
 
             if (phone) {
                 payload.phone = [{ number: phone }];
@@ -313,7 +305,8 @@ export function FormEditarPerfil(){
 
             uploadTask.then(() => {
                 getDownloadURL(storageRef).then((url) => {
-                    setImgURL((prevImages) => [...prevImages, url]);
+                    setImgURL(url);
+                    console.log(imgURL)
                 });
             });
         });
@@ -334,9 +327,11 @@ export function FormEditarPerfil(){
 
             uploadTask.then(() => {
                 getDownloadURL(storageRef).then((url) => {
-                    setIconURL((prevImages) => [...prevImages, url]);
+                    setIconURL([url]);
+                    console.log(url)
                 });
             });
+
         });
     }
 
@@ -381,7 +376,7 @@ export function FormEditarPerfil(){
     return (
         <form name={"edit"} className={''} onSubmit={handleSubmitForm}>
             <div className="relative w-full sm:w-[28rem] bg-gray-200">
-                <img className="rounded-xl h-[200px] w-full" src={imgURL[0] || data?.banner_photo} alt={""} />
+                <img className="rounded-xl h-[200px] w-full" src={imgURL || data?.banner_photo} alt={""} />
                 <label htmlFor="uploadHeader"
                        className="absolute inset-0 flex flex-col items-center justify-center cursor-pointer">
                     <span className="bg-blueberry rounded-xl"><Plus size={32} color={"white"} /></span>

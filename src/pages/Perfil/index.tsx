@@ -46,15 +46,15 @@ export default function Perfil() {
 
         fetchData().catch(console.error);
 
-    }, [id])
+    }, [typeUser])
 
     useEffect(() => {
         const fetchData = async () => {
-            if (typeUser === 'USER') {
-                const data = await api.get(`/user/${id}`);
-                setUser(data.data.user)
+            if (userType === 'USER') {
+                const {data} = await api.get(`/user/${userId}`);
+                setUser(data.user)
             } else {
-                const { data } = await api.get(`/ngo/${id}`);
+                const { data } = await api.get(`/ngo/${userId}`);
                 setUser(data)
             }
         }
@@ -68,7 +68,7 @@ export default function Perfil() {
         <div className={'bg-little-white'}>
             <div className={"navbar absolute top-0 left-0 w-full bg-transparent"}>
                 {/*// @ts-ignore*/}
-                <HeaderPosts id={user?.id} photoURL={user?.photo_url}/>
+                <HeaderPosts id={jwt.id} photoURL={user?.user?.photo_url || user?.photo_url}/>
             </div>
             {/*// @ts-ignore*/}
             <img src={data?.banner_photo} alt="Header image" className="object-cover w-full h-64 md:h-96 lg:h-128" />

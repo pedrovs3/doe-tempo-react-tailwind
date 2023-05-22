@@ -146,15 +146,13 @@ export default function EditarPerfil() {
         };
 
         fetchData();
-    }, [userId, userType]);
+    }, []);
 
     useEffect(() => {
         const fetchData = async () => {
             const {data} = await api.get(`/user/${id}`);
             setData(data.user)
         }
-
-
         fetchData().catch(console.error);
 
     }, [])
