@@ -8,8 +8,6 @@ export function LoginForm(){
     const [loginSuccess, setLoginSuccess] = useState(false);
     const navigate = useNavigate();
 
-
-
     const handleSubmitForm = async (e: FormEvent)    => {
         e.preventDefault();
 
@@ -19,12 +17,12 @@ export function LoginForm(){
                 password: password
             })
 
-            console.log(data)
+            console.log(await data)
             console.log(data.token)
-            localStorage.setItem("token", `Bearer ${data.token}`)
+            localStorage.setItem("token", `Bearer ${await data.token}`)
 
             if (data.token) {
-                api.defaults.headers.common.Authorization = `Bearer ${data.token}`
+                api.defaults.headers.common.Authorization = `Bearer ${await data.token}`
             }
             setLoginSuccess(true)
 

@@ -108,11 +108,12 @@ export function FeedPosts(props : PostProps) {
         setShowCommentInput(prevState => ({ ...prevState, [props.id]: !prevState[props.id] }));
     }
 
+
     const handleSubmitForm = async () => {
         try {
             const comment = await api.post(`/post/${props.id}/comment`, {
                 content: comentario,
-            })
+            }, {headers: { Authorization: api.defaults.headers.common.Authorization}})
             alert("foi")
         } catch (e) {
             console.log(e)

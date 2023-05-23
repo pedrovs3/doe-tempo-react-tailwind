@@ -292,7 +292,7 @@ export default function DashboardOng() {
 
 
                             <div
-                                className="w-full p-5 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+                                className="w-full p-5">
                                 <div className="w-full p-5">
                                     <h1 className="text-4xl font-medium text-neutral-600 pb-5">Suas Campanhas</h1>
                                     <div className={"pb-5"}>
@@ -304,7 +304,7 @@ export default function DashboardOng() {
                                     </Link>
                                     </div>
 
-                                    <div className="grid grid-cols-4 gap-4">
+                                    <div className="flex grid grid-cols-4 gap-4">
                                         {ngoData.campaign.map((campanha) => (
                                             <div className="card w-96 bg-base-100 shadow-xl" key={campanha.id}>
                                                 <div className="dropdown absolute top-0 right-0 p-2">
