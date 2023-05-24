@@ -113,8 +113,7 @@ export function FeedPosts(props : PostProps) {
         try {
             const comment = await api.post(`/post/${props.id}/comment`, {
                 content: comentario,
-            }, {headers: { Authorization: api.defaults.headers.common.Authorization}})
-            alert("foi")
+            } )
         } catch (e) {
             console.log(e)
             alert("Houve um erro!")

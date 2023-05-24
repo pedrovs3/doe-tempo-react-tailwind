@@ -165,6 +165,7 @@ export interface Type {
 
 export default function DashboardOng() {
     const [loading, setLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const [statusFilter, setStatusFilter] = useState("Aguardando");
     const routeParams = useParams();
     const id = routeParams.id
@@ -200,7 +201,6 @@ export default function DashboardOng() {
             const responseVolunteer = await api.get(`/campaign/participants/?status=${statusFilter}`);
             setVolunteersData(responseVolunteer.data.volunteers);
             console.log(volunteersData)
-            setLoading(false)
 
         }
 
@@ -244,9 +244,6 @@ export default function DashboardOng() {
             });
 
     }
-
-    console.log(ngoData)
-
 
 
     return (
@@ -345,11 +342,6 @@ export default function DashboardOng() {
                                     {/* head */}
                                     <thead>
                                     <tr>
-                                        <th>
-                                            <label>
-                                                <input type="checkbox" className="checkbox"/>
-                                            </label>
-                                        </th>
                                         <th>Nome</th>
                                         <th>Campanha</th>
                                         <th>
@@ -373,11 +365,6 @@ export default function DashboardOng() {
                                     )}
                                     {volunteersData.length > 0 && volunteersData.map((volunteer) => (
                                         <tr key={volunteer.id}>
-                                            <th>
-                                                <label>
-                                                    <input type="checkbox" className="checkbox" />
-                                                </label>
-                                            </th>
                                             <td>
                                                 <div className="flex items-center space-x-3">
                                                     <div className="avatar">
@@ -402,29 +389,48 @@ export default function DashboardOng() {
                                             </td>
                                             <td>
                                                 <div className="flex gap-5">
-                                                    <button className="btn btn-circle btn-outline btn-accent"
-                                                            onClick={() => handleApproval(volunteer.id_campaign, volunteer.id_user)}>
-                                                        <span className="hover:text-little-white"><Check size={32} /></span>
-                                                    </button>
-                                                    <label htmlFor="my-modal-5" className="btn btn-circle btn-outline btn-error">
-                                                        <span className="hover:text-little-white"><X size={32} /></span>
-                                                    </label>
-                                                    <input type="checkbox" id="my-modal-5" className="modal-toggle" />
-                                                    <div className="modal">
-                                                        <div className="modal-box w-11/12 max-w-5xl">
-                                                            <label htmlFor="my-modal-5" className="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
-                                                            <h3 className="font-bold text-2xl">❌ Recusar</h3>
-                                                            <p className="py-4 text-xl">
-                                                                Sentimos muito por esse voluntário não se encaixar na sua campanha.
-                                                                <br />
-                                                                Existe algum motivo específico para ele não ser aprovado?
-                                                            </p>
-                                                            <input type="text" placeholder="Motivo" className="input input-bordered input-error w-full" />
-                                                            <div className="modal-action">
-                                                                <label onClick={() => handleDenied(volunteer.id_campaign, volunteer.id_user)} htmlFor="my-modal-5" className="btn btn-error text-neutral-50">Recusar</label>
+                                                    {statusFilter === "Aguardando" ? (
+                                                        <>
+                                                            <button className="btn btn-circle btn-outline btn-accent"
+                                                                    onClick={() => handleApproval(volunteer.id_campaign, volunteer.id_user)}>
+                                                            <span className="hover:text-little-white">
+                                                                <Check size={32}/>
+                                                            </span>
+                                                            </button>
+                                                            <label htmlFor="my-modal-5"
+                                                                   className="btn btn-circle btn-outline btn-error">
+                                                                <span className="hover:text-little-white">
+                                                                    <X size={32}/>
+                                                                </span>
+                                                            </label><input type="checkbox" id="my-modal-5"
+                                                                           className="modal-toggle"/>
+                                                            <div className="modal">
+                                                                <div className="modal-box w-11/12 max-w-5xl">
+                                                                    <label htmlFor="my-modal-5"
+                                                                           className="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
+                                                                    <h3 className="font-bold text-2xl">❌ Recusar</h3>
+                                                                    <p className="py-4 text-xl">
+                                                                        Sentimos muito por esse voluntário não se
+                                                                        encaixar na sua campanha.
+                                                                        <br/>
+                                                                        Existe algum motivo específico para ele não ser
+                                                                        aprovado?
+                                                                    </p>
+                                                                    <input type="text" placeholder="Motivo"
+                                                                           className="input input-bordered input-error w-full"/>
+                                                                    <div className="modal-action">
+                                                                        <label
+                                                                            onClick={() => handleDenied(volunteer.id_campaign, volunteer.id_user)}
+                                                                            htmlFor="my-modal-5"
+                                                                            className="btn btn-error text-neutral-50">Recusar</label>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </div>
+                                                        </>
+                                                    ) : (
+                                                        <span className={"font-bold text-xl " + (volunteer.status.name === "Reprovado" ? "text-error" : "text-success")}>
+                                                        {volunteer.status.name === "Reprovado" ? "Reprovado" : "Aprovado"}</span>
+                                                    )}
                                                 </div>
                                             </td>
                                             <th>
