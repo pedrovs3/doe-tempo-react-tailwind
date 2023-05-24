@@ -166,13 +166,42 @@ export function FeedPosts(props : PostProps) {
                 </div>
                 <div className={"flex gap-2"}>
                     <h2 className={"text-xl font-bold text-neutral-500"}>{countLikes}</h2>
-                    <button onClick={handleLike}>
-                        <Heart
-                            size={32}
-                            weight={liked ? 'fill' : 'regular'}
-                            color={liked ? 'red' : 'gray'}
-                        />
-                    </button>
+                    {
+                        // jwt.type == 'USER' ?
+                        //     props.post_likes.filter((like) => like.id_user == jwt.id).length > 0 ? (
+                        //             <Heart
+                        //                 size={32}
+                        //                 weight={liked ? 'fill' : 'regular'}
+                        //                 color={'red'}
+                        //             />
+                        //         ) : (
+                        //         <button onClick={handleLike}>
+                        //             <Heart
+                        //                 size={32}
+                        //                 weight={liked ? 'fill' : 'regular'}
+                        //                 color={liked ? 'red' : 'gray'}
+                        //             />
+                        //         </button>
+                        //     )
+                        //     : (
+                        //         props.post_likes.filter((like) => like.id_ngo == jwt.id).length > 0 ? (
+                        //             <Heart
+                        //                 size={32}
+                        //                 weight={liked ? 'fill' : 'regular'}
+                        //                 color={'red'}
+                        //             />
+                        //         ) : (
+                        //             <button onClick={handleLike}>
+                        //                 <Heart
+                        //                     size={32}
+                        //                     weight={liked ? 'fill' : 'regular'}
+                        //                     color={liked ? 'red' : 'gray'}
+                        //                 />
+                        //             </button>
+                        //         )
+                        // )
+                    }
+
                     <h2 className={"text-xl font-bold text-neutral-500"}>{props.count_comments}</h2>
                     <button onClick={() => handleCommentClick(props.id)}>
                         <Chat

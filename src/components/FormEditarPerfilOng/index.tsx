@@ -146,7 +146,7 @@ interface Jwt {
 }
 
 
-export function FormEditarPerfil(){
+export function FormEditarPerfilOng(){
     const decodeJWT = decodeJwt();
     const jwt = decodeJWT as Jwt;
     const userType = jwt.type;
@@ -354,6 +354,7 @@ export function FormEditarPerfil(){
         }
     }
 
+
     function handleConfirmPasswordBlur() {
         const passwordsMatch = comparePasswords(password, confirmPassword);
         if (!password || !confirmPassword) {
@@ -385,14 +386,14 @@ export function FormEditarPerfil(){
             </div>
             <div className="relative rounded w-24 h-24 bg-gray-200">
                 <img className="w-24 max-w-24 rounded-xl ring ring-blueberry ring-offset-2 -mt-10" src={iconURL[0] || data?.photo_url} alt={""} />
-                    <label htmlFor="uploadIcon"
-                           className="absolute inset-0 flex flex-col items-center justify-center cursor-pointer">
-                        <span className="bg-blueberry rounded-xl"><Plus size={32} color={"white"} /></span>
-                        <input id="uploadIcon" type="file" className="hidden" onChange={handleChangeIcon} />
-                    </label>
+                <label htmlFor="uploadIcon"
+                       className="absolute inset-0 flex flex-col items-center justify-center cursor-pointer">
+                    <span className="bg-blueberry rounded-xl"><Plus size={32} color={"white"} /></span>
+                    <input id="uploadIcon" type="file" className="hidden" onChange={handleChangeIcon} />
+                </label>
             </div>
             <div className={"pt-5 grid grid-cols-1 gap-3"}>
-            <input type="text" placeholder="Nome" className="input input-bordered input-info w-full" value={name}  onChange={it => setName(it.target.value)}/>
+                <input type="text" placeholder="Nome" className="input input-bordered input-info w-full" value={name}  onChange={it => setName(it.target.value)}/>
                 <input type="email" placeholder="Email" className="input input-bordered input-info w-full" value={email}  onChange={it => setEmail(it.target.value)} />
             </div>
             <div className="flex flex-col items-center w-full gap-2">
@@ -442,21 +443,21 @@ export function FormEditarPerfil(){
                            disabled/>
                 </div>
                 <div className="pt-2 flex flex-row gap-2 w-full">
-                <select className="select select-info" onChange={handleSelectChange}>
-                    <option disabled selected>Selecione uma rede social</option>
-                    {linkSocial.map((option) => (
-                        <option key={option.id} value={option.id}>
-                            {option.name}
-                        </option>
-                    ))}
-                </select>
-                <input type="text"
-                       placeholder="Link Opcional"
-                       className="input input-bordered input-info w-full"
-                       value={attached}
-                       onChange={it => setAttached(it.target.value)}
-                       />
-            </div>
+                    <select className="select select-info" onChange={handleSelectChange}>
+                        <option disabled selected>Selecione uma rede social</option>
+                        {linkSocial.map((option) => (
+                            <option key={option.id} value={option.id}>
+                                {option.name}
+                            </option>
+                        ))}
+                    </select>
+                    <input type="text"
+                           placeholder="Link Opcional"
+                           className="input input-bordered input-info w-full"
+                           value={attached}
+                           onChange={it => setAttached(it.target.value)}
+                    />
+                </div>
                 <div className={"flex flex-col gap-2"}>
                     {attachedLink.map((link : Link) => (
                         <div key={link.id} className={"flex flex-row gap-2 badge badge-ghost h-10"}>

@@ -190,6 +190,7 @@ export default function DashboardOng() {
         ngo_phone: [],
     });
     const [volunteersData, setVolunteersData] = useState<Volunteer[]>([]);
+    console.log(volunteersData)
 
 
     useEffect(() => {
@@ -244,7 +245,6 @@ export default function DashboardOng() {
             });
 
     }
-
 
     return (
         <><ToastContainer/>
@@ -385,6 +385,7 @@ export default function DashboardOng() {
                                             <td>
                                                 {volunteer.campaign.title}
                                                 <br />
+                                                {/*@ts-ignore*/}
                                                 <span className="badge badge-ghost badge-sm">{format(new Date(volunteer.campaign.begin_date), "dd-MM-yyyy")} | {format(new Date(volunteer.campaign.end_date), "dd-MM-yyyy")}</span>
                                             </td>
                                             <td>

@@ -180,11 +180,16 @@ export default function Feed() {
                                            type={item.post_user[0].user.type.name}
                                            nameUser={item.post_user[0].user.name}
                                            photoUser={item.post_user[0].user.photo_url}
+                                            // @ts-ignore
                                            content={item.content} created={item.created_at}
                                            images={item.post_photo}
+                                            // @ts-ignore
                                            comments={item.comment}
+                                            // @ts-ignore
                                            count_likes={item._count?.post_likes}
+                                            // @ts-ignore
                                            post_likes={item.post_likes}
+                                            // @ts-ignore
                                            count_comments={item._count?.comment}
 
                                 />
@@ -195,11 +200,16 @@ export default function Feed() {
                                            nameUser={item.post_ngo[0].ngo.name}
                                            photoUser={item.post_ngo[0].ngo.photo_url}
                                            content={item.content}
+                                            // @ts-ignore
                                            created={item.created_at}
                                            images={item.post_photo}
+                                            // @ts-ignore
                                            comments={item.comment}
+                                            // @ts-ignore
                                            post_likes={item.post_likes}
+                                            // @ts-ignore
                                            count_likes={item._count?.post_likes}
+                                            // @ts-ignore
                                            count_comments={item._count?.comment}/>
                             )
                     ))}
