@@ -258,6 +258,7 @@ export function FormEditarPerfil(){
                 rg: rg,
                 banner_photo: imgURL,
                 photo_url: iconURL[0],
+
             };
 
             console.log(payload)

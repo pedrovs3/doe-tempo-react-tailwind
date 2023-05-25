@@ -7,13 +7,13 @@ import {getDownloadURL, ref, uploadBytesResumable} from 'firebase/storage';
 import {storage} from "../../firebase";
 import {format} from "date-fns";
 import {toast} from "react-toastify";
+import {Phone} from "../FormEditarPerfil";
 
 interface UserPayload {
     name: string;
     email: string;
     password: string;
-    cpf: string;
-    birthdate: string;
+    foundation_date: string;
     description: string;
     address: {
         postal_code: string;
@@ -21,7 +21,7 @@ interface UserPayload {
         complement: string;
     };
     gender: string;
-    rg: string;
+    cnpj: string;
     banner_photo: string;
     photo_url: string;
     phone?: { number: string }[];
@@ -53,39 +53,34 @@ export interface Count {
 }
 
 export interface User {
-    id:                  string;
-    name:                string;
-    email:               string;
-    password:            string;
-    cpf:                 string;
-    id_gender:           string;
-    birthdate:           string;
-    rg:                  null;
-    id_type:             string;
-    description:         null;
-    banner_photo:        string;
-    photo_url:           string;
-    created_at:          Date;
-    attached_link:       AttachedLink[];
-    user_address:        UserAddress;
-    gender:              Gender;
-    user_phone:          UserPhone;
-    supported_campaigns: SupportedCampaign[];
-    post_user:           any[];
-    _count:              Count;
+    id:              string;
+    photo_url:       string;
+    created_at:      Date;
+    attached_link:   AttachedLink[];
+    banner_photo:    string;
+    post_ngo:        PostNgo[];
+    ngo_address:     NgoAddress;
+    ngo_causes:      any[];
+    email:           string;
+    name:            string;
+    password:        string;
+    foundation_date: string;
+    type:            Type;
+    cnpj:            string;
+    campaign:        Campaign[];
+    description:     string;
+    following:       any[];
+    ngo_phone:       NgoPhone;
 }
 
-export interface Count {
-    supported_campaigns: number;
-    following:           number;
+export interface NgoPhone {
+    phone: Phone;
 }
+
 
 export interface AttachedLink {
     id:            string;
     attached_link: string;
-    id_source:     string;
-    id_user:       string;
-    id_ngo:        null;
     source:        Source;
 }
 
@@ -94,47 +89,86 @@ export interface Source {
     name: string;
 }
 
-export interface Gender {
-    name:         string;
-    abbreviation: string;
-}
-
-export interface SupportedCampaign {
-    campaign: Campaign;
-}
-
 export interface Campaign {
-    id:              string;
     title:           string;
+    id:              string;
     description:     string;
-    campaign_photos: CampaignPhoto[];
     is_active:       boolean;
+    campaign_photos: CampaignPhoto[];
 }
 
 export interface CampaignPhoto {
     photo_url: string;
 }
 
-export interface UserAddress {
-    id:         string;
-    id_address: string;
-    id_user:    string;
-    address:    Address;
+export interface NgoAddress {
+    address: Address;
 }
 
 export interface Address {
     id:          string;
+    complement:  null;
     postal_code: string;
     number:      string;
-    complement:  null;
 }
 
-export interface UserPhone {
-    phone: Phone;
+export interface PostNgo {
+    post: Post;
 }
 
-export interface Phone {
-    number: string;
+export interface Post {
+    id:         string;
+    content:    string;
+    created_at: Date;
+    post_photo: PostPhoto[];
+    post_likes: PostLike[];
+    comment:    Comment[];
+}
+
+export interface Comment {
+    id:            string;
+    content:       string;
+    created_at:    Date;
+    id_post:       string;
+    comment_likes: any[];
+    comment_ngo:   CommentNgo[];
+    comment_user:  CommentUser[];
+    _count:        Count;
+}
+
+export interface Count {
+    comment_ngo:   number;
+    comment_user:  number;
+    comment_likes: number;
+}
+
+export interface CommentNgo {
+    id:         string;
+    id_comment: string;
+    id_ngo:     string;
+}
+
+export interface CommentUser {
+    id:         string;
+    id_comment: string;
+    id_user:    string;
+}
+
+export interface PostLike {
+    id:      string;
+    id_user: null | string;
+    id_ngo:  null | string;
+    id_post: string;
+}
+
+export interface PostPhoto {
+    id:        string;
+    id_post:   string;
+    photo_url: string;
+}
+
+export interface Type {
+    name: string;
 }
 
 interface Jwt {
@@ -163,7 +197,7 @@ export function FormEditarPerfilOng(){
     const [password, setPassword] = useState('')
     const [phone, setPhone] = useState('')
     const [cpf, setCpf] = useState('')
-    const [rg, setRg] = useState('')
+    const [cnpj, setCnpj] = useState('')
     const [attached, setAttached] = useState('')
     const [sourceLink, setSourcelink] = useState('')
     const [attachedLink, setAttachedLink] = useState<Link[]>([]);
@@ -189,11 +223,13 @@ export function FormEditarPerfilOng(){
 
             const response = await api.get(endpoint);
             const user = response.data;
-            setData(user.user);
+            setData(user);
         };
 
         fetchData();
     }, [imgURL]);
+
+    console.log(data)
 
 
     function limitLinkSize(link: string, maxLength: number): string {
@@ -212,16 +248,14 @@ export function FormEditarPerfilOng(){
         if(data?.name) {
             setName(data?.name)
             setEmail(data?.email)
-            console.log(data.birthdate)
-            setBirthdate(data.birthdate.split("T")[0])
+            setBirthdate(data.foundation_date.split("T")[0])
             setDescription(data?.description)
-            setCpf(data?.cpf)
-            setPostalCode(data?.user_address?.address.postal_code)
-            setPostalNumber(data?.user_address?.address.number)
-            setComplement(data?.user_address?.address.complement)
-            setGender(data?.id_gender)
-            setRg(data?.rg)
-            setPhone(data?.user_phone?.phone.number)
+            setPostalCode(data?.ngo_address?.address.postal_code)
+            setPostalNumber(data?.ngo_address?.address.number)
+            setComplement(data?.ngo_address?.address.complement)
+            setCnpj(data?.cnpj)
+            // setPhone(data?.ngo_phone?.phone.number)
+            // @ts-ignore
             setAttachedLink(data?.attached_link)
 
         }
@@ -246,8 +280,7 @@ export function FormEditarPerfilOng(){
                 name: name,
                 email: email,
                 password: password,
-                cpf: cpf,
-                birthdate: birthdate,
+                foundation_date: birthdate,
                 description: description,
                 address: {
                     postal_code: postalCode,
@@ -255,12 +288,11 @@ export function FormEditarPerfilOng(){
                     complement: complement,
                 },
                 gender: gender,
-                rg: rg,
+                cnpj: cnpj,
                 banner_photo: imgURL,
                 photo_url: iconURL[0],
-            };
 
-            console.log(payload)
+            };
 
             if (phone) {
                 payload.phone = [{ number: phone }];
@@ -270,7 +302,7 @@ export function FormEditarPerfilOng(){
                 payload.attached_link = [{ link: attached, source: sourceLink }];
             }
 
-            const { data } = await api.put(`/user/${id}`, payload);
+            const { data } = await api.put(`/ngo/${id}`, payload);
             console.log(data);
             setEditSuccess(true);
         } catch (e) {
@@ -278,7 +310,6 @@ export function FormEditarPerfilOng(){
             alert("Não mudou nada.");
         }
     };
-
 
 
 
@@ -433,14 +464,9 @@ export function FormEditarPerfilOng(){
                     <input type="text"
                            placeholder="RG"
                            className="input input-bordered input-info w-full"
-                           onChange={it => setRg(it.target.value)}
-                           value={rg}
+                           onChange={it => setCnpj(it.target.value)}
+                           value={cnpj}
                     />
-                    <input type="text"
-                           placeholder="CPF"
-                           className="input input-bordered input-info w-full"
-                           value={cpf}
-                           disabled/>
                 </div>
                 <div className="pt-2 flex flex-row gap-2 w-full">
                     <select className="select select-info" onChange={handleSelectChange}>

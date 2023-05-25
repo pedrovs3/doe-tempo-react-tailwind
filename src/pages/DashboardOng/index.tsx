@@ -231,7 +231,10 @@ export default function DashboardOng() {
             .catch(error => {
                 toast.error('Houve um erro ao tentar aprovar o voluntário!');
             });
+        console.log(url)
         }
+
+
 
     const handleDenied = (idCampanha, idUsuario) => {
         const status = 'Reprovado';
@@ -393,7 +396,7 @@ export default function DashboardOng() {
                                                     {statusFilter === "Aguardando" ? (
                                                         <>
                                                             <button className="btn btn-circle btn-outline btn-accent"
-                                                                    onClick={() => handleApproval(volunteer.id_campaign, volunteer.id_user)}>
+                                                                    onClick={() => handleApproval(volunteer.campaign.id, volunteer.user.id)}>
                                                             <span className="hover:text-little-white">
                                                                 <Check size={32}/>
                                                             </span>
@@ -421,7 +424,7 @@ export default function DashboardOng() {
                                                                            className="input input-bordered input-error w-full"/>
                                                                     <div className="modal-action">
                                                                         <label
-                                                                            onClick={() => handleDenied(volunteer.id_campaign, volunteer.id_user)}
+                                                                            onClick={() => handleDenied(volunteer.campaign.id, volunteer.user.id)}
                                                                             htmlFor="my-modal-5"
                                                                             className="btn btn-error text-neutral-50">Recusar</label>
                                                                     </div>
