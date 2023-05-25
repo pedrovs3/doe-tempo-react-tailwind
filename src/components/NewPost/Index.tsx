@@ -52,7 +52,6 @@ export function NewPost(props : PostProps) {
             if (publish.data) {
                 setContentState('')
                 setImages([])
-                alert(publish.data)
             }
 
         } catch (e) {

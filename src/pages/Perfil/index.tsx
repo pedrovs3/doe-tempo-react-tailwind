@@ -9,6 +9,8 @@ import NovoPost from "../NovoPost";
 import {FeedPosts} from "../../components/FeedPosts";
 import 'react-toastify/dist/ReactToastify.css';
 import {CardHistorico} from "../../components/CardHistorico";
+import {ToastContainer} from "react-toastify";
+import {da} from "date-fns/locale";
 
 interface Jwt {
     id:    string;
@@ -46,7 +48,7 @@ export default function Perfil() {
 
         fetchData().catch(console.error);
 
-    }, [typeUser])
+    }, [data])
 
     useEffect(() => {
         const fetchData = async () => {
@@ -62,22 +64,21 @@ export default function Perfil() {
 
     }, [id])
 
-    console.log(user)
 
     return (
-        <div className={'bg-little-white'}>
-            <div className={"navbar absolute top-0 left-0 w-full bg-transparent"}>
+        <><ToastContainer/>
+            <div className={'bg-little-white'}>
+                <div className={"navbar absolute top-0 left-0 w-full bg-transparent"}>
+                    {/*// @ts-ignore*/}
+                    <HeaderPosts id={jwt.id} photoURL={user?.user?.photo_url || user?.photo_url}/>
+                </div>
                 {/*// @ts-ignore*/}
-                <HeaderPosts id={jwt.id} photoURL={user?.user?.photo_url || user?.photo_url}/>
-            </div>
-            {/*// @ts-ignore*/}
-            <img src={data?.banner_photo} alt="Header image" className="object-cover w-full h-64 md:h-96 lg:h-128" />
-            <img src={wave} className={'relative -mt-12 w-full'}/>
-            <div className="flex flex-row">
-                <div className="">
-                    {
-                        typeUser === 'USER' ? (
-                               // @ts-ignore
+                <img src={data?.banner_photo} alt="Header image" className="object-cover w-full h-64 md:h-96 lg:h-128"/>
+                <img src={wave} className={'relative -mt-12 w-full'}/>
+                <div className="flex flex-row">
+                    <div className="">
+                        {typeUser === 'USER' ? (
+                            // @ts-ignore
                             <CardPerfil
                                 id={data?.id}
                                 name={data?.name}
@@ -94,27 +95,27 @@ export default function Perfil() {
                                 postal_code={data?.ngo_address?.address?.postal_code}
                                 attached_link={typeof data?.attached_link === 'object' ? data?.attached_link : data?.attached_link}
                                 description={data?.description}/>
-                        )
-                    }
-                </div>
+                        )}
+                    </div>
                     {id === userId ? (
                         <div className="flex flex-col w-full gap-5">
-                                <NovoPost />
+                            <NovoPost/>
                             <div className="flex flex-col gap-5 items-center justify-center">
                                 {data?.post_user?.map((item) => (
-                                    <FeedPosts
-                                        id={item.post.id}
-                                        idUser={id}
-                                        type={userType}
-                                        nameUser={data?.name}
-                                        photoUser={data?.photo_url}
-                                        content={item.post.content}
-                                        created={item.post.created_at}
-                                        images={item.post.post_photo}
-                                        comments={item.post.comment}
-                                        count_comments={item._count?.comments}
-                                        count_likes={item._count?.post_likes}
-                                    />
+                                    console.log(item),
+                                        <FeedPosts
+                                            id={item.post.id}
+                                            idUser={id}
+                                            type={userType}
+                                            nameUser={data?.name}
+                                            photoUser={data?.photo_url}
+                                            content={item.post.content}
+                                            created={item.post.created_at}
+                                            images={item.post.post_photo}
+                                            comments={item.post.comment}
+                                            count_comments={item.post._count?.comment}
+                                            count_likes={item.post._count?.post_likes}
+                                            post_likes={item.post.post_likes}/>
                                 ))}
                                 {data?.post_ngo?.map((item) => (
                                     <FeedPosts
@@ -127,9 +128,9 @@ export default function Perfil() {
                                         created={item.post.created_at}
                                         images={item.post.post_photo}
                                         comments={item.post.comment}
-                                        count_comments={item._count?.comments}
-                                        count_likes={item._count?.post_likes}
-                                    />
+                                        count_comments={item.post._count?.comments}
+                                        count_likes={item.post._count?.post_likes}
+                                        post_likes={item.post.post_likes}/>
                                 ))}
                             </div>
                         </div>
@@ -148,9 +149,8 @@ export default function Perfil() {
                                         created={item.post.created_at}
                                         images={item.post.post_photo}
                                         comments={item.post.comment}
-                                        count_comments={item._count?.comments}
-                                        count_likes={item._count?.post_likes}
-                                    />
+                                        count_comments={item.post._count?.comments}
+                                        count_likes={item.post._count?.post_likes}/>
                                 ))}
                                 {data?.post_ngo?.map((item) => (
                                     <FeedPosts
@@ -163,23 +163,30 @@ export default function Perfil() {
                                         created={item.post.created_at}
                                         images={item.post.post_photo}
                                         comments={item.post.comment}
-                                        count_comments={item._count?.comments}
-                                        count_likes={item._count?.post_likes}
-                                    />
+                                        count_comments={item.post._count?.comments}
+                                        count_likes={item.post._count?.post_likes}/>
                                 ))}
 
                             </div>
                             <div className={"w-1/3"}>
-                            <CardHistorico />
+                                {data?.supported_campaigns.map(campaign => (
+                                    <CardHistorico
+                                        key={campaign.campaign.id}
+                                        begin_date={campaign.campaign.begin_date}
+                                        campaign_photo={campaign.campaign.ngo.photo_url}
+                                        end_date={campaign.campaign.end_date}
+                                        id={campaign.campaign.id}
+                                        tituloCampanha={campaign.campaign.title}/>
+                                ))}
                             </div>
                         </div>
 
-                        )
-                }
+                    )}
 
 
+                </div>
             </div>
-        </div>
+        </>
     )
 }
 

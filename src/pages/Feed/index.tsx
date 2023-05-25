@@ -161,6 +161,8 @@ export default function Feed() {
         fetchAPI().catch(console.error)
     }, [allPosts])
 
+    console.log(allPosts)
+
     return (
         <><ToastContainer/>
             <div className={''}>
@@ -181,7 +183,9 @@ export default function Feed() {
                                            nameUser={item.post_user[0].user.name}
                                            photoUser={item.post_user[0].user.photo_url}
                                             // @ts-ignore
-                                           content={item.content} created={item.created_at}
+                                           content={item.content}
+                                            // @ts-ignore
+                                           created={item.created_at}
                                            images={item.post_photo}
                                             // @ts-ignore
                                            comments={item.comment}

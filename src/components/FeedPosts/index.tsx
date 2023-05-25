@@ -71,7 +71,6 @@ interface Jwt {
     exp:   number;
 }
 
-
 export function FeedPosts(props : PostProps) {
     const [showCommentInput, setShowCommentInput] = useState({});
     const dataFormatada = format(new Date(props.created), "d 'de' MMMM 'às' HH:mm", { locale: pt });
@@ -84,6 +83,7 @@ export function FeedPosts(props : PostProps) {
     const isCurrentUserOwner = jwt.id === props.idUser;
     const [countLikes, setCountLikes] = useState(props.count_likes);
 
+    console.log(props.post_likes)
 
     const handleDeletePost = async () => {
         try {
@@ -103,7 +103,6 @@ export function FeedPosts(props : PostProps) {
     }
 
 
-
     const handleCommentClick = (postId) => {
         setShowCommentInput(prevState => ({ ...prevState, [props.id]: !prevState[props.id] }));
     }
@@ -115,11 +114,12 @@ export function FeedPosts(props : PostProps) {
                 content: comentario,
             } )
         } catch (e) {
-            console.log(e)
             alert("Houve um erro!")
         }
         setComentario("")
     }
+
+    console.log(props.count_likes)
 
     return (
         <div className="bg-base-100 shadow-xl w-full md:w-1/2 lg:w-1/2 text-primary-content rounded-lg relative">
@@ -166,43 +166,34 @@ export function FeedPosts(props : PostProps) {
                 </div>
                 <div className={"flex gap-2"}>
                     <h2 className={"text-xl font-bold text-neutral-500"}>{countLikes}</h2>
-                    {
-                        // jwt.type == 'USER' ?
-                        //     props.post_likes.filter((like) => like.id_user == jwt.id).length > 0 ? (
-                        //             <Heart
-                        //                 size={32}
-                        //                 weight={liked ? 'fill' : 'regular'}
-                        //                 color={'red'}
-                        //             />
-                        //         ) : (
-                        //         <button onClick={handleLike}>
-                        //             <Heart
-                        //                 size={32}
-                        //                 weight={liked ? 'fill' : 'regular'}
-                        //                 color={liked ? 'red' : 'gray'}
-                        //             />
-                        //         </button>
-                        //     )
-                        //     : (
-                        //         props.post_likes.filter((like) => like.id_ngo == jwt.id).length > 0 ? (
-                        //             <Heart
-                        //                 size={32}
-                        //                 weight={liked ? 'fill' : 'regular'}
-                        //                 color={'red'}
-                        //             />
-                        //         ) : (
-                        //             <button onClick={handleLike}>
-                        //                 <Heart
-                        //                     size={32}
-                        //                     weight={liked ? 'fill' : 'regular'}
-                        //                     color={liked ? 'red' : 'gray'}
-                        //                 />
-                        //             </button>
-                        //         )
-                        // )
-                    }
+                    {jwt.type === 'USER' ? (
+                     //pra usar no feed é user.id
+                        props.post_likes.filter((like) =>  like.id_user === jwt.id).length > 0 ? (
 
-                    <h2 className={"text-xl font-bold text-neutral-500"}>{props.count_comments}</h2>
+                            <Heart size={32} weight="fill" color={'red'} />
+                        ) : (
+                            <button onClick={handleLike}>
+                                <Heart
+                                    size={32}
+                                    weight={liked ? 'fill' : 'regular'}
+                                    color={liked ? 'red' : 'gray'}
+                                />
+                            </button>
+                        )
+                    ) : (
+                        props.post_likes.filter((like) => like.ngo.id === jwt.id).length > 0 ? (
+                            <Heart size={32} weight="fill" color={'red'} />
+                        ) : (
+                            <button onClick={handleLike}>
+                                <Heart
+                                    size={32}
+                                    weight={liked ? 'fill' : 'regular'}
+                                    color={liked ? 'red' : 'gray'}
+                                />
+                            </button>
+                        )
+                    )}
+                <h2 className={"text-xl font-bold text-neutral-500"}>{props.count_comments}</h2>
                     <button onClick={() => handleCommentClick(props.id)}>
                         <Chat
                             size={32}
@@ -220,6 +211,7 @@ export function FeedPosts(props : PostProps) {
                                             <div className="w-12 rounded-xl ring ring-primary ring-tufts-blue ring-offset-2 bg-blueberry">
                                                 <Link to={``}>
                                                     {
+
                                                         item._count.comment_user === 1 ? (
                                                             <img src={item?.comment_user[0].user?.photo_url}/>
                                                         ) : (

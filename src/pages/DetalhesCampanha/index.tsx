@@ -240,6 +240,7 @@ export default function DetalhesCampanha() {
             const idUser = userId;
             const url = `/user/campaign/?idUser=${idUser}&idCampaign=${id}`;
             const campaignResponse = await api.post(url);
+            console.log(url)
             setCampaign(campaignResponse.data);
 
         }

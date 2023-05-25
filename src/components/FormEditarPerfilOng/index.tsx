@@ -196,7 +196,6 @@ export function FormEditarPerfilOng(){
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [phone, setPhone] = useState('')
-    const [cpf, setCpf] = useState('')
     const [cnpj, setCnpj] = useState('')
     const [attached, setAttached] = useState('')
     const [sourceLink, setSourcelink] = useState('')
@@ -293,6 +292,8 @@ export function FormEditarPerfilOng(){
                 photo_url: iconURL[0],
 
             };
+
+            console.log(payload)
 
             if (phone) {
                 payload.phone = [{ number: phone }];
@@ -439,6 +440,25 @@ export function FormEditarPerfilOng(){
                            value={confirmPassword}
                            onChange={handleConfirmPasswordChange}
                            onBlur={handleConfirmPasswordBlur} />
+                </div>
+                <div className="pt-2 flex flex-row gap-2 w-full">
+                    <input
+                           placeholder="Cep" className="input input-bordered input-info w-full"
+                           value={postalCode}
+                           onChange={it => setPostalCode(it.target.value)}
+                    />
+                </div>
+                <div className="pt-2 flex flex-row gap-2 w-full">
+                    <input
+                        placeholder="Número" className="input input-bordered input-info w-full"
+                        value={postalNumber}
+                        onChange={it => setPostalNumber(it.target.value)}
+                    />
+                    <input
+                        placeholder="Complemento" className="input input-bordered input-info w-full"
+                        value={complement}
+                        onChange={it => setComplement(it.target.value)}
+                    />
                 </div>
                 <div className="pt-2 flex flex-row gap-2 w-full">
                     <input type="tel"
