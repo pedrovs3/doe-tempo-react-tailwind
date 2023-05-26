@@ -113,7 +113,6 @@ interface Jwt {
 }
 
 export default function Feed() {
-
     const decodeJWT = decodeJwt();
     const jwt = decodeJWT as Jwt;
     const userType = jwt.type;
@@ -138,7 +137,7 @@ export default function Feed() {
         };
 
         fetchData();
-    }, [jwt.id]);
+    }, []);
 
     useEffect(() => {
         const fetchAPI = async () => {

@@ -99,6 +99,7 @@ export function FeedPosts(props : PostProps) {
         const url = `/post/${props.id}/like`
         const like = api.post(`${url}`)
         setLiked(liked)
+        setCountLikes(prevCountLikes => prevCountLikes + 1);
 
     }
 
@@ -168,7 +169,7 @@ export function FeedPosts(props : PostProps) {
                     <h2 className={"text-xl font-bold text-neutral-500"}>{countLikes}</h2>
                     {jwt.type === 'USER' ? (
                      //pra usar no feed é user.id
-                        props.post_likes.filter((like) =>  like.id_user === jwt.id).length > 0 ? (
+                        props.post_likes && props.post_likes.filter((like) =>  like.id_user === jwt.id).length > 0 ? (
 
                             <Heart size={32} weight="fill" color={'red'} />
                         ) : (
@@ -181,7 +182,7 @@ export function FeedPosts(props : PostProps) {
                             </button>
                         )
                     ) : (
-                        props.post_likes.filter((like) => like.ngo.id === jwt.id).length > 0 ? (
+                        props.post_likes && props.post_likes.filter((like) => like.id_ngo === jwt.id).length > 0 ? (
                             <Heart size={32} weight="fill" color={'red'} />
                         ) : (
                             <button onClick={handleLike}>

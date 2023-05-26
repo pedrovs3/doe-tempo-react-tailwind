@@ -10,7 +10,9 @@ export function LoginForm(){
 
     const handleSubmitForm = async (e: FormEvent)    => {
         e.preventDefault();
-
+        if (localStorage.getItem("token")) {
+            localStorage.removeItem("token")
+        }
         try {
             const {data} = await api.post('/auth/', {
                 email: email,
