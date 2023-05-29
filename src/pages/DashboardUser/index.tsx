@@ -262,21 +262,22 @@ export default function DashboardUser() {
                                                             <div className="flex items-center space-x-3">
                                                                 <div className="avatar">
                                                                     <div className="mask mask-squircle w-12 h-12">
-                                                                        <img src={""} alt="Imagem" />
+                                                                        <img src={campanha.campaign.ngo.photo_url} alt="Imagem" />
                                                                     </div>
                                                                 </div>
                                                                 <div>
-                                                                    <div className="font-bold">Hart Hagerty</div>
-                                                                    <div className="text-sm opacity-50">United States</div>
+                                                                    <div className="font-bold">{campanha.campaign.ngo.name}</div>
+                                                                    <div className="text-sm opacity-50">ONG</div>
                                                                 </div>
                                                             </div>
                                                         </td>
                                                         <td>
-                                                            Zemlak, Daniel and Leannon
+                                                            {campanha.campaign.title}
                                                             <br/>
-                                                            <span className="badge badge-ghost badge-sm">Desktop Support Technician</span>
+                                                            <span className="badge badge-ghost badge-sm">{format(new Date(campanha.campaign.begin_date), "dd-MM-yyyy")} | {format(new Date(campanha.campaign.end_date), "dd-MM-yyyy")}</span>
                                                         </td>
-                                                        <td>Purple</td>
+                                                        <td><span className={"font-bold text-xl " + (campanha.status.name === "Reprovado" ? "text-error" : "text-success")}>
+                                                        {campanha.status.name === "Reprovado" ? "Reprovado" : "Aprovado"}</span></td>
                                                         <th>
                                                             <button className="btn btn-ghost btn-xs">details</button>
                                                         </th>
@@ -287,7 +288,6 @@ export default function DashboardUser() {
                                         );
                                     }
                                 })}
-
                             </div>
 
                             <label htmlFor="my-drawer-2"

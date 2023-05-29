@@ -83,7 +83,7 @@ export function FeedPosts(props : PostProps) {
     const isCurrentUserOwner = jwt.id === props.idUser;
     const [countLikes, setCountLikes] = useState(props.count_likes);
 
-    console.log(props.post_likes)
+    console.log(props.content)
 
     const handleDeletePost = async () => {
         try {
@@ -135,7 +135,8 @@ console.log(props.comments)
         setComentario("")
     }
 
-    console.log(props.count_likes)
+    const contentLines = props.content.split('\n');
+
 
     return (
         <div className="bg-base-100 shadow-xl w-full md:w-1/2 lg:w-1/2 text-primary-content rounded-lg relative">
@@ -164,7 +165,11 @@ console.log(props.comments)
                         <p className={"text-neutral-800 text-xs"}>{dataFormatada}</p>
                     </div>
                 </div>
-                <p className={"text-neutral-900"}>{props.content}</p>
+                {contentLines.map((line, index) => (
+                    <p key={index} className="text-neutral-900">
+                        {line}
+                    </p>
+                ))}
                 <div className="card-actions justify-start">
                     <div className="carousel w-full">
                         {photoUrls.map((url, index) => (
