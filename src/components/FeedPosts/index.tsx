@@ -107,14 +107,30 @@ export function FeedPosts(props : PostProps) {
 
     function handleLike() {
         const url = `/post/${props.id}/like`;
-        api.post(url)
-            .then(() => {
-                setLiked(true);
-                setCountLikes(prevCountLikes => prevCountLikes + 1);
-            })
-            .catch(error => {
-                console.error('Erro ao realizar o like:', error);
-            });
+
+        if (liked) {
+            // Remover o like
+            api.delete(url)
+                .then((res) => {
+                    console.log(res.data);
+                    setLiked(false);
+                    setCountLikes(prevCountLikes => prevCountLikes - 1);
+                })
+                .catch(error => {
+                    console.error('Erro ao remover o like:', error);
+                });
+        } else {
+            // Dar o like
+            api.post(url)
+                .then((res) => {
+                    console.log(res.data);
+                    setLiked(true);
+                    setCountLikes(prevCountLikes => prevCountLikes + 1);
+                })
+                .catch(error => {
+                    console.error('Erro ao realizar o like:', error);
+                });
+        }
     }
 
 console.log(props.comments)
@@ -191,7 +207,9 @@ console.log(props.comments)
                      //pra usar no feed é user.id
                         props.post_likes && props.post_likes.filter((like) =>  like.id_user === jwt.id).length > 0 ? (
 
-                            <Heart size={32} weight="fill" color={'red'} />
+                                <button onClick={handleLike}>
+                                    <Heart size={32} weight="fill" color={'red'} />
+                                </button>
                         ) : (
                             <button onClick={handleLike}>
                                 <Heart
@@ -203,7 +221,9 @@ console.log(props.comments)
                         )
                     ) : (
                         props.post_likes && props.post_likes.filter((like) => like.id_ngo === jwt.id).length > 0 ? (
-                            <Heart size={32} weight="fill" color={'red'} />
+                            <button onClick={handleLike}>
+                                <Heart size={32} weight="fill" color={'red'} />
+                            </button>
                         ) : (
                             <button onClick={handleLike}>
                                 <Heart

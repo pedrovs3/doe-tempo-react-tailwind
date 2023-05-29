@@ -240,11 +240,6 @@ export default function DashboardUser() {
                                                 <table className="table w-full">
                                                     <thead>
                                                     <tr>
-                                                        <th>
-                                                            <label>
-                                                                <input type="checkbox" className="checkbox" />
-                                                            </label>
-                                                        </th>
                                                         <th>Nome da ONG</th>
                                                         <th>Campanha</th>
                                                         <th>Status de Aprovação</th>
@@ -253,11 +248,6 @@ export default function DashboardUser() {
                                                     </thead>
                                                     <tbody>
                                                     <tr>
-                                                        <th>
-                                                            <label>
-                                                                <input type="checkbox" className="checkbox" />
-                                                            </label>
-                                                        </th>
                                                         <td>
                                                             <div className="flex items-center space-x-3">
                                                                 <div className="avatar">
@@ -276,8 +266,8 @@ export default function DashboardUser() {
                                                             <br/>
                                                             <span className="badge badge-ghost badge-sm">{format(new Date(campanha.campaign.begin_date), "dd-MM-yyyy")} | {format(new Date(campanha.campaign.end_date), "dd-MM-yyyy")}</span>
                                                         </td>
-                                                        <td><span className={"font-bold text-xl " + (campanha.status.name === "Reprovado" ? "text-error" : "text-success")}>
-                                                        {campanha.status.name === "Reprovado" ? "Reprovado" : "Aprovado"}</span></td>
+                                                        <td><span className={"font-bold text-xl " + (campanha.status.name === "Reprovado" ? "text-error" : "text-warning")}>
+                                                        {campanha.status.name === "Reprovado" ? "Reprovado" : "Aguardando"}</span></td>
                                                         <th>
                                                             <button className="btn btn-ghost btn-xs">details</button>
                                                         </th>
