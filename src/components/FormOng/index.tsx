@@ -85,7 +85,7 @@ export const Form = () => {
                 />
                 <div className="flex flex-2 justify-between">
                     <input id="cnpj"
-                           type="Number"
+                           type="text"
                            className="input bg-white text-black w-full focus:input-bordered focus:input-success mr-1"
                            placeholder="CNPJ"
                            onChange={event => setCnpj(event.target.value)}
