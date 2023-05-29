@@ -160,10 +160,6 @@ export default function EditarPerfil() {
                     <HeaderPosts id={user?.user?.id} photoURL={user?.user?.photo_url}/>
                 </div>
                 <div className="justify-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10">
-                    <div className={"flex flex-row gap-2 pb-3.5"}>
-                        <PencilSimple size={42} />
-                        <h1 className={"text-5xl font-bold text-blueberry"}>Edite seus dados</h1>
-                    </div>
                     {jwt.type === 'USER' ? (
                         <FormEditarPerfil />
                     ) : (

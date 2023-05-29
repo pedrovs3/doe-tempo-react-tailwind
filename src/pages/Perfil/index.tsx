@@ -11,6 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import {CardHistorico} from "../../components/CardHistorico";
 import {ToastContainer} from "react-toastify";
 import {da} from "date-fns/locale";
+import {ClockCounterClockwise} from "phosphor-react";
 
 interface Jwt {
     id:    string;
@@ -75,7 +76,7 @@ export default function Perfil() {
                 {/*// @ts-ignore*/}
                 <img src={data?.banner_photo} alt="Header image" className="object-cover w-full h-64 md:h-96 lg:h-128"/>
                 <img src={wave} className={'relative -mt-12 w-full'}/>
-                <div className="flex flex-row">
+                <div className="flex flex-row p-5">
                     <div className="">
                         {typeUser === 'USER' ? (
                             // @ts-ignore
@@ -149,7 +150,7 @@ export default function Perfil() {
                                         created={item.post.created_at}
                                         images={item.post.post_photo}
                                         comments={item.post.comment}
-                                        count_comments={item.post._count?.comments}
+                                        count_comments={item.post._count?.comment}
                                         count_likes={item.post._count?.post_likes}/>
                                 ))}
                                 {data?.post_ngo?.map((item) => (
@@ -163,22 +164,52 @@ export default function Perfil() {
                                         created={item.post.created_at}
                                         images={item.post.post_photo}
                                         comments={item.post.comment}
-                                        count_comments={item.post._count?.comments}
+                                        count_comments={item.post._count?.comment}
                                         count_likes={item.post._count?.post_likes}/>
                                 ))}
 
                             </div>
                             <div className={"w-1/3"}>
-                                {data?.supported_campaigns.map(campaign => (
-                                    <CardHistorico
-                                        key={campaign.campaign.id}
-                                        begin_date={campaign.campaign.begin_date}
-                                        campaign_photo={campaign.campaign.ngo.photo_url}
-                                        end_date={campaign.campaign.end_date}
-                                        id={campaign.campaign.id}
-                                        tituloCampanha={campaign.campaign.title}/>
-                                ))}
+                                {typeUser === 'USER' && data?.supported_campaigns && data.supported_campaigns.length > 0 && (
+                                    <div>
+                                        <div className="flex flex-row">
+                                            <ClockCounterClockwise size={30} />
+                                            <h1 className="pl-2 text-2xl font-bold text-blueberry">Histórico de Campanhas</h1>
+                                        </div>
+                                        {data.supported_campaigns.map(campaign => (
+                                            <div className={"pb-5"}>
+                                                <CardHistorico
+                                                    key={campaign.campaign.id}
+                                                    begin_date={campaign.campaign.begin_date}
+                                                    campaign_photo={campaign.campaign.ngo.photo_url}
+                                                    end_date={campaign.campaign.end_date}
+                                                    id={campaign.campaign.id}
+                                                    tituloCampanha={campaign.campaign.title}
+                                                />
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                                {typeUser === 'ONG' && data?.campaign && data.campaign.length > 0 && (
+                                    <div>
+                                        <div className="flex flex-row">
+                                            <ClockCounterClockwise size={30} />
+                                            <h1 className="pl-2 text-2xl font-bold text-blueberry">Histórico de Campanhas</h1>
+                                        </div>
+                                        {data.campaign.map(campaign => (
+                                            <div className={"pb-5"}>
+                                                <CardHistorico
+                                                    key={campaign.id}
+                                                    campaign_photo={data.photo_url}
+                                                    id={campaign.id}
+                                                    tituloCampanha={campaign.title}
+                                                />
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
                             </div>
+
                         </div>
 
                     )}

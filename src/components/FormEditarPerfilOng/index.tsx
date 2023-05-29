@@ -408,7 +408,7 @@ export function FormEditarPerfilOng(){
 
     return (
         <form name={"edit"} className={''} onSubmit={handleSubmitForm}>
-            <div className="relative w-full sm:w-[28rem] bg-gray-200">
+            <div className="relative w-full bg-gray-200">
                 <img className="rounded-xl h-[200px] w-full" src={imgURL || data?.banner_photo} alt={""} />
                 <label htmlFor="uploadHeader"
                        className="absolute inset-0 flex flex-col items-center justify-center cursor-pointer">
@@ -447,8 +447,6 @@ export function FormEditarPerfilOng(){
                            value={postalCode}
                            onChange={it => setPostalCode(it.target.value)}
                     />
-                </div>
-                <div className="pt-2 flex flex-row gap-2 w-full">
                     <input
                         placeholder="Número" className="input input-bordered input-info w-full"
                         value={postalNumber}
@@ -467,22 +465,21 @@ export function FormEditarPerfilOng(){
                            value={phone}
                            onChange={it => setPhone(it.target.value)}
                     />
+                    <input
+                        type="date" placeholder="Data de Nascimento"
+                        value={birthdate}
+                        className="input input-bordered input-info w-full" disabled />
                 </div>
-                <input
-                    type="date" placeholder="Data de Nascimento"
-                    value={birthdate}
-                    className="input input-bordered input-info w-full" disabled />
                 <textarea
                     placeholder="Bio"
                     className="resize-none textarea textarea-bordered textarea-info textarea-lg w-full"
                     value={description}
                     onChange={it => setDescription(it.target.value)}
                 >
-
                 </textarea>
                 <div className="pt-2 flex flex-row gap-2 w-full">
                     <input type="text"
-                           placeholder="RG"
+                           placeholder="CNPJ"
                            className="input input-bordered input-info w-full"
                            onChange={it => setCnpj(it.target.value)}
                            value={cnpj}

@@ -7,6 +7,7 @@ interface CardProps {
     imgAvatar: string,
     title: string,
     description: string,
+    causes: [],
 }
 
 
@@ -32,6 +33,7 @@ export function CardsCampanha(props : CardProps) {
         }
     }
 
+    console.log(props.causes)
 
     return (
         <div className={'pt-5 h-full w-full flex flex-col justify-between'}>
@@ -47,10 +49,13 @@ export function CardsCampanha(props : CardProps) {
                     <p className={"font-medium text-texto-campanha pb-3.5"}>
                         {props .description}
                     </p>
-                    <progress className="progress progress-info w-80" value="50" max="100"></progress>
-                    <div className="flex justify-end">
-                        <p className={"flex justify-end font-medium"}>70 Vagas Disponíveis</p>
+                    <div className="flex flex-wrap w-full gap-3">
+                        {props.causes.map((item, index) => (
+                            // @ts-ignore
+                            <span key={index} className="badge bg-blueberry border-blueberry text-neutral-50">{item.causes.title}</span>
+                        ))}
                     </div>
+
                     <div className="card-actions justify-end pt-3">
                             <NavLink className="btn w-32 rounded-full bg-blueberry border-0 text-white flex justify-center hover:bg-turquoise-700 hover:text-blueberry"
                                      to={`/detalhes-campanha/${props .id}`}>Saiba Mais </NavLink>

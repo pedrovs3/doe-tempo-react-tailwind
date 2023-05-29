@@ -207,7 +207,7 @@ export default function DashboardOng() {
 
         fetchData().catch(console.error);
 
-    }, [volunteersData])
+    }, [ngoData])
 
     console.log(volunteersData)
 
@@ -255,42 +255,6 @@ export default function DashboardOng() {
                     <div className="drawer drawer-mobile">
                         <input id="my-drawer-2" type="checkbox" className="drawer-toggle"/>
                         <div className="drawer-content flex flex-col items-center justify-center">
-                            <div>
-                                <div className="stats shadow">
-                                    <div className="stat">
-                                        <div className="stat-figure text-blueberry">
-                                        <span className="relative flex h-3 w-3">
-                                            <span
-                                                className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
-                                            <span
-                                                className="animate-ping relative inline-flex rounded-full h-3 w-3 bg-blueberry"></span>
-                                        </span>
-                                        </div>
-                                        <div className="stat-title">Campanhas Ativas</div>
-                                        <div className="stat-value">31K</div>
-                                        <div className="stat-desc">Jan 1st - Feb 1st</div>
-                                    </div>
-                                    <div className="stat">
-                                        <div className="stat-figure text-blueberry">
-                                            <Handshake size={32}/>
-                                        </div>
-                                        <div className="stat-title">Voluntários Engajados</div>
-                                        <div className="stat-value">4,200</div>
-                                        <div className="stat-desc">↗︎ 400 (22%)</div>
-                                    </div>
-
-                                    <div className="stat">
-                                        <div className="stat-figure text-blueberry">
-                                            <CheckCircle size={32}/>
-                                        </div>
-                                        <div className="stat-title">Campanhas concluídas</div>
-                                        <div className="stat-value">1,200</div>
-                                        <div className="stat-desc">↘︎ 90 (14%)</div>
-                                    </div>
-                                </div>
-                            </div>
-
-
                             <div
                                 className="w-full p-5">
                                 <div className="w-full p-5">
@@ -304,7 +268,7 @@ export default function DashboardOng() {
                                     </Link>
                                     </div>
 
-                                    <div className="flex grid grid-cols-4 gap-4">
+                                    <div className="flex gap-5">
                                         {ngoData.campaign.map((campanha) => (
                                             <div className="card w-96 bg-base-100 shadow-xl" key={campanha.id}>
                                                 <div className="dropdown absolute top-0 right-0 p-2">

@@ -7,6 +7,7 @@ import {api} from "../../lib/axios";
 import { Link } from "react-router-dom";
 import {useParams} from "react-router-dom";
 import {toast, ToastContainer} from "react-toastify";
+import {format} from "date-fns";
 
 interface ResponseUser {
     user: User;
@@ -188,56 +189,39 @@ export default function DashboardUser() {
                         <input id="my-drawer-2" type="checkbox" className="drawer-toggle"/>
                         <div className="drawer-content flex flex-col items-center justify-center">
                             <div>
-                                <div className="stats shadow">
-                                    <div className="stat">
-                                        <div className="stat-figure text-blueberry">
-                                        <span className="relative flex h-3 w-3">
-                                            <span
-                                                className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
-                                            <span
-                                                className="animate-ping relative inline-flex rounded-full h-3 w-3 bg-blueberry"></span>
-                                        </span>
-                                        </div>
-                                        <div className="stat-title">Campanhas Ativas</div>
-                                        <div className="stat-value">31K</div>
-                                        <div className="stat-desc">Jan 1st - Feb 1st</div>
-                                    </div>
-                                    <div className="stat">
-                                        <div className="stat-figure text-blueberry">
-                                            <Handshake size={32}/>
-                                        </div>
-                                        <div className="stat-title">Voluntários Engajados</div>
-                                        <div className="stat-value">4,200</div>
-                                        <div className="stat-desc">↗︎ 400 (22%)</div>
-                                    </div>
 
-                                    <div className="stat">
-                                        <div className="stat-figure text-blueberry">
-                                            <CheckCircle size={32}/>
-                                        </div>
-                                        <div className="stat-title">Campanhas concluídas</div>
-                                        <div className="stat-value">1,200</div>
-                                        <div className="stat-desc">↘︎ 90 (14%)</div>
-                                    </div>
-                                </div>
                             </div>
-
-
                             <div
                                 className="w-full p-5 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
                                 <div className="w-full p-5">
                                     <h1 className="text-4xl font-medium text-neutral-600 pb-5">Campanhas apoiadas</h1>
                                     <div className="grid grid-cols-4 gap-4">
                                         {userData.user.supported_campaigns.map((campanha) => (
+                                            <Link to={`/detalhes-campanha/${campanha.campaign.id}`}>
                                             <div className="card w-96 bg-base-100 shadow-xl" key={campanha.campaign.id}>
                                                 <figure>
                                                     <img className={"rounded-t-lg"}
-                                                         src={""}
+                                                         // @ts-ignore
+                                                         src={campanha.campaign.campaign_photos[0].photo_url}
                                                          alt="Shoes"/></figure>
                                                 <div className="card-body">
                                                     <h2 className="card-title">{campanha.campaign.title}</h2>
+                                                    <span>
+                                                           {/*// @ts-ignore*/}
+                                                        {campanha.campaign.description.length > 150 ?
+                                                            // @ts-ignore
+                                                            campanha.campaign.description.slice(0, 150) + '...' :
+                                                            // @ts-ignore
+                                                            campanha.campaign.description}
+                                                    </span>
+
+                                                    <span className={"font-medium"}>
+                                                         {/*// @ts-ignore*/}
+                                                        Participou de {format(new Date(campanha.campaign.begin_date), "dd/MM/yyyy")} a {format(new Date(campanha.campaign.end_date), "dd/MM/yyyy")}
+                                                    </span>
                                                 </div>
                                             </div>
+                                            </Link>
                                         ))}
                                     </div>
                                 </div>
@@ -257,7 +241,7 @@ export default function DashboardUser() {
                             <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
                             <ul className="menu bg-blueberry p-4 w-80 text-little-white">
                                 <img src={logo}/>
-                                <Link to={`/perfil/ONG/${id}`}>
+                                <Link to={`/perfil/USER/${id}`}>
                                     <li><a className={"text-xl font-semibold active:bg-blueberry"}> <UserCircle size={32} /> Perfil</a></li>
                                 </Link>
                                 <Link to={"/feed"}>

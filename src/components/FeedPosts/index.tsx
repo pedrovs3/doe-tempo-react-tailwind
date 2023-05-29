@@ -74,7 +74,7 @@ interface Jwt {
 export function FeedPosts(props : PostProps) {
     const [showCommentInput, setShowCommentInput] = useState({});
     const dataFormatada = format(new Date(props.created), "d 'de' MMMM 'às' HH:mm", { locale: pt });
-    const [liked, setLiked] = useState();
+    const [liked, setLiked] = useState(false);
     const photoUrls = props.images.map((photo) => photo.photo_url);
     const showNavigation = photoUrls.length > 1;
     const [comentario, setComentario] = useState('');
@@ -96,12 +96,17 @@ export function FeedPosts(props : PostProps) {
     };
 
     function handleLike() {
-        const url = `/post/${props.id}/like`
-        const like = api.post(`${url}`)
-        setLiked(liked)
-        setCountLikes(prevCountLikes => prevCountLikes + 1);
-
+        const url = `/post/${props.id}/like`;
+        api.post(url)
+            .then(() => {
+                setLiked(true);
+                setCountLikes(prevCountLikes => prevCountLikes + 1);
+            })
+            .catch(error => {
+                console.error('Erro ao realizar o like:', error);
+            });
     }
+
 
 
     const handleCommentClick = (postId) => {

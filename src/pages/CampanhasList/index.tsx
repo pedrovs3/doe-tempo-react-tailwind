@@ -100,10 +100,22 @@ export default function CampanhasList() {
                 <div className={'grid grid-cols-4 gap-4 w-full'}>
                         {searchTerm && dataSearch.length === 0 && <p className={'flex text-3xl h-full '}>Não encontramos nenhuma campanha :/</p>}
                         {searchTerm && dataSearch.map((item) => (
-                            <CardsCampanha key={item.id} id={item.id} title={item.title} description={item.description} imgAvatar={item?.ngo.photo_url}/>
+                            <CardsCampanha
+                                causes={item.campaign_causes}
+                                key={item.id}
+                                id={item.id}
+                                title={item.title}
+                                description={item.description}
+                                imgAvatar={item?.ngo.photo_url}/>
                         ))}
                         {!searchTerm && filteredData.map((item) => (
-                            <CardsCampanha key={item.id} id={item.id} title={item.title} description={item.description} imgAvatar={item?.ngo.photo_url}/>
+                            <CardsCampanha
+                                key={item.id}
+                                causes={item.campaign_causes}
+                                id={item.id}
+                                title={item.title}
+                                description={item.description}
+                                imgAvatar={item?.ngo.photo_url}/>
                         ))}
                 </div>
             </div>

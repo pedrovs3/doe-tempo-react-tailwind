@@ -67,13 +67,6 @@ export function DetalhesBodyDois(props : CampaignProps) {
                     {titulos.map((item) => (
                         <div className="badge badge-primary">{item}</div>
                     ))}
-
-                </div>
-                <div className={"pt-14"}>
-                    <progress className="progress progress-accent  w-[28rem] h-2/3" value="60" max="100"></progress>
-                </div>
-                <div className="flex justify-end  w-[28rem]">
-                    <p className={"flex font-medium"}>70 Vagas Disponíveis</p>
                 </div>
                 <div className={"flex flex-col"}>
                     <h1 className={"font-bold text-2xl pb-2"}>Detalhes:</h1>

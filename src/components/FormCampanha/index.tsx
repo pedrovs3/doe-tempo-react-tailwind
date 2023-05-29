@@ -6,6 +6,7 @@ import {api} from "../../lib/axios";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import {apiCep} from "../../api/consulta_cep";
+import {useNavigate} from "react-router-dom";
 
 interface AddressProps {
     idOng : string,
@@ -20,6 +21,7 @@ interface AddressProps {
 
 export function CampanhaForm(props : AddressProps) {
 
+        const [createSuccess, setCreateSuccess] = useState(false);
         const [preview, setPreview] = useState(null);
         const [inputVisible, setInputVisible] = useState(true);
         const [imgURL, setImgURL] = useState([])
@@ -37,6 +39,7 @@ export function CampanhaForm(props : AddressProps) {
         const [complementoState, setComplementoState] = useState(props.complemento);
         const [localidadeState, setLocalidadeState] = useState(props.localidade);
         const [UfState, setUfState] = useState(props.uf);
+        const navigate = useNavigate();
 
 
         const checkCEP = async (e: any) => {
@@ -142,13 +145,19 @@ export function CampanhaForm(props : AddressProps) {
                     }
                 })
 
-                alert(campaign.data)
+                setCreateSuccess(true)
             } catch (e) {
                 console.log(e)
                 alert("Houve um erro!")
             }
 
         }
+
+    useEffect(() => {
+        if (createSuccess) {
+            navigate(`/dashboard-ong/${props.idOng}`);
+        }
+    }, [createSuccess]);
 
         const animatedComponents = makeAnimated();
 
