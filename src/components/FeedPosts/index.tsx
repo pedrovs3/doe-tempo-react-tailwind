@@ -94,6 +94,16 @@ export function FeedPosts(props : PostProps) {
             toast.error('Houve um erro ao excluir o post!');
         }
     };
+    const handleDeleteComment = async (commentId) => {
+        try {
+            const response = await api.delete(`/post/comment/${commentId}`);
+            toast.success('Comentário excluído com sucesso!');
+        } catch (error) {
+            console.error(error);
+            toast.error('Houve um erro ao excluir o post!');
+        }
+    };
+
 
     function handleLike() {
         const url = `/post/${props.id}/like`;
@@ -107,7 +117,7 @@ export function FeedPosts(props : PostProps) {
             });
     }
 
-
+console.log(props.comments)
 
     const handleCommentClick = (postId) => {
         setShowCommentInput(prevState => ({ ...prevState, [props.id]: !prevState[props.id] }));
@@ -214,10 +224,9 @@ export function FeedPosts(props : PostProps) {
                                 <div className="card-body gap-5">
                                     <div className={"gap-5 flex flex-row"}>
                                         <div className={"avatar"}>
-                                            <div className="w-12 rounded-xl ring ring-primary ring-tufts-blue ring-offset-2 bg-blueberry">
+                                            <div className="w-[56px] rounded-xl ring ring-tufts-blue ring-offset-2 bg-blueberry">
                                                 <Link to={``}>
                                                     {
-
                                                         item._count.comment_user === 1 ? (
                                                             <img src={item?.comment_user[0].user?.photo_url}/>
                                                         ) : (
@@ -227,20 +236,37 @@ export function FeedPosts(props : PostProps) {
                                                 </Link>
                                             </div>
                                         </div>
-                                        <div className={""}>
-                                            {
-                                                item._count.comment_user === 1 ? (
-                                                    <h2 className="card-title text-neutral-900">{item?.comment_user[0].user?.name}</h2>
-                                                ) : (
-                                                    <h2 className="card-title text-neutral-900">{item?.comment_ngo[0].ngo?.name}</h2>
-                                                )
-                                            }
-                                            <p className={"text-neutral-800 text-xs"}>{format(new Date(item.created_at), "d 'de' MMMM 'às' HH:mm", { locale: pt })}</p>
+                                        <div className={'flex flex-row flex-1 justify-between'}>
+                                            <div className={""}>
+                                                {
+                                                    item._count.comment_user === 1 ? (
+                                                        <h2 className="card-title text-neutral-900">{item?.comment_user[0].user?.name}</h2>
+                                                    ) : (
+                                                        <h2 className="card-title text-neutral-900">{item?.comment_ngo[0].ngo?.name}</h2>
+                                                    )
+                                                }
+                                                <p className={"text-neutral-800 text-xs"}>{format(new Date(item.created_at), "d 'de' MMMM 'às' HH:mm", { locale: pt })}</p>
+                                            </div>
+                                            {(
+                                                <div className="dropdown top-0 right-0 p-2 align-top">
+                                                    <label tabIndex={0} className="btn-unstyled m-1 text-neutral-800 text-4xl">...</label>
+                                                    <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                                                        <li className={"text-[#ef4444] text-lg font-bold"}>
+                                                            <button onClick={() => handleDeleteComment(item.id)}>
+                                                                <TrashSimple size={32} color={"red"} />Apagar
+                                                            </button>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            )}
+
                                         </div>
                                     </div>
                                     <p className={"text-neutral-900"}>{item.content}</p>
                                 </div>
+
                             </div>
+
 
                         ))}
                         <textarea value={comentario} style={{ color: "black" }} className="resize-none textarea textarea-info w-full" placeholder="Digite seu comentário.."

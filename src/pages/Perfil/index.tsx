@@ -154,6 +154,7 @@ export default function Perfil() {
                                         count_likes={item.post._count?.post_likes}/>
                                 ))}
                                 {data?.post_ngo?.map((item) => (
+                                    console.log(item),
                                     <FeedPosts
                                         id={item.post.id}
                                         idUser={id}
@@ -197,13 +198,15 @@ export default function Perfil() {
                                             <h1 className="pl-2 text-2xl font-bold text-blueberry">Histórico de Campanhas</h1>
                                         </div>
                                         {data.campaign.map(campaign => (
+                                            console.log(campaign),
                                             <div className={"pb-5"}>
                                                 <CardHistorico
                                                     key={campaign.id}
                                                     campaign_photo={data.photo_url}
                                                     id={campaign.id}
                                                     tituloCampanha={campaign.title}
-                                                />
+                                                    begin_date={campaign.begin_date}
+                                                    end_date={campaign.end_date}/>
                                             </div>
                                         ))}
                                     </div>

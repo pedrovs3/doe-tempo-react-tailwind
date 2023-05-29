@@ -6,7 +6,6 @@ import background from "../../assets/img/wave-lado.svg";
 import edit from "../../assets/img/edit.svg";
 import {useParams} from "react-router-dom";
 import {FormEditarPerfil} from "../../components/FormEditarPerfil";
-import {CaretLeft, PencilSimple} from "phosphor-react";
 import { ToastContainer } from 'react-toastify';
 import {FormEditarPerfilOng} from "../../components/FormEditarPerfilOng";
 
@@ -149,6 +148,7 @@ export default function EditarPerfil() {
         fetchData();
     }, []);
 
+    console.log(user)
 
     return (
         <>

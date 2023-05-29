@@ -109,6 +109,7 @@ interface Address {
 
 export default function DashboardUser() {
     const [loading, setLoading] = useState(false);
+    let hasApprovedCampaigns = false;
     const routeParams = useParams();
     const id = routeParams.id
     const [userData, setUserData] = useState<ResponseUser>({
@@ -196,40 +197,97 @@ export default function DashboardUser() {
                                 <div className="w-full p-5">
                                     <h1 className="text-4xl font-medium text-neutral-600 pb-5">Campanhas apoiadas</h1>
                                     <div className="grid grid-cols-4 gap-4">
-                                        {userData.user.supported_campaigns.map((campanha) => (
-                                            <Link to={`/detalhes-campanha/${campanha.campaign.id}`}>
-                                            <div className="card w-96 bg-base-100 shadow-xl" key={campanha.campaign.id}>
-                                                <figure>
-                                                    <img className={"rounded-t-lg"}
-                                                         // @ts-ignore
-                                                         src={campanha.campaign.campaign_photos[0].photo_url}
-                                                         alt="Shoes"/></figure>
-                                                <div className="card-body">
-                                                    <h2 className="card-title">{campanha.campaign.title}</h2>
-                                                    <span>
-                                                           {/*// @ts-ignore*/}
-                                                        {campanha.campaign.description.length > 150 ?
-                                                            // @ts-ignore
-                                                            campanha.campaign.description.slice(0, 150) + '...' :
-                                                            // @ts-ignore
-                                                            campanha.campaign.description}
-                                                    </span>
-
-                                                    <span className={"font-medium"}>
-                                                         {/*// @ts-ignore*/}
-                                                        Participou de {format(new Date(campanha.campaign.begin_date), "dd/MM/yyyy")} a {format(new Date(campanha.campaign.end_date), "dd/MM/yyyy")}
-                                                    </span>
-                                                </div>
+                                        {userData.user.supported_campaigns.map((campanha) => {
+                                            // @ts-ignore
+                                            if (campanha.status.name === "Aprovado") {
+                                                hasApprovedCampaigns = true;
+                                                return (
+                                                    <Link to={`/detalhes-campanha/${campanha.campaign.id}`} key={campanha.campaign.id}>
+                                                        <div className="card w-96 bg-base-100 shadow-xl">
+                                                            <figure>
+                                                                {/*// @ts-ignore*/}
+                                                                <img className="rounded-t-lg" src={campanha.campaign.campaign_photos[0].photo_url} alt="Shoes" />
+                                                            </figure>
+                                                            <div className="card-body">
+                                                                <h2 className="card-title">{campanha.campaign.title}</h2>
+                                                                {/*// @ts-ignore*/}
+                                                                <span>{campanha.campaign.description.length > 150  ? campanha.campaign.description.slice(0, 150) + '...' : campanha.campaign.description}</span>
+                                                                {/*// @ts-ignore*/}
+                                                                <span className="font-medium">Participou de {format(new Date(campanha.campaign.begin_date), "dd/MM/yyyy")} a {format(new Date(campanha.campaign.end_date), "dd/MM/yyyy")}</span>
+                                                            </div>
+                                                        </div>
+                                                    </Link>
+                                                );
+                                            }
+                                        })}
+                                        {!hasApprovedCampaigns && (
+                                            <div>
+                                                <span className={"text-xl font-medium"}>Você ainda não se cadastrou em nenhuma campanha.</span>
                                             </div>
-                                            </Link>
-                                        ))}
+                                        )}
                                     </div>
                                 </div>
                             </div>
 
                             <div className="overflow-x-auto w-full p-5">
-                                <h1 className={"text-4xl font-medium text-neutral-600 pb-5"}>
-                                    Solicitações de Campanhas</h1>
+                                <h1 className={"text-4xl font-medium text-neutral-600 pb-5"}>Solicitações de Campanhas</h1>
+                                {userData.user.supported_campaigns.map((campanha) => {
+                                    console.log(campanha)
+                                    // @ts-ignore
+                                    if (campanha.status.name === "Aguardando" || campanha.status.name === "Reprovado") {
+                                        return (
+                                            <div className="overflow-x-auto w-full">
+                                                <table className="table w-full">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>
+                                                            <label>
+                                                                <input type="checkbox" className="checkbox" />
+                                                            </label>
+                                                        </th>
+                                                        <th>Nome da ONG</th>
+                                                        <th>Campanha</th>
+                                                        <th>Status de Aprovação</th>
+                                                        <th></th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr>
+                                                        <th>
+                                                            <label>
+                                                                <input type="checkbox" className="checkbox" />
+                                                            </label>
+                                                        </th>
+                                                        <td>
+                                                            <div className="flex items-center space-x-3">
+                                                                <div className="avatar">
+                                                                    <div className="mask mask-squircle w-12 h-12">
+                                                                        <img src={""} alt="Imagem" />
+                                                                    </div>
+                                                                </div>
+                                                                <div>
+                                                                    <div className="font-bold">Hart Hagerty</div>
+                                                                    <div className="text-sm opacity-50">United States</div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            Zemlak, Daniel and Leannon
+                                                            <br/>
+                                                            <span className="badge badge-ghost badge-sm">Desktop Support Technician</span>
+                                                        </td>
+                                                        <td>Purple</td>
+                                                        <th>
+                                                            <button className="btn btn-ghost btn-xs">details</button>
+                                                        </th>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        );
+                                    }
+                                })}
+
                             </div>
 
                             <label htmlFor="my-drawer-2"

@@ -190,7 +190,6 @@ export default function DashboardOng() {
         ngo_phone: [],
     });
     const [volunteersData, setVolunteersData] = useState<Volunteer[]>([]);
-    console.log(volunteersData)
 
 
     useEffect(() => {
@@ -209,7 +208,6 @@ export default function DashboardOng() {
 
     }, [ngoData])
 
-    console.log(volunteersData)
 
     const handleDeleteCampaign = async (idCampaign) => {
         try {
