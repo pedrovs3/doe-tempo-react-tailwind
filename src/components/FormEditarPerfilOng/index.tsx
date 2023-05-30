@@ -199,7 +199,7 @@ export function FormEditarPerfilOng(){
     const [cnpj, setCnpj] = useState('')
     const [attached, setAttached] = useState('')
     const [sourceLink, setSourcelink] = useState('')
-    const [attachedLink, setAttachedLink] = useState<Link[]>([]);
+    const [attachedLink, setAttachedLink] = useState<AttachedLink[]>([]);
     const [confirmPassword, setConfirmPassword] = useState('');
     const [birthdate, setBirthdate] = useState<string>("")
     const [description, setDescription] = useState('')
@@ -300,8 +300,9 @@ export function FormEditarPerfilOng(){
             }
 
             if (attached) {
-                payload.attached_link = [{ link: attached, source: sourceLink }];
+                setAttachedLink(prevAttachedLink => [...prevAttachedLink, { attached_link: attached, source: sourceLink }]);
             }
+
 
             const { data } = await api.put(`/ngo/${id}`, payload);
             console.log(data);
@@ -311,6 +312,10 @@ export function FormEditarPerfilOng(){
             alert("Não mudou nada.");
         }
     };
+
+    function handleRemoveLink(id: string) {
+        setAttachedLink(prevAttachedLink => prevAttachedLink.filter(link => link.id !== id));
+    }
 
 
 
@@ -502,7 +507,7 @@ export function FormEditarPerfilOng(){
                     />
                 </div>
                 <div className={"flex flex-col gap-2"}>
-                    {attachedLink.map((link : Link) => (
+                    {attachedLink.map((link: Link, index: number) => (
                         <div key={link.id} className={"flex flex-row gap-2 badge badge-ghost h-10"}>
                             {link.source.name === "Twitter" && (
                                 <i className="fa-brands fa-twitter fa-xl"></i>
@@ -519,7 +524,7 @@ export function FormEditarPerfilOng(){
                             <a href={link.attached_link} target="_blank" rel="noopener noreferrer" className="link link-hover text-xl font-semibold">
                                 {limitLinkSize(link.attached_link, maxLength)}
                             </a>
-                            <button className="btn btn-circle btn-xs" type={"button"}>
+                            <button className="btn btn-circle btn-xs" type={"button"} onClick={() => handleRemoveLink(index)}>
                                 <X size={20} />
                             </button>
                         </div>

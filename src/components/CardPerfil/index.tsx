@@ -4,8 +4,7 @@ import {Link, MapPin, PencilSimple, UserPlus} from "phosphor-react";
 import {apiCep} from "../../api/consulta_cep";
 import {decodeJwt} from "../../utils/jwtDecode";
 import {useNavigate} from "react-router-dom";
-import {format} from "date-fns";
-import {Source} from "../FormEditarPerfil";
+
 
 interface UserProps {
     id : string,
@@ -100,7 +99,6 @@ export function CardPerfil(props : UserProps & Cep) {
         fetchAPI().catch(console.error)
     }, [props.postal_code])
 
-    console.log(cep)
 
 
     return (
@@ -112,23 +110,12 @@ export function CardPerfil(props : UserProps & Cep) {
             </div>
             <div className="card-body items-center text-center gap-5">
                 <h2 className="card-title text-2xl">{props.name}</h2>
-                <div className={"gap-1"}>
-                    <p className={"text-blueberry text-2xl font-bold"}>225</p>
-                    <p className={"text-xl font-semibold"}>Conexões</p>
-                </div>
                 {props.id === userId && (
                         <button className="gap-2 btn w-40 h-full rounded-full bg-blueberry border-0 text-white flex justify-center hover:bg-accent" onClick={editarPerfil}>
                         <PencilSimple size={24} />
                         Editar
                     </button>
                 )}
-                {props.id !== userId && (
-                    <button className="gap-2 btn w-40 rounded-full bg-blueberry border-0 text-white flex justify-center hover:bg-accent">
-                        <UserPlus size={32} />
-                        Conectar
-                    </button>
-                )}
-
                 <div className={"flex flex-row gap-2"}>
                     <MapPin size={32} />
                 <p className={"text-xl font-semibold text-gray-apagado"}>{cep?.localidade}, {cep?.uf}</p>

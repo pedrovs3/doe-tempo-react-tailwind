@@ -1,14 +1,14 @@
-import {NavLink} from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom";
 import { useForm } from "react-hook-form";
 import {apiCep} from "../../api/consulta_cep";
-import {FormEvent, useState} from "react";
+import {FormEvent, useEffect, useState} from "react";
 import {api} from "../../lib/axios";
 
 
 export const Form = () => {
 
     const {register, setValue} = useForm();
-
+    const navigate = useNavigate();
     const [filled, setFilled] = useState(false);
     const [cepState, setCepState] = useState('');
     const [cnpj, setCnpj] = useState('');
@@ -18,6 +18,7 @@ export const Form = () => {
     const [nameState, setNameState] = useState('')
     const [addressNumber, setAddressNumber] = useState('');
     const [complement, setComplement] = useState('');
+    const [subscribeSuccess, setSubcscribeSuccess] = useState(false);
 
 
     const onSubmit = (e) => {
@@ -59,14 +60,19 @@ export const Form = () => {
                 },
             })
 
-            alert(ngo)
+            setSubcscribeSuccess(true)
         }
         catch (e) {
             console.log(e)
-            alert("Houve um erro!")
         }
 
     }
+
+    useEffect(() => {
+        if (subscribeSuccess) {
+            navigate("/login");
+        }
+    }, [subscribeSuccess]);
 
     const handleChangeNumber = (e) => {
         setAddressNumber(e.target.value)
@@ -163,7 +169,7 @@ export const Form = () => {
                        value={complement}
                 />
             </div>
-            <div className="flex flex-col gap-3 items-end pb-56">
+            <div className="pt-5 flex flex-col gap-3 items-end">
                 <button className={"btn btn-primary w-1/4 rounded-full bg-blueberry border-0 text-xl text-black hover:bg-blue-600 hover:text-white"} type="submit"><p className={'text-turquoise-700'}>Enviar</p></button>
                 <button className={"btn btn-accent w-1/8 rounded-full bg-maya-blue px-6 border-0 text-l text-black hover:bg-blue-600 hover:text-white"} type="submit"><p><NavLink to={'/signup'}>Sou um Voluntário</NavLink></p></button>
             </div>

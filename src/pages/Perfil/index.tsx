@@ -10,7 +10,6 @@ import {FeedPosts} from "../../components/FeedPosts";
 import 'react-toastify/dist/ReactToastify.css';
 import {CardHistorico} from "../../components/CardHistorico";
 import {ToastContainer} from "react-toastify";
-import {da} from "date-fns/locale";
 import {ClockCounterClockwise} from "phosphor-react";
 
 interface Jwt {
@@ -67,7 +66,8 @@ export default function Perfil() {
 
 
     return (
-        <><ToastContainer/>
+        <>
+            <ToastContainer/>
             <div className={'bg-little-white'}>
                 <div className={"navbar absolute top-0 left-0 w-full bg-transparent"}>
                     {/*// @ts-ignore*/}
@@ -103,20 +103,19 @@ export default function Perfil() {
                             <NovoPost/>
                             <div className="flex flex-col gap-5 items-center justify-center">
                                 {data?.post_user?.map((item) => (
-                                    console.log(item),
-                                        <FeedPosts
-                                            id={item.post.id}
-                                            idUser={id}
-                                            type={userType}
-                                            nameUser={data?.name}
-                                            photoUser={data?.photo_url}
-                                            content={item.post.content}
-                                            created={item.post.created_at}
-                                            images={item.post.post_photo}
-                                            comments={item.post.comment}
-                                            count_comments={item.post._count?.comment}
-                                            count_likes={item.post._count?.post_likes}
-                                            post_likes={item.post.post_likes}/>
+                                    <FeedPosts
+                                        id={item.post.id}
+                                        idUser={id}
+                                        type={userType}
+                                        nameUser={data?.name}
+                                        photoUser={data?.photo_url}
+                                        content={item.post.content}
+                                        created={item.post.created_at}
+                                        images={item.post.post_photo}
+                                        comments={item.post.comment}
+                                        count_comments={item.post._count?.comment}
+                                        count_likes={item.post._count?.post_likes}
+                                        post_likes={item.post.post_likes}/>
                                 ))}
                                 {data?.post_ngo?.map((item) => (
                                     <FeedPosts
@@ -129,7 +128,7 @@ export default function Perfil() {
                                         created={item.post.created_at}
                                         images={item.post.post_photo}
                                         comments={item.post.comment}
-                                        count_comments={item.post._count?.comments}
+                                        count_comments={item.post._count?.comment}
                                         count_likes={item.post._count?.post_likes}
                                         post_likes={item.post.post_likes}/>
                                 ))}
@@ -154,7 +153,6 @@ export default function Perfil() {
                                         count_likes={item.post._count?.post_likes}/>
                                 ))}
                                 {data?.post_ngo?.map((item) => (
-                                    console.log(item),
                                     <FeedPosts
                                         id={item.post.id}
                                         idUser={id}
@@ -168,7 +166,6 @@ export default function Perfil() {
                                         count_comments={item.post._count?.comment}
                                         count_likes={item.post._count?.post_likes}/>
                                 ))}
-
                             </div>
                             <div className={"w-1/3"}>
                                 {typeUser === 'USER' && data?.supported_campaigns && data.supported_campaigns.length > 0 && (
@@ -177,18 +174,24 @@ export default function Perfil() {
                                             <ClockCounterClockwise size={30} />
                                             <h1 className="pl-2 text-2xl font-bold text-blueberry">Histórico de Campanhas</h1>
                                         </div>
-                                        {data.supported_campaigns.map(campaign => (
-                                            <div className={"pb-5"}>
-                                                <CardHistorico
-                                                    key={campaign.campaign.id}
-                                                    begin_date={campaign.campaign.begin_date}
-                                                    campaign_photo={campaign.campaign.ngo.photo_url}
-                                                    end_date={campaign.campaign.end_date}
-                                                    id={campaign.campaign.id}
-                                                    tituloCampanha={campaign.campaign.title}
-                                                />
-                                            </div>
-                                        ))}
+                                        {data.supported_campaigns.map(campaign => {
+                                            const currentDate = new Date();
+                                            const endDate = new Date(campaign.campaign.end_date);
+                                            if (endDate < currentDate) {
+                                                return (
+                                                    <div className={"pb-5"} key={campaign.campaign.id}>
+                                                        <CardHistorico
+                                                            begin_date={campaign.campaign.begin_date}
+                                                            campaign_photo={campaign.campaign.ngo.photo_url}
+                                                            end_date={campaign.campaign.end_date}
+                                                            id={campaign.campaign.id}
+                                                            tituloCampanha={campaign.campaign.title}
+                                                        />
+                                                    </div>
+                                                );
+                                            }
+                                            return null;
+                                        })}
                                     </div>
                                 )}
                                 {typeUser === 'ONG' && data?.campaign && data.campaign.length > 0 && (
@@ -198,8 +201,7 @@ export default function Perfil() {
                                             <h1 className="pl-2 text-2xl font-bold text-blueberry">Histórico de Campanhas</h1>
                                         </div>
                                         {data.campaign.map(campaign => (
-                                            console.log(campaign),
-                                            <div className={"pb-5"}>
+                                            <div className={"pb-5"} key={campaign.id}>
                                                 <CardHistorico
                                                     key={campaign.id}
                                                     campaign_photo={data.photo_url}
@@ -212,12 +214,8 @@ export default function Perfil() {
                                     </div>
                                 )}
                             </div>
-
                         </div>
-
                     )}
-
-
                 </div>
             </div>
         </>

@@ -7,6 +7,14 @@ import {decodeJwt} from "../../utils/jwtDecode";
 import {DetalhesBodyDois} from "../../components/DetalhesBodyDois";
 import {Header} from "../../components/HeaderCampanha";
 
+interface Jwt {
+    id:    string;
+    email: string;
+    type:  string;
+    iat:   number;
+    exp:   number;
+}
+
 
 interface UserResponse {
     user: User;
@@ -220,8 +228,6 @@ export default function DetalhesCampanha() {
             fetchAPI().catch(console.error);
         }, []);
 
-        console.log(user)
-
         useEffect(() => {
             const fetchData = async () => {
                 const {data} = await api.get(`/campaign/${id}`);
@@ -234,7 +240,6 @@ export default function DetalhesCampanha() {
 
         }, [])
 
-        const navigate = useNavigate();
 
         const handleInscricao = async () => {
             const idUser = userId;
@@ -244,18 +249,11 @@ export default function DetalhesCampanha() {
             setCampaign(campaignResponse.data);
 
         }
-        const fetchData = async () => {
-            const {data} = await api.get(`/count`);
-            setData(data.counts)
-        }
-
 
         const currentDate = new Date();
         const endDate = new Date(data?.end_date);
         const isExpired = currentDate > endDate
 
-        console.log(currentDate)
-        console.log(endDate)
 
         return (
             <div>
@@ -307,10 +305,10 @@ export default function DetalhesCampanha() {
                                 <div className="modal-box">
                                     <h3 className="font-bold text-lg">{campaign.message}</h3>
                                     <p className="py-4">Obrigado por se inscrever! Seu cadastro
-                                        foi {campaign.message}</p>
+                                        está com o status "Aguardando", se você for aprovado ou reprovado, poderá ver no seu Dashboard!</p>
                                     <div className="modal-action">
-                                        <Link to={'/campanhas'}>
-                                            <label htmlFor="my-modal" className="btn"> 👍 Entendido!</label>
+                                        <Link to={`/dashboard-user/${userId}`}>
+                                            <label htmlFor="my-modal" className="btn"> Dashboard!</label>
                                         </Link>
                                     </div>
                                 </div>

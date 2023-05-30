@@ -8,6 +8,7 @@ import {useParams} from "react-router-dom";
 import {FormEditarPerfil} from "../../components/FormEditarPerfil";
 import { ToastContainer } from 'react-toastify';
 import {FormEditarPerfilOng} from "../../components/FormEditarPerfilOng";
+import {CaretLeft} from "phosphor-react";
 
 export interface UserResponse {
     user: User;
@@ -148,18 +149,21 @@ export default function EditarPerfil() {
         fetchData();
     }, []);
 
-    console.log(user)
+    const handleClick = () => {
+        history.back()
+    };
+
 
     return (
         <>
-            <ToastContainer/>
-            <div className={'bg-little-white relative h-screen overflow-hidden'}>
-                <img src={background} className={'absolute top-0 left-0 w-full h-full object-cover'}/>
-                <img src={edit} className={'absolute bottom-0 left-0 ml-4 mb-4 hidden 2xl:block'} />
-                <div className={"navbar absolute top-0 left-0 w-full bg-transparent"}>
-                    <HeaderPosts id={user?.user?.id} photoURL={user?.user?.photo_url}/>
-                </div>
-                <div className="justify-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10">
+            <ToastContainer />
+            <div className="bg-little-white relative min-h-screen overflow-hidden">
+                <img src={background} className="absolute top-0 left-0 w-full h-full object-cover" />
+                <button onClick={handleClick} className="btn w-40 rounded-full bg-turquoise-500 border-0 text-white flex justify-center hover:bg-accent absolute top-0 left-0 mt-4 ml-4">
+                    <CaretLeft size={32} />
+                    Voltar
+                </button>
+                <div className="flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10">
                     {jwt.type === 'USER' ? (
                         <FormEditarPerfil />
                     ) : (
@@ -169,6 +173,8 @@ export default function EditarPerfil() {
             </div>
         </>
 
-)
+
+
+    )
 }
 

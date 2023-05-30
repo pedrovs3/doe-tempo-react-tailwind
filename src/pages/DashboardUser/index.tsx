@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import {useParams} from "react-router-dom";
 import {toast, ToastContainer} from "react-toastify";
 import {format} from "date-fns";
+import {decodeJwt} from "../../utils/jwtDecode";
 
 interface ResponseUser {
     user: User;
@@ -105,9 +106,18 @@ interface Address {
     complement:  string;
 }
 
+interface Jwt {
+    id:    string;
+    email: string;
+    type:  string;
+    iat:   number;
+    exp:   number;
+}
 
 
 export default function DashboardUser() {
+    const decodeJWT = decodeJwt();
+    const jwt = decodeJWT as Jwt;
     const [loading, setLoading] = useState(false);
     let hasApprovedCampaigns = false;
     const routeParams = useParams();
@@ -230,55 +240,75 @@ export default function DashboardUser() {
                             </div>
 
                             <div className="overflow-x-auto w-full p-5">
-                                <h1 className={"text-4xl font-medium text-neutral-600 pb-5"}>Solicitações de Campanhas</h1>
-                                {userData.user.supported_campaigns.map((campanha) => {
-                                    console.log(campanha)
-                                    // @ts-ignore
-                                    if (campanha.status.name === "Aguardando" || campanha.status.name === "Reprovado") {
-                                        return (
-                                            <div className="overflow-x-auto w-full">
-                                                <table className="table w-full">
-                                                    <thead>
-                                                    <tr>
-                                                        <th>Nome da ONG</th>
-                                                        <th>Campanha</th>
-                                                        <th>Status de Aprovação</th>
-                                                        <th></th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    <tr>
-                                                        <td>
-                                                            <div className="flex items-center space-x-3">
-                                                                <div className="avatar">
-                                                                    <div className="mask mask-squircle w-12 h-12">
-                                                                        <img src={campanha.campaign.ngo.photo_url} alt="Imagem" />
+                                <h1 className="text-4xl font-medium text-neutral-600 pb-5">Solicitações de Campanhas</h1>
+                                {/*// @ts-ignore*/}
+                                {userData.user.supported_campaigns.some((campanha) => campanha.status.name === "Aguardando" || campanha.status.name === "Reprovado") ? (
+                                    <div className="overflow-x-auto w-full">
+                                        <table className="table w-full">
+                                            <thead>
+                                            <tr>
+                                                <th>Nome da ONG</th>
+                                                <th>Campanha</th>
+                                                <th>Status de Aprovação</th>
+                                                <th></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {userData.user.supported_campaigns.map((campanha) => {
+                                                {/*// @ts-ignore*/}
+                                                if (campanha.status.name === "Aguardando" || campanha.status.name === "Reprovado") {
+                                                    return (
+                                                        <tr>
+                                                            <td>
+                                                                <div className="flex items-center space-x-3">
+                                                                    <div className="avatar">
+                                                                        <div className="mask mask-squircle w-12 h-12">
+                                                                            {/*// @ts-ignore*/}
+                                                                            <Link to={`/perfil/ONG/${campanha.campaign.ngo.id}`}>
+                                                                                {/*// @ts-ignore*/}
+                                                                            <img src={campanha.campaign.ngo.photo_url} alt="Imagem" />
+                                                                            </Link>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div>
+                                                                        {/*// @ts-ignore*/}
+                                                                        <div className="font-bold">{campanha.campaign.ngo.name}</div>
+                                                                        <div className="text-sm opacity-50">ONG</div>
                                                                     </div>
                                                                 </div>
-                                                                <div>
-                                                                    <div className="font-bold">{campanha.campaign.ngo.name}</div>
-                                                                    <div className="text-sm opacity-50">ONG</div>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            {campanha.campaign.title}
-                                                            <br/>
-                                                            <span className="badge badge-ghost badge-sm">{format(new Date(campanha.campaign.begin_date), "dd-MM-yyyy")} | {format(new Date(campanha.campaign.end_date), "dd-MM-yyyy")}</span>
-                                                        </td>
-                                                        <td><span className={"font-bold text-xl " + (campanha.status.name === "Reprovado" ? "text-error" : "text-warning")}>
-                                                        {campanha.status.name === "Reprovado" ? "Reprovado" : "Aguardando"}</span></td>
-                                                        <th>
-                                                            <button className="btn btn-ghost btn-xs">details</button>
-                                                        </th>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        );
-                                    }
-                                })}
+                                                            </td>
+                                                            <td>
+                                                                {campanha.campaign.title}
+                                                                <br/>
+                                                                <span className="badge badge-ghost badge-sm">
+                                                                    {/*// @ts-ignore*/}
+                                                                {format(new Date(campanha.campaign.begin_date), "dd-MM-yyyy")} | {format(new Date(campanha.campaign.end_date), "dd-MM-yyyy")}</span></td>
+                                                            <td>
+                                                                {/*// @ts-ignore*/}
+                                                              <span className={"font-bold text-xl " + (campanha.status.name === "Reprovado" ? "text-error" : "text-warning")}>
+                                                                  {/*// @ts-ignore*/}
+                                                                {campanha.status.name === "Reprovado" ? "Reprovado" : "Aguardando"}
+                                                                 </span>
+                                                            </td>
+                                                            <th>
+                                                                <Link to={`/detalhes-campanha/${campanha.campaign.id}`}>
+                                                                    <button className="btn btn-ghost btn-xs">Detalhes</button>
+                                                                </Link>
+                                                            </th>
+                                                        </tr>
+                                                    );
+                                                } else {
+                                                    return null; // Ignorar outros casos
+                                                }
+                                            })}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                ) : (
+                                    <p>Nenhuma solicitação de campanha aguardando ou reprovada.</p>
+                                )}
                             </div>
+
 
                             <label htmlFor="my-drawer-2"
                                    className="btn bg-blueberry drawer-button lg:hidden absolute top-0 left-0 mt-4 ml-4">
@@ -289,7 +319,7 @@ export default function DashboardUser() {
                             <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
                             <ul className="menu bg-blueberry p-4 w-80 text-little-white">
                                 <img src={logo}/>
-                                <Link to={`/perfil/USER/${id}`}>
+                                <Link to={`/perfil/USER/${jwt.id}`}>
                                     <li><a className={"text-xl font-semibold active:bg-blueberry"}> <UserCircle size={32} /> Perfil</a></li>
                                 </Link>
                                 <Link to={"/feed"}>

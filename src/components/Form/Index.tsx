@@ -1,4 +1,4 @@
-import {NavLink, useNavigate} from "react-router-dom";
+import {Link, NavLink, useNavigate} from "react-router-dom";
 import { useForm } from "react-hook-form";
 import {apiCep} from "../../api/consulta_cep";
 import {FormEvent, useEffect, useState} from "react";
@@ -85,7 +85,6 @@ export const Form = () => {
 		}
 		catch (e) {
 			console.log(e)
-			alert("Houve um erro!")
 		}
 
 	}
@@ -229,17 +228,18 @@ export const Form = () => {
 						value={complement}
 					/>
 				</form>
-				<div className="flex flex-col gap-3 items-end pb-56">
+				<div className="pt-5 flex flex-col gap-3 items-end">
 					<button
 						className={"btn btn-primary w-1/4 rounded-full bg-turquoise-700 border-0 text-xl text-neutral-900 hover:bg-blue-600 hover:text-branco"}
-						type="submit"
-					>
+						type="submit">
 						Enviar
 					</button>
+					<Link to={'/signup-ong'}>
 					<button
 						className={"btn btn-accent w-1/8 rounded-full bg-maya_blue px-6 border-0 text-l text-black hover:bg-turquoise-700 hover:text-white"}>
-						<p><NavLink to={'/signup-ong'}>Sou uma ONG</NavLink></p>
+						<p>Sou uma ONG</p>
 					</button>
+					</Link>
 				</div>
 			</form>
 	)

@@ -83,8 +83,6 @@ export function FeedPosts(props : PostProps) {
     const isCurrentUserOwner = jwt.id === props.idUser;
     const [countLikes, setCountLikes] = useState(props.count_likes);
 
-    console.log(props.content)
-
     const handleDeletePost = async () => {
         try {
             const response = await api.delete(`/post/${props.id}`);
@@ -104,7 +102,7 @@ export function FeedPosts(props : PostProps) {
         }
     };
 
-
+    console.log()
     function handleLike() {
         const url = `/post/${props.id}/like`;
 
@@ -133,7 +131,6 @@ export function FeedPosts(props : PostProps) {
         }
     }
 
-console.log(props.comments)
 
     const handleCommentClick = (postId) => {
         setShowCommentInput(prevState => ({ ...prevState, [props.id]: !prevState[props.id] }));

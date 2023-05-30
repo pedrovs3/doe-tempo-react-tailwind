@@ -47,7 +47,7 @@ export function CardsCampanha(props : CardProps) {
                     </div>
                     <h2 className={"pt-3 text-blueberry font-bold text-xl"}>Sobre:</h2>
                     <p className={"font-medium text-texto-campanha pb-3.5"}>
-                        {props .description}
+                        <span>{props.description.length > 150  ? props.description.slice(0, 120) + '...' : props.description}</span>
                     </p>
                     <div className="flex flex-wrap w-full gap-3">
                         {props.causes.map((item, index) => (

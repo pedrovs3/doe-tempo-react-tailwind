@@ -294,7 +294,7 @@ export default function DashboardOng() {
                                                     alt="Shoes"/></figure>
                                                 <div className="card-body">
                                                     <h2 className="card-title">{campanha.title}</h2>
-                                                    <span>{campanha.description}</span>
+                                                    <span>{campanha.description.length > 150  ? campanha.description.slice(0, 150) + '...' : campanha.description}</span>
                                                 </div>
                                             </div>
                                         ))}

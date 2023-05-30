@@ -1,6 +1,7 @@
 import {Link, useNavigate} from "react-router-dom";
 import {FormEvent, useEffect, useState} from "react";
 import {api} from "../../lib/axios";
+import {toast} from "react-toastify";
 
 export function LoginForm(){
     const [email, setEmail] = useState('')
@@ -32,7 +33,7 @@ export function LoginForm(){
 
         } catch (e) {
             console.log(e)
-            alert("Usuário ou senha incorreto.")
+            toast.error('E-mail ou senha incorretos!');
         }
     }
 
