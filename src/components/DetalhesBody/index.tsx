@@ -23,9 +23,9 @@ export function DetalhesBody(props : CampaignProps) {
                 <div className="card w-auto bg-base-100 border border-neutral-400">
                     <div className="card-body">
                         <span className={"text-neutral-700 font-bold"}>FUNÇÃO:</span>
-                        <p className={"text-neutral-500 font-bold"}>{props.how_to_contribute}</p>
+                        <p className={"text-neutral-500 font-medium pl-2"}>{props.how_to_contribute}</p>
                         <span className={"text-neutral-700 font-bold"}>PRÉ-REQUISITOS:</span>
-                        <p className={"text-neutral-500 font-bold"}>{props.prerequisite}</p>
+                        <p className={"text-neutral-500 font-medium pl-2"}>{props.prerequisite}</p>
                     </div>
                 </div>
             </div>
@@ -35,7 +35,7 @@ export function DetalhesBody(props : CampaignProps) {
                     <img className={"w-24 h-24 p-1 rounded-2xl"} src={props.profileOng} alt="Profile photo ONG"/>
                     <div className="center card-body p-5">
                         <h2 className="card-title text-neutral-700 font-bold">{props.nameOng}</h2>
-                        <p className={"text-neutral-500 font-bold"}>{props.descriptionOng}</p>
+                        <p className={"text-neutral-500 font-medium pl-2"}>{props.descriptionOng}</p>
                     </div>
                 </div>
             </div>
