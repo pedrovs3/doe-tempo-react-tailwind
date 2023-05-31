@@ -52,7 +52,7 @@ export function CardPerfil(props : UserProps & Cep) {
     const [data, setData] = useState([])
     const [cep, setCep] = useState<Cep | null>(null);
     const [linkSocial, setLinkSocial] = useState<[]>([]);
-    const maxLength = 20;
+    const maxLength = 30;
     const decodeJWT = decodeJwt();
     const jwt = decodeJWT as Jwt;
     const userId = jwt.id;
@@ -109,23 +109,31 @@ export function CardPerfil(props : UserProps & Cep) {
                 </div>
             </div>
             <div className="card-body items-center text-center gap-5">
-                <h2 className="card-title text-2xl">{props.name}</h2>
+                <h2 className="card-title text-3xl">{props.name}</h2>
                 {props.id === userId && (
                         <button className="gap-2 btn w-40 h-full rounded-full bg-blueberry border-0 text-white flex justify-center hover:bg-accent" onClick={editarPerfil}>
                         <PencilSimple size={24} />
                         Editar
                     </button>
                 )}
-                <div className={"flex flex-row gap-2"}>
-                    <MapPin size={32} />
-                <p className={"text-xl font-semibold text-gray-apagado"}>{cep?.localidade}, {cep?.uf}</p>
+                <div className={"w-full flex flex-col gap-1"}>
+                    <h3 className={"w-full text-start font-bold text-2xl"}>Localidade:</h3>
+                    <div className={" w-full flex justify-start items-end flex-row gap-2 pl-2 pt-0"}>
+                        <MapPin size={32} weight={"light"}/>
+                        <p className={"text-l text-start font-medium text-gray-apagado"}>{cep?.localidade}, {cep?.uf}</p>
+                    </div>
                 </div>
                 <div className={"flex justify-start flex-col gap-2"}>
-                    <p className={"text-xl font-bold items-start"}>Sobre</p>
-                    <p className={"text-xl font-semibold"}>{props.description}</p>
+                    <p className={"text-2xl text-start font-bold"}>Sobre</p>
+                    <p className={"text-l pl-2 text-justify font-medium text-gray-apagado"}>{props.description}</p>
                 </div>
+                {
+                    props?.attached_link?.length > 0 ? (
+                        <h3>Links relacionados:</h3>
+                    ) : (<></>)
+                }
                 {props.attached_link && props.attached_link.map((link : Link) => (
-                    <div key={link.id} className={"flex flex-row gap-2 badge badge-ghost h-10 p-5"}>
+                    <div key={link.id} className={"flex flex-row justify-between badge badge-ghost h-10 p-5 w-full"}>
                         {link.source.name === "Twitter" && (
                             <i className="fa-brands fa-twitter fa-xl"></i>
                         )}
@@ -138,7 +146,7 @@ export function CardPerfil(props : UserProps & Cep) {
                         {link.source.name === "Facebook" && (
                             <i className="fa-brands fa-facebook fa-xl"></i>
                         )}
-                        <a href={link.attached_link} target="_blank" rel="noopener noreferrer" className="link link-hover text-xl font-semibold">
+                        <a href={link.attached_link} target="_blank" rel="noopener noreferrer" className="link w-full link-hover text-l font-medium text-center">
                             {limitLinkSize(link.attached_link, maxLength)}
                         </a>
                     </div>

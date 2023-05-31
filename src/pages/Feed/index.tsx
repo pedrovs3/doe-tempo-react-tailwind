@@ -160,8 +160,6 @@ export default function Feed() {
         fetchAPI().catch(console.error)
     }, [allPosts])
 
-    console.log(allPosts)
-
     return (
         <><ToastContainer/>
             <div className={''}>

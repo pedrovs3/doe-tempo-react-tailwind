@@ -102,32 +102,22 @@ export function FeedPosts(props : PostProps) {
         }
     };
 
-    console.log()
     function handleLike() {
+        setLiked(true)
         const url = `/post/${props.id}/like`;
-
+        api.post(url)
+            .then((res) => {
+                console.log(res.data);
+            })
+            .catch(error => {
+                console.error('Erro ao realizar o like:', error);
+            });
         if (liked) {
-            // Remover o like
-            api.delete(url)
-                .then((res) => {
-                    console.log(res.data);
-                    setLiked(false);
-                    setCountLikes(prevCountLikes => prevCountLikes - 1);
-                })
-                .catch(error => {
-                    console.error('Erro ao remover o like:', error);
-                });
+            setLiked(false)
+            setCountLikes(prevCountLikes => prevCountLikes - 1);
         } else {
-            // Dar o like
-            api.post(url)
-                .then((res) => {
-                    console.log(res.data);
-                    setLiked(true);
-                    setCountLikes(prevCountLikes => prevCountLikes + 1);
-                })
-                .catch(error => {
-                    console.error('Erro ao realizar o like:', error);
-                });
+            setLiked(true)
+            setCountLikes(prevCountLikes => prevCountLikes + 1);
         }
     }
 
@@ -184,17 +174,9 @@ export function FeedPosts(props : PostProps) {
                     </p>
                 ))}
                 <div className="card-actions justify-start">
-                    <div className="carousel w-full">
+                    <div className="grid grid-cols-2 gap-5 w-full">
                         {photoUrls.map((url, index) => (
-                            <div id={`slide${index + 1}`} className="carousel-item relative w-full" key={index}>
-                                <img src={url} className="w-full rounded-3xl" alt={`Photo ${index + 1}`} />
-                                {showNavigation && (
-                                    <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-                                        <a href={`#slide${index === 0 ? photoUrls.length : index}`} className="btn btn-circle">❮</a>
-                                        <a href={`#slide${index === photoUrls.length - 1 ? 1 : index + 2}`} className="btn btn-circle">❯</a>
-                                    </div>
-                                )}
-                            </div>
+                                <img src={url} className="w-auto rounded-3xl transition-all ease-in-out hover:scale-105" alt={`Photo ${index + 1}`} />
                         ))}
                     </div>
                 </div>
