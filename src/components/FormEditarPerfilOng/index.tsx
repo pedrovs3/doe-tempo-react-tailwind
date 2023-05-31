@@ -209,7 +209,7 @@ export function FormEditarPerfilOng(){
     const [gender, setGender] = useState('')
     const [editSuccess, setEditSuccess] = useState(false);
     const [imgURL, setImgURL] = useState<string>();
-    const [iconURL, setIconURL] = useState<string>([]);
+    const [iconURL, setIconURL] = useState<string>();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -448,6 +448,7 @@ export function FormEditarPerfilOng(){
     };
 
 
+    // @ts-ignore
     return (
         <form name={"edit"} className={''} onSubmit={handleSubmitForm}>
             <div className="relative w-full bg-gray-200">
@@ -544,7 +545,9 @@ export function FormEditarPerfilOng(){
                     />
                 </div>
                 <div className={"flex flex-col gap-2"}>
-                    {attachedLink.map((link: Link, index: number) => (
+                    {
+                        // @ts-ignore
+                        attachedLink.map((link: Link, index: number) => (
                         <div key={link.id} className={"flex flex-row gap-2 badge badge-ghost h-10"}>
                             {link.source.name === "Twitter" && (
                                 <i className="fa-brands fa-twitter fa-xl"></i>

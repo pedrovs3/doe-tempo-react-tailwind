@@ -11,6 +11,7 @@ import {format} from "date-fns";
 
 
  interface Volunteer {
+    status: { name: string };
     id:          string;
     id_campaign: string;
     id_user:     string;

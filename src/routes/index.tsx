@@ -1,5 +1,5 @@
 import React from 'react'
-import {createBrowserRouter, NavLink} from "react-router-dom";
+import {createBrowserRouter, Navigate, NavLink} from "react-router-dom";
 import Cadastro from "../pages/Cadastro";
 import Login from "../pages/login";
 import NovaCampanha from "../pages/NovaCampanha"
@@ -13,15 +13,9 @@ import Perfil from "../pages/Perfil";
 import EditarPerfil from "../pages/EditarPerfil";
 import DashboardOng from "../pages/DashboardOng";
 import DashboardUser from "../pages/DashboardUser";
+import PageNotFound from "../pages/PageNotFound/PageNotFound";
 
 export const routes = createBrowserRouter([
-    // {
-    //     path: '/',
-    //     element: <div>
-    //         <NavLink to={'/signup'}>Cadastrar-se</NavLink>
-    //         <NavLink to={'/login'}>Login</NavLink>
-    //     </div>
-    // },
     {
         path: '/signup',
         element: <Cadastro/>,
@@ -73,5 +67,13 @@ export const routes = createBrowserRouter([
     {
         path: '/dashboard-user/:id',
         element: <DashboardUser />,
+    },
+    {
+        path: '/404',
+        element: <PageNotFound />,
+    },
+    {
+        path: '/*',
+        element: <Navigate to={'/404'}/> ,
     },
 ])

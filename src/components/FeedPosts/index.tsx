@@ -56,8 +56,8 @@ interface PostProps {
     created : string,
     images: Image[],
     comments: Comentario[],
-    post_likes: PostLike[];
-    liked: [string],
+    post_likes?: PostLike[];
+    liked?: [string],
     type: string,
     count_likes: number,
     count_comments: number
