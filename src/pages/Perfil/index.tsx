@@ -48,7 +48,7 @@ export default function Perfil() {
 
         fetchData().catch(console.error);
 
-    }, [data])
+    }, [])
 
     useEffect(() => {
         const fetchData = async () => {

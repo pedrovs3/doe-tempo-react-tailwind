@@ -209,7 +209,7 @@ export function FormEditarPerfilOng(){
     const [gender, setGender] = useState('')
     const [editSuccess, setEditSuccess] = useState(false);
     const [imgURL, setImgURL] = useState<string>();
-    const [iconURL, setIconURL] = useState<string[]>([]);
+    const [iconURL, setIconURL] = useState<string>([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -253,6 +253,8 @@ export function FormEditarPerfilOng(){
             setPostalNumber(data?.ngo_address?.address.number)
             setComplement(data?.ngo_address?.address.complement)
             setCnpj(data?.cnpj)
+            setIconURL(data.photo_url)
+            setImgURL(data.banner_photo)
             // setPhone(data?.ngo_phone?.phone.number)
             // @ts-ignore
             setAttachedLink(data?.attached_link)
@@ -270,28 +272,48 @@ export function FormEditarPerfilOng(){
         if (linkSocial) {
             fetchData();
         }
-    }, [linkSocial]);
+    }, []);
 
     const handleSubmitForm = async (e: FormEvent) => {
         e.preventDefault();
         try {
-            const payload: UserPayload = {
-                name: name,
-                email: email,
-                password: password,
-                foundation_date: birthdate,
-                description: description,
-                address: {
-                    postal_code: postalCode,
-                    number: postalNumber,
-                    complement: complement,
-                },
-                gender: gender,
-                cnpj: cnpj,
-                banner_photo: imgURL,
-                photo_url: iconURL[0],
+            const prevAttachedLink = attachedLink.map((link) => ({ link: link.attached_link, source: link.source.id }))
+            let payload: any;
 
-            };
+            if (password == "") {
+                payload = {
+                    name: name,
+                    email: email,
+                    foundation_date: birthdate,
+                    description: description,
+                    address: {
+                        postal_code: postalCode,
+                        number: postalNumber,
+                        complement: complement,
+                    },
+                    cnpj: cnpj,
+                    banner_photo: imgURL,
+                    photo_url: iconURL,
+                    attached_link: prevAttachedLink
+                };
+            } else {
+                payload = {
+                    name: name,
+                    email: email,
+                    password: password,
+                    foundation_date: birthdate,
+                    description: description,
+                    address: {
+                        postal_code: postalCode,
+                        number: postalNumber,
+                        complement: complement,
+                    },
+                    cnpj: cnpj,
+                    banner_photo: imgURL,
+                    photo_url: iconURL,
+                    attached_link: prevAttachedLink
+                };
+            }
 
             console.log(payload)
 
@@ -299,8 +321,9 @@ export function FormEditarPerfilOng(){
                 payload.phone = [{ number: phone }];
             }
 
-            if (attached) {
-                setAttachedLink(prevAttachedLink => [...prevAttachedLink, { attached_link: attached, source: sourceLink }]);
+            console.log(...prevAttachedLink)
+            if (attached !== '' && sourceLink !== '') {
+                payload.attached_link = [ ...prevAttachedLink, { link: attached, source: sourceLink }];
             }
 
 
@@ -313,11 +336,25 @@ export function FormEditarPerfilOng(){
         }
     };
 
-    function handleRemoveLink(id: string) {
-        setAttachedLink(prevAttachedLink => prevAttachedLink.filter(link => link.id !== id));
+    const removeIndex = (e: any) => {
+        e.preventDefault();
+        const link = e.target.parentElement.parentElement.children[1].attributes.item("href").value
+        console.log(link)
+        const containsLink = attachedLink.map((linkAttached) => {
+            return linkAttached.attached_link == link;
+        })
+        console.log(containsLink)
+
+        if (containsLink.includes(true)) {
+            const links = attachedLink.filter((linkAttached) => {
+                if (linkAttached.attached_link != link) {
+                    return linkAttached
+                }
+            })
+            console.log(links)
+            setAttachedLink(links)
+        }
     }
-
-
 
     useEffect(() => {
         if (editSuccess && userType === 'ONG') {
@@ -365,7 +402,7 @@ export function FormEditarPerfilOng(){
 
             uploadTask.then(() => {
                 getDownloadURL(storageRef).then((url) => {
-                    setIconURL([url]);
+                    setIconURL(url);
                     console.log(url)
                 });
             });
@@ -422,7 +459,7 @@ export function FormEditarPerfilOng(){
                 </label>
             </div>
             <div className="relative rounded w-24 h-24 bg-gray-200">
-                <img className="w-24 max-w-24 rounded-xl ring ring-blueberry ring-offset-2 -mt-10" src={iconURL[0] || data?.photo_url} alt={""} />
+                <img className="w-24 max-w-24 rounded-xl ring ring-blueberry ring-offset-2 -mt-10" src={iconURL || data?.photo_url} alt={""} />
                 <label htmlFor="uploadIcon"
                        className="absolute inset-0 flex flex-col items-center justify-center cursor-pointer">
                     <span className="bg-blueberry rounded-xl"><Plus size={32} color={"white"} /></span>
@@ -524,7 +561,7 @@ export function FormEditarPerfilOng(){
                             <a href={link.attached_link} target="_blank" rel="noopener noreferrer" className="link link-hover text-xl font-semibold">
                                 {limitLinkSize(link.attached_link, maxLength)}
                             </a>
-                            <button className="btn btn-circle btn-xs" type={"button"} onClick={() => handleRemoveLink(index)}>
+                            <button className="btn btn-circle btn-xs" type={"button"} onClick={removeIndex}>
                                 <X size={20} />
                             </button>
                         </div>

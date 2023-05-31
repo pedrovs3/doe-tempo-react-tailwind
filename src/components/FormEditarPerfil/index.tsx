@@ -212,7 +212,6 @@ export function FormEditarPerfil(){
         if(data?.name) {
             setName(data?.name)
             setEmail(data?.email)
-            console.log(data.birthdate)
             setBirthdate(data.birthdate.split("T")[0])
             setDescription(data?.description)
             setCpf(data?.cpf)
@@ -237,13 +236,14 @@ export function FormEditarPerfil(){
         if (linkSocial) {
             fetchData();
         }
-    }, [linkSocial]);
+    }, []);
 
 
 
     const handleSubmitForm = async (e: FormEvent) => {
         e.preventDefault();
         try {
+            const prevAttachedLink = attachedLink.map((link) => ({ link: link.attached_link, source: link.source.id }))
             const payload: UserPayload = {
                 name: name,
                 email: email,
@@ -260,18 +260,18 @@ export function FormEditarPerfil(){
                 rg: rg,
                 banner_photo: imgURL,
                 photo_url: iconURL[0],
-
+                attached_link: prevAttachedLink
             };
-
-            console.log(payload)
 
             if (phone) {
                 payload.phone = [{ number: phone }];
             }
-
-            if (attached) {
-                payload.attached_link = [{ link: attached, source: sourceLink }];
+            console.log(...prevAttachedLink)
+            if (attached !== '' && sourceLink !== '') {
+                payload.attached_link = [ ...prevAttachedLink, { link: attached, source: sourceLink }];
             }
+
+            console.log(payload)
 
             const { data } = await api.put(`/user/${id}`, payload);
             console.log(data);
@@ -374,6 +374,26 @@ export function FormEditarPerfil(){
         const selectedId = event.target.value;
         setSourcelink(selectedId);
     };
+
+    const removeIndex = (e: any) => {
+        e.preventDefault();
+        const link = e.target.parentElement.parentElement.children[1].attributes.item("href").value
+        console.log(link)
+        const containsLink = attachedLink.map((linkAttached) => {
+            return linkAttached.attached_link == link;
+        })
+        console.log(containsLink)
+
+        if (containsLink.includes(true)) {
+            const links = attachedLink.filter((linkAttached) => {
+                if (linkAttached.attached_link != link) {
+                    return linkAttached
+                }
+            })
+            console.log(links)
+            setAttachedLink(links)
+        }
+    }
 
 
     return (
@@ -478,7 +498,7 @@ export function FormEditarPerfil(){
                             <a href={link.attached_link} target="_blank" rel="noopener noreferrer" className="link link-hover text-xl font-semibold">
                                 {limitLinkSize(link.attached_link, maxLength)}
                             </a>
-                            <button className="btn btn-circle btn-xs" type={"button"}>
+                            <button className="btn btn-circle btn-xs" type={"button"} onClick={removeIndex}>
                                 <X size={20} />
                             </button>
                         </div>
