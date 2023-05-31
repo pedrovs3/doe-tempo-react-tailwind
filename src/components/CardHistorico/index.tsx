@@ -30,7 +30,7 @@ export function CardHistorico(props : HistoryProps) {
                     <div className="flex-1 flex flex-col justify-center gap-2">
                         <div>
                             <h2 className="font-bold text-xl">{props.tituloCampanha}</h2>
-                            <span className="font-medium text-l pl-2">{format(new Date(props.begin_date), "dd/MM/yyyy")} - {format(new Date(props.end_date), "dd/MM/yyyy")}</span>
+                            <span className="font-medium text-gray-apagado text-l pl-2">{format(new Date(props.begin_date), "dd/MM/yyyy")} - {format(new Date(props.end_date), "dd/MM/yyyy")}</span>
                         </div>
                         <Link to={`/detalhes-campanha/${props.id}`}>
                         <button className="text-l gap-2 btn w-full sm:w-48 rounded-xl bg-blueberry border-0 text-white flex justify-between hover:bg-accent">
