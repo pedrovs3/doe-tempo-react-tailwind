@@ -125,7 +125,7 @@ export function CardPerfil(props : UserProps & Cep) {
                     <p className={"text-xl font-semibold"}>{props.description}</p>
                 </div>
                 {props.attached_link && props.attached_link.map((link : Link) => (
-                    <div key={link.id} className={"flex flex-row gap-2 badge badge-ghost h-10"}>
+                    <div key={link.id} className={"flex flex-row gap-2 badge badge-ghost h-10 p-5"}>
                         {link.source.name === "Twitter" && (
                             <i className="fa-brands fa-twitter fa-xl"></i>
                         )}
