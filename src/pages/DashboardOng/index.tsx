@@ -201,13 +201,12 @@ export default function DashboardOng() {
 
             const responseVolunteer = await api.get(`/campaign/participants/?status=${statusFilter}`);
             setVolunteersData(responseVolunteer.data.volunteers);
-            console.log(volunteersData)
 
         }
 
         fetchData().catch(console.error);
 
-    }, [ngoData])
+    }, [ngoData, statusFilter])
 
 
     const handleDeleteCampaign = async (idCampaign) => {

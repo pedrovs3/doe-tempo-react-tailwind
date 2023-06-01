@@ -210,6 +210,22 @@ export default function DetalhesCampanha() {
     const routeParams = useParams();
     const id = routeParams.id
 
+    const currentDate = new Date();
+    const endDate = new Date(data?.end_date);
+    const isExpired = currentDate > endDate
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const {data} = await api.get(`/campaign/${id}`);
+            setData(data)
+            setLoading(false)
+        }
+
+
+        fetchData().catch(console.error);
+
+    }, [])
+
     let decodeJWT;
 
     console.log(data)
@@ -228,17 +244,7 @@ export default function DetalhesCampanha() {
             fetchAPI().catch(console.error);
         }, []);
 
-        useEffect(() => {
-            const fetchData = async () => {
-                const {data} = await api.get(`/campaign/${id}`);
-                setData(data)
-                setLoading(false)
-            }
 
-
-            fetchData().catch(console.error);
-
-        }, [])
 
 
         const handleInscricao = async () => {
@@ -249,11 +255,6 @@ export default function DetalhesCampanha() {
             setCampaign(campaignResponse.data);
 
         }
-
-        const currentDate = new Date();
-        const endDate = new Date(data?.end_date);
-        const isExpired = currentDate > endDate
-
 
         return (
             <div>
@@ -313,6 +314,37 @@ export default function DetalhesCampanha() {
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                )}
+            </div>
+        )
+    } else {
+        return (
+            <div>
+                {loading ? (
+                    <Loading/>
+                ) : (
+                    <div className={'p-20'}>
+                        <Header/>
+                        <div className={'flex w-full justify-between'}>
+                            <DetalhesBody title={data?.title}
+                                          description={data?.description}
+                                          how_to_contribute={data?.how_to_contribute}
+                                          descriptionOng={data?.ngo?.description}
+                                          prerequisite={data?.prerequisites}
+                                          nameOng={data?.ngo?.name}
+                                          profileOng={data?.ngo?.photo_url}
+                            />
+                            <DetalhesBodyDois begin_date={data?.begin_date}
+                                              end_date={data?.end_date}
+                                // @ts-ignore
+                                              causes={data?.campaign_causes}
+                                              home_office={data?.home_office}
+                                              photoUrl={data?.campaign_photos[0].photo_url}
+                                              postal_code={data?.campaign_address?.address?.postal_code}
+                                              complement={data?.campaign_address?.address?.complement}
+                                              number={data?.campaign_address?.address?.number}/>
                         </div>
                     </div>
                 )}

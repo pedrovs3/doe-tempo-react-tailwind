@@ -99,7 +99,7 @@ export function CardPerfil(props : UserProps & Cep) {
         fetchAPI().catch(console.error)
     }, [props.postal_code])
 
-
+    const contentLines = props?.description?.split('\n');
 
     return (
         <div className="card w-96 bg-slate-50 shadow-xl items-center">
@@ -125,7 +125,13 @@ export function CardPerfil(props : UserProps & Cep) {
                 </div>
                 <div className={"w-full flex justify-start flex-col gap-2"}>
                     <p className={"w-full text-2xl text-start font-bold"}>Sobre</p>
-                    <p className={"text-l pl-2 text-justify font-medium text-gray-500"}>{props.description}</p>
+                    {
+                        contentLines?.map((line, index) => (
+                            <p key={index} className={"text-l pl-2 text-justify font-medium text-gray-500"}>
+                                {line}
+                            </p>
+                        ))
+                    }
                 </div>
                 {
                     props?.attached_link?.length > 0 ? (
