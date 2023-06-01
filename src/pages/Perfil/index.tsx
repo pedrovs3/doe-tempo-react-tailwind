@@ -67,9 +67,9 @@ export default function Perfil() {
 
 
     return (
-        <div className={'h-screen bg-little-white'}>
+        <div className={'h-full bg-little-white'}>
             <ToastContainer/>
-            <div className={'h-full bg-little-white'}>
+            <div className={'h-screen bg-little-white'}>
                 <div className={"navbar absolute top-0 left-0 w-full bg-transparent"}>
                     {/*// @ts-ignore*/}
                     <HeaderPosts id={jwt.id} photoURL={user?.user?.photo_url || user?.photo_url}/>
