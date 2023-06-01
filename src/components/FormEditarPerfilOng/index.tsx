@@ -226,7 +226,7 @@ export function FormEditarPerfilOng(){
         };
 
         fetchData();
-    }, [imgURL]);
+    }, []);
 
     console.log(data)
 
@@ -380,10 +380,11 @@ export function FormEditarPerfilOng(){
 
             uploadTask.then(() => {
                 getDownloadURL(storageRef).then((url) => {
+                    console.log(url)
                     setImgURL(url);
-                    console.log(imgURL)
                 });
             });
+
         });
     }
 
@@ -402,8 +403,8 @@ export function FormEditarPerfilOng(){
 
             uploadTask.then(() => {
                 getDownloadURL(storageRef).then((url) => {
-                    setIconURL(url);
                     console.log(url)
+                    setIconURL(url);
                 });
             });
 

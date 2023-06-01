@@ -210,10 +210,6 @@ export default function DetalhesCampanha() {
     const routeParams = useParams();
     const id = routeParams.id
 
-    const currentDate = new Date();
-    const endDate = new Date(data?.end_date);
-    const isExpired = currentDate > endDate
-
     useEffect(() => {
         const fetchData = async () => {
             const {data} = await api.get(`/campaign/${id}`);
@@ -226,12 +222,11 @@ export default function DetalhesCampanha() {
 
     }, [])
 
-    let decodeJWT;
+    const decodeJWT = decodeJwt();
 
     console.log(data)
 
     if (localStorage.getItem("token")) {
-        decodeJWT = decodeJwt();
         const userId = decodeJWT.id;
 
 
@@ -255,6 +250,10 @@ export default function DetalhesCampanha() {
             setCampaign(campaignResponse.data);
 
         }
+
+        const currentDate = new Date();
+        const endDate = new Date(data?.end_date);
+        const isExpired = currentDate > endDate
 
         return (
             <div>

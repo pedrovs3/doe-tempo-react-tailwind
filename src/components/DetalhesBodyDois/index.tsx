@@ -60,8 +60,8 @@ export function DetalhesBodyDois(props : CampaignProps) {
 
         return (
             <div className={"flex flex-col pt-6 w-2/5"}>
-                <div className={""}>
-                    <img src={props.photoUrl} className={"capa w-[28rem] h-[16rem] object-cover rounded-lg pt-1.5"}/>
+                <div className={"pt-8"}>
+                    <img src={props.photoUrl} className={"capa w-full h-full object-cover rounded-xl"}/>
                 </div>
                 <div className={"flex gap-5 w-[28rem] justify-center pt-3.5"}>
                     {titulos.map((item) => (
