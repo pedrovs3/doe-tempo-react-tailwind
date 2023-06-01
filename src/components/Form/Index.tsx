@@ -40,6 +40,7 @@ export const Form = () => {
 	useEffect(() => {
 		const fetchData = async () => {
 			const data = await api.get('/gender');
+			setGenderSelect(data.data.genders[0].id)
 			setGender(data.data.genders);
 		}
 
@@ -166,6 +167,7 @@ export const Form = () => {
 						name={'gender'}
 						onChange={event => setGenderSelect(event.target.value)}
 					>
+						<option className={'input'} selected disabled>Sexo</option>
 						{
 							gender.map((gender) => (
 									<option key={gender.id} value={gender.id} className={'input'}>{gender.name}</option>

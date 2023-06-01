@@ -171,7 +171,10 @@ export const Form = () => {
             </div>
             <div className="pt-5 flex flex-col gap-3 items-end">
                 <button className={"btn btn-primary w-1/4 rounded-full bg-blueberry border-0 text-xl text-black hover:bg-blue-600 hover:text-white"} type="submit"><p className={'text-turquoise-700'}>Enviar</p></button>
-                <button className={"btn btn-accent w-1/8 rounded-full bg-maya-blue px-6 border-0 text-l text-black hover:bg-blue-600 hover:text-white"} type="submit"><p><NavLink to={'/signup'}>Sou um Voluntário</NavLink></p></button>
+                <NavLink to={'/signup'}>
+                    <button className={"btn btn-accent w-1/8 rounded-full bg-maya-blue px-6 border-0 text-l text-black hover:bg-blue-600 hover:text-white"} type="button"><p>Sou um voluntário</p></button>
+                </NavLink>
+
             </div>
         </form>
     )

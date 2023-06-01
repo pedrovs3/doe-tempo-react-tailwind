@@ -25,7 +25,7 @@ interface Jwt {
 export default function Perfil() {
     const routeParams = useParams();
     const [data, setData] = useState<any>()
-    const id = routeParams.id
+    const [id, setId] = useState<string>("")
     const typeUser = routeParams.type
     const decodeJWT = decodeJwt();
     const jwt = decodeJWT as Jwt;
@@ -34,12 +34,13 @@ export default function Perfil() {
     const [user, setUser ] = useState<object>();
 
     useEffect(() => {
+        setId(routeParams.id)
         const fetchData = async () => {
             if (typeUser === 'USER') {
-                const data = await api.get(`/user/${id}`);
+                const data = await api.get(`/user/${routeParams.id}`);
                 setData(data.data.user)
             } else {
-                const { data } = await api.get(`/ngo/${id}`);
+                const { data } = await api.get(`/ngo/${routeParams.id}`);
                 setData(data)
             }
 
@@ -48,21 +49,21 @@ export default function Perfil() {
 
         fetchData().catch(console.error);
 
-    }, [])
+    }, [routeParams.id])
 
     useEffect(() => {
         const fetchData = async () => {
-            if (userType === 'USER') {
-                const {data} = await api.get(`/user/${userId}`);
+            if (userType == 'USER') {
+                const {data} = await api.get(`/user/${jwt.id}`);
                 setUser(data.user)
             } else {
-                const { data } = await api.get(`/ngo/${userId}`);
+                const { data } = await api.get(`/ngo/${jwt.id}`);
                 setUser(data)
             }
         }
         fetchData().catch(console.error);
 
-    }, [id])
+    }, [jwt.id])
 
 
     return (
@@ -99,7 +100,7 @@ export default function Perfil() {
                                     description={data?.description}/>
                             )}
                         </div>
-                        {id === userId ? (
+                        {id == userId ? (
                             <div className="flex flex-col w-full gap-5">
                                 <NovoPost/>
                                 <div className="flex flex-col gap-5 items-center justify-center">

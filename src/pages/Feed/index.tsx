@@ -175,10 +175,10 @@ export default function Feed() {
                         item.post_ngo.length < 1 ?
                             (
                                 <FeedPosts id={item.id}
-                                           idUser={item.post_user[0].user.id}
-                                           type={item.post_user[0].user.type.name}
-                                           nameUser={item.post_user[0].user.name}
-                                           photoUser={item.post_user[0].user.photo_url}
+                                           idUser={item?.post_user[0]?.user?.id}
+                                           type={item?.post_user[0]?.user?.type?.name}
+                                           nameUser={item?.post_user[0]?.user?.name}
+                                           photoUser={item?.post_user[0]?.user?.photo_url}
                                             // @ts-ignore
                                            content={item.content}
                                             // @ts-ignore
@@ -196,10 +196,10 @@ export default function Feed() {
                                 />
                             ) : (
                                 <FeedPosts id={item.id}
-                                           type={item.post_ngo[0].ngo.type.name}
-                                           idUser={item.post_ngo[0].ngo.id}
-                                           nameUser={item.post_ngo[0].ngo.name}
-                                           photoUser={item.post_ngo[0].ngo.photo_url}
+                                           type={item?.post_ngo[0]?.ngo?.type?.name}
+                                           idUser={item?.post_ngo[0]?.ngo?.id}
+                                           nameUser={item?.post_ngo[0]?.ngo?.name}
+                                           photoUser={item?.post_ngo[0]?.ngo?.photo_url}
                                            content={item.content}
                                             // @ts-ignore
                                            created={item.created_at}

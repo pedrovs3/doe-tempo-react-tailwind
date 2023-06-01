@@ -52,10 +52,10 @@ export function HeaderPosts(props : UserProps) {
                     </button>
                     <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
                         <Link to={"/"} >
-                        <li className={'bg-little-white rounded'}><a className={'tooltip tooltip-bottom active:bg-little-white'} data-tip="Home"><House size={32} color="#4F79FE"/></a></li>
+                            <li className={'bg-little-white rounded'}><a className={'tooltip tooltip-bottom active:bg-little-white'} data-tip="Home"><House size={32} color="#4F79FE"/></a></li>
                         </Link>
                         <Link to={"/campanhas"} >
-                        <li className={'bg-little-white rounded'}><a className={'tooltip tooltip-bottom active:bg-little-white'} data-tip="Campanhas"><Megaphone size={32} color="#4F79FE"/></a></li>
+                            <li className={'bg-little-white rounded'}><a className={'tooltip tooltip-bottom active:bg-little-white'} data-tip="Campanhas"><Megaphone size={32} color="#4F79FE"/></a></li>
                         </Link>
                         <Link to={"/feed"} >
                             <li className={'bg-little-white rounded'}><a className={'tooltip tooltip-bottom active:bg-little-white'} data-tip="Feed"><Article size={32} color="#4F79FE"/></a></li>
@@ -88,7 +88,7 @@ export function HeaderPosts(props : UserProps) {
                             <Link to={`/perfil/${jwt.type}/${props.id}`} >
                             <li><a className={"active:bg-turquoise-500"}>Perfil</a></li>
                             </Link>
-                            {jwt.type === 'ONG' ? (
+                            {jwt.type == 'ONG' ? (
                                 <Link to={`/dashboard-ong/${props.id}`}>
                                     <li>
                                         <a className={"active:bg-turquoise-500"}>Dashboard</a>
