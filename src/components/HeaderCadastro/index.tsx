@@ -8,7 +8,7 @@ export function Header() {
                 <CaretLeft size={32} className={'text-blueberry'} />
                 <p className={'text-blueberry'}>Voltar</p>
             </button>
-            <img src={Business} className="hidden lg:hidden xl:block mx-auto" alt="image for peoples united" />
+            <img src={Business} className="hidden lg:hidden xl:block" alt="image for peoples united" />
         </div>
 
     )

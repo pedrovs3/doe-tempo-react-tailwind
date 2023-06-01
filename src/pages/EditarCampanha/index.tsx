@@ -235,7 +235,8 @@ export default function EditarCampanha() {
     const photoURL = data?.campaign_photos && data.campaign_photos.length > 0 ? data.campaign_photos[0].photo_url : "";
     console.log(photoURL)
 
-    console.log(photoURL)
+    console.log(data)
+
 
 
     return (
@@ -257,6 +258,8 @@ export default function EditarCampanha() {
                                   idCampaign={data?.id}
                                   numero={data?.campaign_address?.address?.number}
                                   complemento={data?.campaign_address?.address?.complement}
+                    // @ts-ignore
+                                  is_active={data?.is_active}
                 />
             </div>
         </div>

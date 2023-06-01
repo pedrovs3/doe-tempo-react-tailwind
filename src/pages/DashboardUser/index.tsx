@@ -177,8 +177,6 @@ export default function DashboardUser() {
 
     }, [])
 
-    console.log(userData)
-    console.log(userData.user.supported_campaigns)
 
     return (
         <><ToastContainer/>
