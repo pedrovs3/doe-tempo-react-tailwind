@@ -327,7 +327,7 @@ export function FormEditarPerfilOng(){
             }
 
 
-            const { data } = await api.put(`/ngo/${id}`, payload);
+            const { data } = await api.put(`/ngo/${jwt.id}`, payload);
             console.log(data);
             setEditSuccess(true);
         } catch (e) {

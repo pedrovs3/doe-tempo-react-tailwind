@@ -120,12 +120,12 @@ export function CardPerfil(props : UserProps & Cep) {
                     <h3 className={"w-full text-start font-bold text-2xl"}>Localidade:</h3>
                     <div className={" w-full flex justify-start items-end flex-row gap-2 pl-2 pt-0"}>
                         <MapPin size={32} weight={"light"}/>
-                        <p className={"text-l text-start font-medium text-gray-apagado"}>{cep?.localidade}, {cep?.uf}</p>
+                        <p className={"text-l text-start font-medium text-gray-500"}>{cep?.localidade}, {cep?.uf}</p>
                     </div>
                 </div>
-                <div className={"flex justify-start flex-col gap-2"}>
-                    <p className={"text-2xl text-start font-bold"}>Sobre</p>
-                    <p className={"text-l pl-2 text-justify font-medium text-gray-apagado"}>{props.description}</p>
+                <div className={"w-full flex justify-start flex-col gap-2"}>
+                    <p className={"w-full text-2xl text-start font-bold"}>Sobre</p>
+                    <p className={"text-l pl-2 text-justify font-medium text-gray-500"}>{props.description}</p>
                 </div>
                 {
                     props?.attached_link?.length > 0 ? (

@@ -15,6 +15,7 @@ export function NewPost(props : PostProps) {
     const [images, setImages] = useState([]);
     const [progress, setProgress] = useState(0);
     const [isLoadingImage, setIsLoadingImage] = useState(false);
+    console.log(api.defaults.headers.common["Authorization"])
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = Array.from(e.target.files);

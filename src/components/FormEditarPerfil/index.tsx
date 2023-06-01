@@ -11,7 +11,7 @@ import {toast} from "react-toastify";
 interface UserPayload {
     name: string;
     email: string;
-    password: string;
+    password?: string;
     cpf: string;
     birthdate: string;
     description: string;
@@ -176,7 +176,7 @@ export function FormEditarPerfil(){
     const [gender, setGender] = useState('')
     const [editSuccess, setEditSuccess] = useState(false);
     const [imgURL, setImgURL] = useState<string>();
-    const [iconURL, setIconURL] = useState<string[]>([]);
+    const [iconURL, setIconURL] = useState<string>();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -244,39 +244,62 @@ export function FormEditarPerfil(){
         e.preventDefault();
         try {
             const prevAttachedLink = attachedLink.map((link) => ({ link: link.attached_link, source: link.source.id }))
-            const payload: UserPayload = {
-                name: name,
-                email: email,
-                password: password,
-                cpf: cpf,
-                birthdate: birthdate,
-                description: description,
-                address: {
-                    postal_code: postalCode,
-                    number: postalNumber,
-                    complement: complement,
-                },
-                gender: gender,
-                rg: rg,
-                banner_photo: imgURL,
-                photo_url: iconURL[0],
-                attached_link: prevAttachedLink
-            };
+            let payload: UserPayload;
+            if (password === '') {
+                payload = {
+                    name: name,
+                    email: email,
+                    cpf: cpf,
+                    birthdate: birthdate,
+                    description: description,
+                    address: {
+                        postal_code: postalCode,
+                        number: postalNumber,
+                        complement: complement,
+                    },
+                    gender: gender,
+                    rg: rg,
+                    banner_photo: imgURL,
+                    photo_url: iconURL,
+                    attached_link: prevAttachedLink
+                };
+            } else {
+                payload = {
+                    name: name,
+                    email: email,
+                    password: password,
+                    cpf: cpf,
+                    birthdate: birthdate,
+                    description: description,
+                    address: {
+                        postal_code: postalCode,
+                        number: postalNumber,
+                        complement: complement,
+                    },
+                    gender: gender,
+                    rg: rg,
+                    banner_photo: imgURL,
+                    photo_url: iconURL,
+                    attached_link: prevAttachedLink
+                };
+            }
+
 
             if (phone) {
                 payload.phone = [{ number: phone }];
             }
-            console.log(...prevAttachedLink)
+
             if (attached !== '' && sourceLink !== '') {
                 payload.attached_link = [ ...prevAttachedLink, { link: attached, source: sourceLink }];
             }
 
             console.log(payload)
 
-            const { data } = await api.put(`/user/${id}`, payload);
+            const { data } = await api.put(`/user/${jwt.id}`, payload);
             console.log(data);
             setEditSuccess(true);
         } catch (e) {
+            console.log(e)
             console.log(data);
             alert("Não mudou nada.");
         }
@@ -331,7 +354,7 @@ export function FormEditarPerfil(){
 
             uploadTask.then(() => {
                 getDownloadURL(storageRef).then((url) => {
-                    setIconURL([url]);
+                    setIconURL(url);
                     console.log(url)
                 });
             });
@@ -390,7 +413,6 @@ export function FormEditarPerfil(){
                     return linkAttached
                 }
             })
-            console.log(links)
             setAttachedLink(links)
         }
     }
@@ -407,7 +429,7 @@ export function FormEditarPerfil(){
                 </label>
             </div>
             <div className="relative rounded w-24 h-24 bg-gray-200">
-                <img className="w-24 max-w-24 rounded-xl ring ring-blueberry ring-offset-2 -mt-10" src={iconURL[0] || data?.photo_url} alt={""} />
+                <img className="w-24 max-w-24 rounded-xl ring ring-blueberry ring-offset-2 -mt-10" src={iconURL || data?.photo_url} alt={""} />
                     <label htmlFor="uploadIcon"
                            className="absolute inset-0 flex flex-col items-center justify-center cursor-pointer">
                         <span className="bg-blueberry rounded-xl"><Plus size={32} color={"white"} /></span>

@@ -24,9 +24,8 @@ export function LoginForm(){
             console.log(data.token)
             localStorage.setItem("token", `Bearer ${await data.token}`)
 
-            if (data.token) {
-                api.defaults.headers.common.Authorization = `Bearer ${await data.token}`
-            }
+            api.defaults.headers.common['Authorization'] = `Bearer ${await data.token}`
+
             setLoginSuccess(true)
 
             // alert(data.token || data.token && "Login Correto.")

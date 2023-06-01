@@ -178,17 +178,7 @@ export default function DashboardUser() {
     }, [])
 
     console.log(userData)
-
-    const handleDeleteCampaign = async (idCampaign) => {
-        try {
-            const response = await api.delete(`/campaign/${idCampaign}`);
-            toast.success('Campanha excluída com sucesso!');
-        } catch (error) {
-            console.error(error);
-            toast.error('Houve um erro ao excluir a campanha!');
-        }
-    };
-
+    console.log(userData.user.supported_campaigns)
 
     return (
         <><ToastContainer/>
@@ -205,7 +195,7 @@ export default function DashboardUser() {
                             <div
                                 className="w-full p-5 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
                                 <div className="w-full p-5">
-                                    <h1 className="text-4xl font-medium text-neutral-600 pb-5">Campanhas apoiadas</h1>
+                                    <h1 className="text-4xl font-medium pb-5">Campanhas apoiadas</h1>
                                     <div className="grid grid-cols-4 gap-4">
                                         {userData.user.supported_campaigns.map((campanha) => {
                                             // @ts-ignore
@@ -231,8 +221,11 @@ export default function DashboardUser() {
                                             }
                                         })}
                                         {!hasApprovedCampaigns && (
-                                            <div>
-                                                <span className={"text-xl font-medium"}>Você ainda não se cadastrou em nenhuma campanha.</span>
+                                            <div className={'flex flex-col'}>
+                                                <span className={"text-xl font-medium text-gray-500 pb-2"}>Você ainda não foi aprovado em nenhuma campanha.</span>
+                                                <Link to={'/campanhas'}>
+                                                    <span className={'text-start text-blueberry underline pl-3'}>Que tal tentar encontrar outras campanhas?</span>
+                                                </Link>
                                             </div>
                                         )}
                                     </div>

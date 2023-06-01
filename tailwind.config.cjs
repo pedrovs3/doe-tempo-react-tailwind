@@ -18,6 +18,7 @@ module.exports = {
       'card-campanha': '#F2F2F7',
       'texto-campanha': '#888888',
       'gray-apagado': '#777777',
+      'gray-500': '#4f4f52'
     },
   },
   plugins: [require("daisyui")],
