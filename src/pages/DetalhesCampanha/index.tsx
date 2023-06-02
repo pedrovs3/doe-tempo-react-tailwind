@@ -243,6 +243,9 @@ export default function DetalhesCampanha() {
 
 
 
+        const handleClick = () => {
+            history.back()
+        };
 
         const handleInscricao = async () => {
             const idUser = userId;
@@ -295,8 +298,7 @@ export default function DetalhesCampanha() {
                                             decodeJWT.type === 'ONG' ? (
                                                 <button className="hidden"></button>
                                             ) : (
-                                                <label onClick={handleInscricao} htmlFor="my-modal"
-                                                       className="btn gap-2 w-48 rounded-full bg-maya_blue border-0 text-neutral-100 hover:bg-turquoise-700">QUERO
+                                                <label htmlFor="my-modal" className="btn gap-2 w-48 rounded-full bg-maya_blue border-0 text-neutral-100 hover:bg-turquoise-700">QUERO
                                                     ME INSCREVER</label>
                                             )
                                         ) : (<button className="hidden"></button>)
@@ -306,14 +308,17 @@ export default function DetalhesCampanha() {
                             <input type="checkbox" id="my-modal" className="modal-toggle"/>
                             <div className="modal">
                                 <div className="modal-box">
-                                    <h3 className="font-bold text-lg">{campaign.message}</h3>
-                                    <p className="py-4">
-
-                                    </p>
-                                    <div className="modal-action">
-                                        <Link to={`/dashboard-user/${userId}`}>
-                                            <label htmlFor="my-modal" className="btn"> Dashboard!</label>
-                                        </Link>
+                                    <h3 className="font-bold text-lg">Você tem certeza que deseja se inscrever na campanha?</h3>
+                                    <p className="py-4 tex">Inscreva-se com consciência. Sua participação fará a diferença!</p>
+                                    <div className="modal-action flex gap-5">
+                                            <label htmlFor="my-modal" onClick={handleInscricao} className="btn btn-success text-little-white">
+                                                Sim
+                                            </label>
+                                        <form>
+                                            <label htmlFor="my-modal" className="btn btn-error text-little-white">
+                                                Não
+                                            </label>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
