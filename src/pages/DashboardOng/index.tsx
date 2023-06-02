@@ -219,6 +219,16 @@ export default function DashboardOng() {
         }
     };
 
+    const handleDesactivateCampaign = async (idCampaign) => {
+        try {
+            const response = await api.put(`/campaign/deactivate/${idCampaign}`);
+            toast.success(response.data);
+        } catch (error) {
+            console.error(error);
+            toast.error('Houve um erro ao desativar a campanha!');
+        }
+    };
+
     const handleApproval = (idCampanha, idUsuario) => {
         const status = 'Aprovado';
         const url = `/campaign/${idCampanha}/user/${idUsuario}?status=${status}`;
@@ -285,7 +295,7 @@ export default function DashboardOng() {
                                                                 <TrashSimple size={32} color={"red"}/>Excluir
                                                             </button>
                                                         </li>
-                                                        <li><a className={"text-xl font-semibold active:bg-neutral-300"}><EyeClosed size={32}/> Encerrar</a></li>
+                                                        <li><a className={"text-xl font-semibold active:bg-neutral-300"}  onClick={() => handleDesactivateCampaign(campanha.id)}><EyeClosed size={32}/> Encerrar</a></li>
                                                     </ul>
                                                 </div>
                                                 <figure>

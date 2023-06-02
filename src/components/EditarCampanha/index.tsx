@@ -42,6 +42,7 @@ interface CampaignProps {
     contribute: string,
     prerequisites: string,
     photoURL: string
+    is_active: boolean,
 }
 
 export function EditCampanhaForm(props : AddressProps & CampaignProps) {
@@ -58,6 +59,7 @@ export function EditCampanhaForm(props : AddressProps & CampaignProps) {
     const [endDateState, setStateDateEnd] = useState('')
     const [selectedOption, setSelectedOption] = useState([]);
     const [value, setValue] = useState(false);
+    const [activate, setActivate] = useState<Boolean>();
     const [cep, setCep] = useState<Cep | null>(null);
     const [updateSuccess, setUpdateSuccess] = useState(false);
     const navigate = useNavigate();
@@ -77,6 +79,7 @@ export function EditCampanhaForm(props : AddressProps & CampaignProps) {
             setStateContribute(props.contribute)
             setStatePrerequisites(props.prerequisites)
             setCep(cep)
+            setActivate(props.is_active)
             setImgURL([props.photoURL])
 
         }
@@ -157,7 +160,7 @@ export function EditCampanhaForm(props : AddressProps & CampaignProps) {
 
 
         try {
-            const campaign = await api.put(`/campaign/${props.idCampaign}`, {
+            const campaign = await api.put(`/campaign/${props.idCampaign}?status=${activate}`, {
                 title: titleState,
                 description: descriptionState,
                 begin_date: beginDateState,
@@ -192,6 +195,13 @@ export function EditCampanhaForm(props : AddressProps & CampaignProps) {
 
 
     const animatedComponents = makeAnimated();
+
+    const handleActivate = (e) => {
+        e.preventDefault()
+        console.log(e.target.value)
+        if (e.target.value === 'on') setActivate(true)
+        else setActivate(false)
+    }
 
 
     return (
@@ -318,6 +328,8 @@ export function EditCampanhaForm(props : AddressProps & CampaignProps) {
                               className="resize-none textarea textarea-bordered textarea-lg w-full max-w-xs"
                               value={prerequisitesState}
                               onChange={it => setStatePrerequisites(it.target.value)}></textarea>
+                    <span className={"text-2xl font-bold text-slate-100"}>Campanha Ativa:</span>
+                    <input type="checkbox" className="toggle toggle-success" onChange={handleActivate} />
                 </div>
                 <div className={'pt-5 flex justify-end'}>
                     <button
@@ -329,5 +341,7 @@ export function EditCampanhaForm(props : AddressProps & CampaignProps) {
             </div>
         </form>
     );
+
+
 }
 
