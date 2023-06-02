@@ -257,6 +257,8 @@ export default function DashboardOng() {
 
     }
 
+    console.log()
+
     return (
         <><ToastContainer/>
             <div className="h-screen w-screen">
@@ -279,34 +281,35 @@ export default function DashboardOng() {
                                     <div className="flex gap-5">
                                         {ngoData.campaign.map((campanha) => (
                                             <div className="card w-96 bg-base-100 shadow-xl" key={campanha.id}>
-                                                <div className="dropdown absolute top-0 right-0 p-2">
-                                                    <label tabIndex={0}
-                                                           className="btn-unstyled m-1 text-blueberry text-4xl">...</label>
-                                                    <ul tabIndex={0}
-                                                        className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-                                                        <Link to={`/editar-campanha/${campanha.id}`}>
-                                                            <li><a className={"text-xl font-semibold active:bg-neutral-300"}><PencilSimple
-                                                                size={32}/> Editar</a></li>
-                                                        </Link>
-                                                        <li>
-                                                            <button
-                                                                className={"text-xl font-semibold active:bg-neutral-300"}
-                                                                onClick={() => handleDeleteCampaign(campanha.id)}>
-                                                                <TrashSimple size={32} color={"red"}/>Excluir
-                                                            </button>
-                                                        </li>
-                                                        <li><a className={"text-xl font-semibold active:bg-neutral-300"}  onClick={() => handleDesactivateCampaign(campanha.id)}><EyeClosed size={32}/> Encerrar</a></li>
-                                                    </ul>
-                                                </div>
-                                                <figure>
-                                                    <img className={"rounded-t-lg"}
-                                                    src={campanha.campaign_photos[0].photo_url}
-                                                    alt="Shoes"/></figure>
-                                                <div className="card-body">
-                                                    <h2 className="card-title">{campanha.title}</h2>
-                                                    <span>{campanha.description.length > 150  ? campanha.description.slice(0, 150) + '...' : campanha.description}</span>
+                                                <figure className={'rounded-t-lg'}>
+                                                    <img className={`rounded-t-lg ${campanha.is_active ? '' : 'blur-sm grayscale'}`} src={campanha.campaign_photos[0].photo_url} alt="Imagem da Campanha"/>
+                                                </figure>
+                                                <div className="card-body flex flex-row">
+                                                    <div className="dropdown absolute top-[53%] right-4 select-none">
+                                                        <label tabIndex={0} className="btn-unstyled m-1 text-blueberry text-4xl">...</label>
+                                                        <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                                                            <Link to={`/editar-campanha/${campanha.id}`}>
+                                                                <li><a className={"text-xl font-semibold active:bg-neutral-300"}><PencilSimple size={32}/> Editar</a></li>
+                                                            </Link>
+                                                            <li>
+                                                                <button className={"text-xl font-semibold active:bg-neutral-300"} onClick={() => handleDeleteCampaign(campanha.id)}>
+                                                                    <TrashSimple size={32} color={"red"}/>Excluir
+                                                                </button>
+                                                            </li>
+                                                            <li>
+                                                                <a className={`text-xl font-semibold active:bg-neutral-300 ${campanha.is_active ? '' : 'cursor-not-allowed'}`} onClick={() => handleDesactivateCampaign(campanha.id)}>
+                                                                    <EyeClosed size={32}/> Encerrar
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <div className={'flex flex-col'}>
+                                                        <h2 className="card-title">{campanha.title}</h2>
+                                                        <span>{campanha.description.length > 150 ? campanha.description.slice(0, 150) + '...' : campanha.description}</span>
+                                                    </div>
                                                 </div>
                                             </div>
+
                                         ))}
                                     </div>
                                 </div>

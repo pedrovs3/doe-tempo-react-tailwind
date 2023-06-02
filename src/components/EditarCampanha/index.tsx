@@ -329,7 +329,7 @@ export function EditCampanhaForm(props : AddressProps & CampaignProps) {
                               value={prerequisitesState}
                               onChange={it => setStatePrerequisites(it.target.value)}></textarea>
                     <span className={"text-2xl font-bold text-slate-100"}>Campanha Ativa:</span>
-                    <input type="checkbox" className="toggle toggle-success" onChange={handleActivate} />
+                    <input type="checkbox" className="toggle toggle-success" onChange={handleActivate}/>
                 </div>
                 <div className={'pt-5 flex justify-end'}>
                     <button
