@@ -256,9 +256,15 @@ export default function DetalhesCampanha() {
 
         }
 
+        const handleCancelarInscricao= async () => {
+
+
+        }
+
         const currentDate = new Date();
         const endDate = new Date(data?.end_date);
         const isExpired = currentDate > endDate
+
 
         return (
             <div>
@@ -268,91 +274,95 @@ export default function DetalhesCampanha() {
                     <div className={'p-20'}>
                         <Header/>
                         <div className={'flex w-full justify-between'}>
-                            <DetalhesBody title={data?.title}
-                                          description={data?.description}
-                                          how_to_contribute={data?.how_to_contribute}
-                                          descriptionOng={data?.ngo?.description}
-                                          prerequisite={data?.prerequisites}
-                                          nameOng={data?.ngo?.name}
-                                          profileOng={data?.ngo?.photo_url}
+                            <DetalhesBody
+                                title={data?.title}
+                                description={data?.description}
+                                how_to_contribute={data?.how_to_contribute}
+                                descriptionOng={data?.ngo?.description}
+                                prerequisite={data?.prerequisites}
+                                nameOng={data?.ngo?.name}
+                                profileOng={data?.ngo?.photo_url}
                             />
-                            <DetalhesBodyDois begin_date={data?.begin_date}
-                                              end_date={data?.end_date}
+                            <DetalhesBodyDois
+                                begin_date={data?.begin_date}
+                                end_date={data?.end_date}
                                 // @ts-ignore
-                                              causes={data?.campaign_causes}
-                                              home_office={data?.home_office}
-                                              photoUrl={data?.campaign_photos[0].photo_url}
-                                              postal_code={data?.campaign_address?.address?.postal_code}
-                                              complement={data?.campaign_address?.address?.complement}
-                                              number={data?.campaign_address?.address?.number}/>
+                                causes={data?.campaign_causes}
+                                home_office={data?.home_office}
+                                photoUrl={data?.campaign_photos[0].photo_url}
+                                postal_code={data?.campaign_address?.address?.postal_code}
+                                complement={data?.campaign_address?.address?.complement}
+                                number={data?.campaign_address?.address?.number}
+                            />
                         </div>
                         <div className={"flex pt-5"}>
-                            <div>
-                                {
-                                    isExpired ? (
-                                        <button className="btn btn-error no-animation text-neutral-50 text-lg cursor-auto">CAMPANHA
-                                            ENCERRADA</button>
+                            {/*// @ts-ignore*/}
+                            {!data?.campaign_participants.some(participant => participant.user.id === decodeJWT.id) && (
+                                <div>
+                                    <label htmlFor="my-modal" className="btn gap-2 w-48 rounded-full bg-maya_blue border-0 text-neutral-100 hover:bg-turquoise-700">
+                                        QUERO ME INSCREVER
+                                    </label>
+                                </div>
+                            )}
+                            {isExpired ? (
+                                <button className="btn btn-error no-animation text-neutral-50 text-lg cursor-auto">
+                                    CAMPANHA ENCERRADA
+                                </button>
+                            ) : (
+                                decodeJWT ? (
+                                    // @ts-ignore
+                                    decodeJWT.type === 'ONG' ? (
+                                        <button className="hidden"></button>
                                     ) : (
-                                        decodeJWT ? (
-                                            // @ts-ignore
-                                            decodeJWT.type === 'ONG' ? (
-                                                <button className="hidden"></button>
-                                            ) : (
-                                                <label htmlFor="my-modal" className="btn gap-2 w-48 rounded-full bg-maya_blue border-0 text-neutral-100 hover:bg-turquoise-700">QUERO
-                                                    ME INSCREVER</label>
-                                            )
-                                        ) : (<button className="hidden"></button>)
+                                        <div>
+                                            {data?.campaign_participants.map((participant) => {
+                                                // @ts-ignore
+                                                if (participant.user.id === decodeJWT.id) {
+                                                    if (participant.status.name === 'Aguardando') {
+                                                        return (
+                                                            <div className={"flex flex-col"}>
+                                                                <div className={"flex flex-col justify-center pb-5"}>
+                                                                    <p className={"font-bold text-3xl pb-2 text-neutral-700"}>Status:</p>
+                                                                    <span className={"font-bold text-xl text-warning"}>{participant.status.name}</span>
+                                                                </div>
+                                                                <button className={"btn btn-error text-little-white"} onClick={handleCancelarInscricao}>Cancelar Inscrição</button>
+                                                            </div>
+                                                        );
+                                                    } else {
+                                                        return (
+                                                            <div className={"flex flex-col"}>
+                                                                <div className={"flex flex-col justify-center pb-5"}>
+                                                                    <p className={"font-bold text-3xl pb-2 text-neutral-700"}>Status:</p>
+                                                                    <span className={`font-bold text-xl ${participant.status.name === 'Aprovado' ? 'text-success' : participant.status.name === 'Reprovado' ? 'text-error' : ''}`}>
+                                                                        {participant.status.name}
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+
+                                                        );
+                                                    }
+                                                }
+                                                return null;
+                                            })}
+                                        </div>
                                     )
-                                }
-                            </div>
+                                ) : (
+                                    <button className="hidden"></button>
+                                )
+                            )}
                             <input type="checkbox" id="my-modal" className="modal-toggle"/>
                             <div className="modal">
                                 <div className="modal-box">
                                     <h3 className="font-bold text-lg">Você tem certeza que deseja se inscrever na campanha?</h3>
                                     <p className="py-4 tex">Inscreva-se com consciência. Sua participação fará a diferença!</p>
                                     <div className="modal-action flex gap-5">
-                                            <label htmlFor="my-modal" onClick={handleInscricao} className="btn btn-success text-little-white">
-                                                Sim
-                                            </label>
+                                        <label htmlFor="my-modal" onClick={handleInscricao} className="btn btn-success text-little-white">Sim</label>
                                         <form>
-                                            <label htmlFor="my-modal" className="btn btn-error text-little-white">
-                                                Não
-                                            </label>
+                                            <label htmlFor="my-modal" className="btn btn-error text-little-white">Não</label>
                                         </form>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                )}
-            </div>
-        )
-    } else {
-        return (
-            <div>
-                {loading ? (
-                    <Loading/>
-                ) : (
-                    <div className={'p-20'}>
-                        <Header/>
-                        <div className={'flex w-full justify-between'}>
-                            <DetalhesBody title={data?.title}
-                                          description={data?.description}
-                                          how_to_contribute={data?.how_to_contribute}
-                                          descriptionOng={data?.ngo?.description}
-                                          prerequisite={data?.prerequisites}
-                                          nameOng={data?.ngo?.name}
-                                          profileOng={data?.ngo?.photo_url}
-                            />
-                            <DetalhesBodyDois begin_date={data?.begin_date}
-                                              end_date={data?.end_date}
-                                // @ts-ignore
-                                              causes={data?.campaign_causes}
-                                              home_office={data?.home_office}
-                                              photoUrl={data?.campaign_photos[0].photo_url}
-                                              postal_code={data?.campaign_address?.address?.postal_code}
-                                              complement={data?.campaign_address?.address?.complement}
-                                              number={data?.campaign_address?.address?.number}/>
                         </div>
                     </div>
                 )}
