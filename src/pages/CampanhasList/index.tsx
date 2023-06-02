@@ -77,6 +77,9 @@ export default function CampanhasList() {
                 <h1 className={'text-4xl font-bold text-blueberry text-start pt-8'}>Oportunidades</h1>
                 <div className={'pt-5 h-full w-full flex justify-start gap-5'}>
                     <select className="select select-ghost w-full max-w-xs" onChange={(event) => setSelectedId(event.target.value)}>
+                        <option value={""} selected disabled>
+                            Causas
+                        </option>
                         {causes.map((option) => (
                             <option key={option.id} value={option.id}>
                                 {option.title}

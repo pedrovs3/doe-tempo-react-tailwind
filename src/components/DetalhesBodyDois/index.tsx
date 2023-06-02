@@ -59,9 +59,9 @@ export function DetalhesBodyDois(props : CampaignProps) {
         const dataFormatadaFim = format(new Date(props.end_date), "dd/MM/yyyy");
 
         return (
-            <div className={"flex flex-col pt-6 w-2/5"}>
-                <div className={"pt-8"}>
-                    <img src={props.photoUrl} className={"capa w-full h-full object-cover rounded-xl"}/>
+            <div className={"flex flex-col pt-6 w-2/5 fixed right-32"}>
+                <div className={"pt-8 transition-all ease-in-out"}>
+                    <img src={props.photoUrl} className={"capa w-full h-full object-cover rounded-xl hover:scale-110 hover:mb-8 hover:rounded-2xl hover:shadow-2xl  transition-all ease-in-out"}/>
                 </div>
                 <div className={"flex gap-5 w-[28rem] justify-center pt-3.5"}>
                     {titulos.map((item) => (

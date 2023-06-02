@@ -222,15 +222,15 @@ export default function DetalhesCampanha() {
 
     }, [])
 
-    const decodeJWT = decodeJwt();
+    let decodeJWT;
+    let handleInscricao;
 
     console.log(data)
 
     if (localStorage.getItem("token")) {
+        decodeJWT = decodeJWT()
         // @ts-ignore
         const userId = decodeJWT.id;
-
-
         useEffect(() => {
             const fetchAPI = async () => {
                 // @ts-ignore
@@ -241,13 +241,7 @@ export default function DetalhesCampanha() {
             fetchAPI().catch(console.error);
         }, []);
 
-
-
-        const handleClick = () => {
-            history.back()
-        };
-
-        const handleInscricao = async () => {
+        handleInscricao = async () => {
             const idUser = userId;
             const url = `/user/campaign/?idUser=${idUser}&idCampaign=${id}`;
             const campaignResponse = await api.post(url);
@@ -255,12 +249,16 @@ export default function DetalhesCampanha() {
             setCampaign(campaignResponse.data);
 
         }
+    }
 
         const handleCancelarInscricao= async () => {
 
 
         }
 
+        const handleClick = () => {
+            history.back()
+        };
         const currentDate = new Date();
         const endDate = new Date(data?.end_date);
         const isExpired = currentDate > endDate
@@ -295,7 +293,7 @@ export default function DetalhesCampanha() {
                                 number={data?.campaign_address?.address?.number}
                             />
                         </div>
-                        <div className={"flex pt-5"}>
+                        {decodeJWT?.id ? (<div className={"flex pt-5"}>
                             {/*// @ts-ignore*/}
                             {!data?.campaign_participants.some(participant => participant.user.id === decodeJWT.id) && (
                                 <div>
@@ -363,11 +361,10 @@ export default function DetalhesCampanha() {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>): (<></>)}
                     </div>
                 )}
             </div>
         )
-    }
 }
 

@@ -202,14 +202,14 @@ export default function DashboardUser() {
                                                 return (
                                                     <Link to={`/detalhes-campanha/${campanha.campaign.id}`} key={campanha.campaign.id}>
                                                         <div className="card w-96 bg-base-100 shadow-xl">
-                                                            <figure>
+                                                            <figure className={'rounded-t-lg h-56'}>
                                                                 {/*// @ts-ignore*/}
                                                                 <img className="rounded-t-lg" src={campanha.campaign.campaign_photos[0].photo_url} alt="Shoes" />
                                                             </figure>
                                                             <div className="card-body">
-                                                                <h2 className="card-title">{campanha.campaign.title}</h2>
+                                                                <h2 className="card-title">{campanha.campaign.title.length > 40 ? campanha.campaign.title.slice(0, 40) + '...' : campanha.campaign.title}</h2>
                                                                 {/*// @ts-ignore*/}
-                                                                <span>{campanha.campaign.description.length > 150  ? campanha.campaign.description.slice(0, 150) + '...' : campanha.campaign.description}</span>
+                                                                <span className={'text-gray-500'}>{campanha.campaign.description.length > 150  ? campanha.campaign.description.slice(0, 150) + '...' : campanha.campaign.description}</span>
                                                                 {/*// @ts-ignore*/}
                                                                 <span className="font-medium">Participou de {format(new Date(campanha.campaign.begin_date), "dd/MM/yyyy")} a {format(new Date(campanha.campaign.end_date), "dd/MM/yyyy")}</span>
                                                             </div>
