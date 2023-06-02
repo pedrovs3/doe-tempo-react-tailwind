@@ -227,11 +227,13 @@ export default function DetalhesCampanha() {
     console.log(data)
 
     if (localStorage.getItem("token")) {
+        // @ts-ignore
         const userId = decodeJWT.id;
 
 
         useEffect(() => {
             const fetchAPI = async () => {
+                // @ts-ignore
                 const userResponse = await api.get(`/user/${decodeJWT.id}`);
                 setUser(userResponse.data);
             };
@@ -289,6 +291,7 @@ export default function DetalhesCampanha() {
                                             ENCERRADA</button>
                                     ) : (
                                         decodeJWT ? (
+                                            // @ts-ignore
                                             decodeJWT.type === 'ONG' ? (
                                                 <button className="hidden"></button>
                                             ) : (
@@ -304,8 +307,9 @@ export default function DetalhesCampanha() {
                             <div className="modal">
                                 <div className="modal-box">
                                     <h3 className="font-bold text-lg">{campaign.message}</h3>
-                                    <p className="py-4">Obrigado por se inscrever! Seu cadastro
-                                        está com o status "Aguardando", se você for aprovado ou reprovado, poderá ver no seu Dashboard!</p>
+                                    <p className="py-4">
+
+                                    </p>
                                     <div className="modal-action">
                                         <Link to={`/dashboard-user/${userId}`}>
                                             <label htmlFor="my-modal" className="btn"> Dashboard!</label>
