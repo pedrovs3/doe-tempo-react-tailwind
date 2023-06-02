@@ -14,6 +14,7 @@ import EditarPerfil from "../pages/EditarPerfil";
 import DashboardOng from "../pages/DashboardOng";
 import DashboardUser from "../pages/DashboardUser";
 import PageNotFound from "../pages/PageNotFound/PageNotFound";
+import UnauthorizedPage from "../pages/ErrorsPage/UnauthorizedPage";
 
 export const routes = createBrowserRouter([
     {
@@ -27,6 +28,11 @@ export const routes = createBrowserRouter([
     {
         path: '/feed',
         element: <Feed/>,
+        errorElement: <Navigate to={'/unauthorized'}/>
+    },
+    {
+        path: '/unauthorized',
+        element: <UnauthorizedPage/>,
     },
     {
         path: '/nova-campanha',
@@ -75,5 +81,6 @@ export const routes = createBrowserRouter([
     {
         path: '/*',
         element: <Navigate to={'/404'}/> ,
+        errorElement: <Navigate to={'/404'}/>
     },
 ])

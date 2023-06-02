@@ -198,15 +198,20 @@ export default function DashboardOng() {
 
             const response = await api.get(`/ngo/${id}`);
             setNgoData(response.data);
-
-            const responseVolunteer = await api.get(`/campaign/participants/?status=${statusFilter}`);
-            setVolunteersData(responseVolunteer.data.volunteers);
-
         }
 
         fetchData().catch(console.error);
 
-    }, [ngoData, statusFilter])
+    }, [])
+
+    useEffect(()=> {
+        const fetchData = async() => {
+            const responseVolunteer = await api.get(`/campaign/participants/?status=${statusFilter}`);
+            setVolunteersData(responseVolunteer.data.volunteers);
+        }
+
+        fetchData().catch(console.error)
+    }, [statusFilter])
 
 
     const handleDeleteCampaign = async (idCampaign) => {
@@ -281,8 +286,8 @@ export default function DashboardOng() {
                                     <div className="flex gap-5">
                                         {ngoData.campaign.map((campanha) => (
                                             <div className="card w-96 bg-base-100 shadow-xl" key={campanha.id}>
-                                                <figure className={'rounded-t-lg'}>
-                                                    <img className={`rounded-t-lg ${campanha.is_active ? '' : 'blur-sm grayscale'}`} src={campanha.campaign_photos[0].photo_url} alt="Imagem da Campanha"/>
+                                                <figure className={'rounded-t-lg h-56'}>
+                                                    <img className={`rounded-t-lg transition-all ${campanha.is_active ? '' : 'blur-sm grayscale'}`} src={campanha.campaign_photos[0].photo_url} alt="Imagem da Campanha"/>
                                                 </figure>
                                                 <div className="card-body flex flex-row">
                                                     <div className="dropdown absolute top-[53%] right-4 select-none">
@@ -297,15 +302,15 @@ export default function DashboardOng() {
                                                                 </button>
                                                             </li>
                                                             <li>
-                                                                <a className={`text-xl font-semibold active:bg-neutral-300 ${campanha.is_active ? '' : 'cursor-not-allowed'}`} onClick={() => handleDesactivateCampaign(campanha.id)}>
+                                                                <a className={`text-xl font-semibold active:bg-neutral-300 ${campanha.is_active ? '' : 'hidden'}`} onClick={() => handleDesactivateCampaign(campanha.id)}>
                                                                     <EyeClosed size={32}/> Encerrar
                                                                 </a>
                                                             </li>
                                                         </ul>
                                                     </div>
                                                     <div className={'flex flex-col'}>
-                                                        <h2 className="card-title">{campanha.title}</h2>
-                                                        <span>{campanha.description.length > 150 ? campanha.description.slice(0, 150) + '...' : campanha.description}</span>
+                                                        <h2 className="card-title">{campanha.title.length > 40 ? campanha.title.slice(0, 40) + '...' : campanha.title}</h2>
+                                                        <span className={'text-gray-500'}>{campanha.description.length > 150 ? campanha.description.slice(0, 150) + '...' : campanha.description}</span>
                                                     </div>
                                                 </div>
                                             </div>

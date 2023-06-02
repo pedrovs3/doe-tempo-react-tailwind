@@ -84,7 +84,7 @@ export const Form = () => {
                 <input
                     id="nome"
                     type="text"
-                    className="input bg-white text-black w-full focus:input-bordered focus:input-success capitalize"
+                    className="input bg-white text-black w-full focus:input-bordered focus:input-success"
                     placeholder="Nome completo da instituição"
                     onChange={(e) => setNameState(e.target.value)}
                     value={nameState}
