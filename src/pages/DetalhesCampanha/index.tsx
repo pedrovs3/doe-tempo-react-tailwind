@@ -255,5 +255,6 @@ export default function DetalhesCampanha() {
                 )}
             </div>
         )
+    }
 }
 

@@ -7,6 +7,7 @@ import {api} from "../../lib/axios";
 import {decodeJwt} from "../../utils/jwtDecode";
 import { toast } from 'react-toastify';
 import {PostLike} from "../../models/PostLike";
+import ReactTinyLink from 'react-tiny-link';
 
 export interface Comentario {
     id:            string;
@@ -78,6 +79,7 @@ export function FeedPosts(props : PostProps) {
     const photoUrls = props.images.map((photo) => photo.photo_url);
     const showNavigation = photoUrls.length > 1;
     const [comentario, setComentario] = useState('');
+    const [link, setLink] = useState('');
     const decodeJWT = decodeJwt();
     const jwt = decodeJWT as Jwt;
     const isCurrentUserOwner = jwt.id === props.idUser;
@@ -140,6 +142,19 @@ export function FeedPosts(props : PostProps) {
 
     const contentLines = props.content.split('\n');
 
+    let indexOfLink;
+    const hasLink = contentLines.includes('http://') || contentLines.includes('https://');
+    useEffect(() => {
+        const linkArray = contentLines.filter((line) => {
+            if (line.includes('http://') || line.includes('https://')) {
+                console.log('aaar')
+                return line
+            }
+        })
+
+        setLink(linkArray[0])
+
+    }, [])
 
     return (
         <div className="bg-base-100 shadow-xl w-full md:w-1/2 lg:w-1/2 text-primary-content rounded-lg relative">
@@ -157,7 +172,7 @@ export function FeedPosts(props : PostProps) {
             <div className="card-body gap-5">
                 <div className={"gap-5 flex flex-row"}>
                     <div className={"avatar"}>
-                        <div className="w-16 rounded-xl ring ring-primary ring-tufts-blue ring-offset-2 bg-blueberry">
+                        <div className="w-16 rounded-xl ring ring-tufts-blue ring-offset-2 bg-blueberry">
                             <Link to={`/perfil/${props.type}/${props.idUser}`}>
                                 <img src={props.photoUser} />
                             </Link>
@@ -171,6 +186,15 @@ export function FeedPosts(props : PostProps) {
                 {contentLines.map((line, index) => (
                     <p key={index} className="text-neutral-900">
                         {line}
+                        {hasLink ? (
+                                <ReactTinyLink
+                                    cardSize="small"
+                                    showGraphic={true}
+                                    maxLine={2}
+                                    minLine={1}
+                                    url={link}
+                                />
+                        ): (<></>)}
                     </p>
                 ))}
                 <div className="card-actions justify-start">
