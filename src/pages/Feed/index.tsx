@@ -161,7 +161,7 @@ export default function Feed() {
     }, [allPosts])
 
     return (
-        <><ToastContainer/>
+        <>
             <div className={''}>
                 <div className={'navbar bg-turquoise-500'}>
                     <HeaderPosts id={jwt.id} photoURL={user?.user?.photo_url || user?.photo_url}/>

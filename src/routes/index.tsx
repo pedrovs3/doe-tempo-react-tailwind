@@ -15,6 +15,7 @@ import DashboardOng from "../pages/DashboardOng";
 import DashboardUser from "../pages/DashboardUser";
 import PageNotFound from "../pages/PageNotFound/PageNotFound";
 import UnauthorizedPage from "../pages/ErrorsPage/UnauthorizedPage";
+import RedefinirSenha from "../pages/RedefinirSenha";
 
 export const routes = createBrowserRouter([
     {
@@ -24,6 +25,10 @@ export const routes = createBrowserRouter([
     {
         path: '/login',
         element: <Login/>
+    },
+    {
+        path: '/redefinir-senha',
+        element: <RedefinirSenha/>,
     },
     {
         path: '/feed',

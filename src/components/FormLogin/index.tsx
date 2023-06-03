@@ -55,7 +55,7 @@ export function LoginForm(){
                     onChange={event => setEmail(event.target.value)}
                     value={email}
                 />
-                <div className="flex flex-2 justify-between">
+                <div className="form-control w-full flex flex-2 justify-between">
                     <input
                         id="senha"
                         type="password"
@@ -64,6 +64,11 @@ export function LoginForm(){
                         onChange={event => setPassword(event.target.value)}
                         value={password}
                     />
+                    <label className="label">
+                        <Link to={"/redefinir-senha"} >
+                        <a className="link link-info">Esqueceu a senha?</a>
+                        </Link>
+                    </label>
                 </div>
             </div>
             <div className="flex flex-col gap-12 items-center pt-14">
