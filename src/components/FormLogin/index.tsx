@@ -1,48 +1,43 @@
-import {Link, useNavigate} from "react-router-dom";
-import {FormEvent, useEffect, useState} from "react";
-import {api} from "../../lib/axios";
-import {toast} from "react-toastify";
+import { Link, useNavigate } from "react-router-dom";
+import { FormEvent, useEffect, useState } from "react";
+import { api } from "../../lib/axios";
+import { toast } from "react-toastify";
 
-export function LoginForm(){
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+
+export function LoginForm() {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const [loginSuccess, setLoginSuccess] = useState(false);
     const navigate = useNavigate();
 
-    const handleSubmitForm = async (e: FormEvent)    => {
+    const handleSubmitForm = async (e: FormEvent) => {
         e.preventDefault();
         if (localStorage.getItem("token")) {
-            localStorage.removeItem("token")
+            localStorage.removeItem("token");
         }
         try {
-            const {data} = await api.post('/auth/', {
+            const { data } = await api.post("/auth/", {
                 email: email,
-                password: password
-            })
+                password: password,
+            });
 
-            console.log(await data)
-            console.log(data.token)
-            localStorage.setItem("token", `Bearer ${await data.token}`)
+            console.log(await data);
+            console.log(data.token);
+            localStorage.setItem("token", `Bearer ${await data.token}`);
 
-            api.defaults.headers.common['Authorization'] = `Bearer ${await data.token}`
-
-            setLoginSuccess(true)
-
-            // alert(data.token || data.token && "Login Correto.")
+            setLoginSuccess(true);
 
         } catch (e) {
-            console.log(e)
-            toast.error('E-mail ou senha incorretos!');
+            console.log(e);
+            toast.error("E-mail ou senha incorretos!");
         }
-    }
+    };
 
     useEffect(() => {
         if (loginSuccess) {
             navigate("/feed");
         }
     }, [loginSuccess]);
-
-
 
     return (
         <form name={"login"} className={'w-1/2 pr-6 flex flex-col justify-between py-6'} onSubmit={handleSubmitForm}>

@@ -67,6 +67,7 @@ export function DetalhesBodyDois(props : CampaignProps) {
 
     console.log(props.data)
 
+    let handleCancelarInscricao;
     if (localStorage.getItem("token")) {
         decodeJWT = decodeJwt()
         // @ts-ignore
@@ -81,24 +82,28 @@ export function DetalhesBodyDois(props : CampaignProps) {
             fetchAPI().catch(console.error);
         }, []);
 
+        handleCancelarInscricao = async () => {
+            const url = `/user/campaign/${props.data.id}`;
+            const campaignResponse = await api.delete(url);
+            location.reload()
+        }
+
         handleInscricao = async () => {
             const idUser = userId;
             const url = `/user/campaign/?idUser=${idUser}&idCampaign=${props.data.id}`;
             const campaignResponse = await api.post(url);
+            console.log(campaignResponse)
             location.reload()
         }
     }
 
-    const handleClick = () => {
-        history.back()
-    };
     const currentDate = new Date();
     const endDate = new Date(props.data?.end_date);
     const isExpired = currentDate > endDate
 
 
     const dataFormatadaInicio = format(new Date(props.begin_date), "dd/MM/yyyy");
-        const dataFormatadaFim = format(new Date(props.end_date), "dd/MM/yyyy");
+    const dataFormatadaFim = format(new Date(props.end_date), "dd/MM/yyyy");
 
         return (
             <div className={"flex flex-col pt-6 w-2/5 fixed right-32"}>
@@ -150,7 +155,7 @@ export function DetalhesBodyDois(props : CampaignProps) {
                                                             <p className={"font-bold text-3xl pb-2 text-neutral-700"}>Status:</p>
                                                             <span className={"font-bold text-xl text-warning"}>{participant.status.name}</span>
                                                         </div>
-                                                        <button className={"btn btn-error text-little-white"}>Cancelar Inscrição</button>
+                                                        <button onClick={handleCancelarInscricao} className={"btn btn-error text-little-white"}>Cancelar Inscrição</button>
                                                     </div>
                                                 );
                                             } else {
