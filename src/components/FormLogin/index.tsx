@@ -21,6 +21,7 @@ export function LoginForm() {
                 password: password,
             });
 
+            api.defaults.headers.common.Authorization = `Bearer ${await data.token}`
             console.log(await data);
             console.log(data.token);
             localStorage.setItem("token", `Bearer ${await data.token}`);

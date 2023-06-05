@@ -108,7 +108,7 @@ export function CardPerfil(props : UserProps & Cep) {
                     <img src={props.photoURL}/>
                 </div>
             </div>
-            <div className="card-body items-center text-center gap-5">
+            <div className="card-body items-center text-center gap-5 w-full">
                 <h2 className="card-title text-3xl">{props.name}</h2>
                 {props.id === userId && (
                         <button className="gap-2 btn w-40 h-full rounded-full bg-blueberry border-0 text-white flex justify-center hover:bg-accent" onClick={editarPerfil}>

@@ -256,9 +256,9 @@ export function FeedPosts(props : PostProps) {
                                                 <Link to={``}>
                                                     {
                                                         item._count.comment_user === 1 ? (
-                                                            <img src={item?.comment_user[0].user?.photo_url}/>
+                                                            <img src={item?.comment_user[0]?.user?.photo_url}/>
                                                         ) : (
-                                                            <img src={item?.comment_ngo[0].ngo?.photo_url}/>
+                                                            <img src={item?.comment_ngo[0]?.ngo?.photo_url}/>
                                                         )
                                                     }
                                                 </Link>
