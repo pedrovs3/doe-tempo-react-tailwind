@@ -178,7 +178,6 @@ export function EditCampanhaForm(props : AddressProps & CampaignProps) {
             })
 
             setUpdateSuccess(true)
-            alert(campaign.data)
         } catch (e) {
             console.log(e)
 
