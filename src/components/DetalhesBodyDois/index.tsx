@@ -108,7 +108,10 @@ export function DetalhesBodyDois(props : CampaignProps) {
         return (
             <div className={"flex flex-col pt-6 w-2/5 fixed right-32"}>
                 <div className={"pt-8 transition-all ease-in-out"}>
-                    <img src={props.photoUrl} className={"capa w-full h-full object-cover rounded-xl hover:scale-110 hover:mb-8 hover:rounded-2xl hover:shadow-2xl  transition-all ease-in-out"}/>
+                    <img
+                        src={props.photoUrl}
+                        className={"capa w-full h-full object-cover rounded-xl hover:scale-110 hover:mb-8 hover:rounded-2xl hover:shadow-2xl  transition-all ease-in-out"}
+                    />
                 </div>
                 <div className={"flex gap-5 w-[28rem] justify-center pt-3.5"}>
                     {titulos.map((item) => (
@@ -118,82 +121,129 @@ export function DetalhesBodyDois(props : CampaignProps) {
                 <div className={"flex flex-col"}>
                     <h1 className={"font-bold text-2xl pb-2"}>Detalhes:</h1>
                     <ul className={"flex flex-col gap-5"}>
-                        <li className={"flex flex-row items-center gap-2"}><CalendarCheck
-                            size={32}/>{dataFormatadaInicio} até {dataFormatadaFim}</li>
-                        <li className={"flex flex-row items-center gap-2"}><GlobeHemisphereEast
-                            size={32}/>{homeOffice(props.home_office)}</li>
-                        <li className={"flex flex-row items-center gap-2"}><MapPin size={32}/>{cep?.logradouro}, {props.number}, {cep?.bairro} {props.complement} </li>
+                        <li className={"flex flex-row items-center gap-2"}>
+                            <CalendarCheck size={32} />
+                            {dataFormatadaInicio} até {dataFormatadaFim}
+                        </li>
+                        <li className={"flex flex-row items-center gap-2"}>
+                            <GlobeHemisphereEast size={32} />
+                            {homeOffice(props.home_office)}
+                        </li>
+                        <li className={"flex flex-row items-center gap-2"}>
+                            <MapPin size={32} />
+                            {cep?.logradouro}, {props.number}, {cep?.bairro} {props.complement}
+                        </li>
                     </ul>
                 </div>
-                {decodeJWT?.id ? (<div className={"flex pt-5"}>
-                    {/*// @ts-ignore*/}
-                    {!props.data?.campaign_participants.some(participant => participant.user.id === decodeJWT.id) && (
-                        <div>
-                            <label htmlFor="my-modal" className="btn gap-2 w-48 rounded-full bg-maya_blue border-0 text-neutral-100 hover:bg-turquoise-700">
-                                QUERO ME INSCREVER
+                {decodeJWT?.id ? (
+                    <div className={"flex pt-5"}>
+                        {/*// @ts-ignore*/}
+                        {!props.data?.campaign_participants.some(
+                            (participant) => participant.user.id === decodeJWT.id
+                        ) && decodeJWT.type !== 'ONG' && (
+                            <div>
+                                <label
+                                    htmlFor="my-modal"
+                                    className="btn gap-2 w-48 rounded-full bg-maya_blue border-0 text-neutral-100 hover:bg-turquoise-700"
+                                >
+                                    QUERO ME INSCREVER
+                                </label>
+                            </div>
+                        )}
+                        {isExpired ? (
+                            <button className="btn btn-error no-animation text-neutral-50 text-lg cursor-auto">
+                                CAMPANHA ENCERRADA
+                            </button>
+                        ) : (
+                            decodeJWT ? (
+                                // @ts-ignore
+                                decodeJWT.type === 'ONG' ? (
+                                    <button className="hidden"></button>
+                                ) : (
+                                    <div>
+                                        {props.data?.campaign_participants.map((participant) => {
+                                            // @ts-ignore
+                                            if (participant.user.id === decodeJWT.id) {
+                                                if (participant.status.name === 'Aguardando') {
+                                                    return (
+                                                        <div className={"flex flex-col"}>
+                                                            <div className={"flex flex-col justify-center pb-5"}>
+                                                                <p className={"font-bold text-3xl pb-2 text-neutral-700"}>
+                                                                    Status:
+                                                                </p>
+                                                                <span className={"font-bold text-xl text-warning"}>
+                          {participant.status.name}
+                        </span>
+                                                            </div>
+                                                            <button
+                                                                onClick={handleCancelarInscricao}
+                                                                className={"btn btn-error text-little-white"}
+                                                            >
+                                                                Cancelar Inscrição
+                                                            </button>
+                                                        </div>
+                                                    );
+                                                } else {
+                                                    return (
+                                                        <div className={"flex flex-col"}>
+                                                            <div className={"flex flex-col justify-center pb-5"}>
+                                                                <p className={"font-bold text-3xl pb-2 text-neutral-700"}>
+                                                                    Status:
+                                                                </p>
+                                                                <span
+                                                                    className={`font-bold text-xl ${
+                                                                        participant.status.name === 'Aprovado'
+                                                                            ? 'text-success'
+                                                                            : participant.status.name === 'Reprovado'
+                                                                                ? 'text-error'
+                                                                                : ''
+                                                                    }`}
+                                                                >{participant.status.name}</span>
+                                                            </div>
+                                                        </div>
+                                                    );
+                                                }
+                                            }
+                                            return null;
+                                        })}
+                                    </div>
+                                )
+                            ) : (
+                                <button className="hidden"></button>
+                            )
+                        )}
+                    </div>
+                ) : (
+                    <></>
+                )}
+                <input type="checkbox" id="my-modal" className="modal-toggle" />
+                <div className="modal">
+                    <div className="modal-box">
+                        <h3 className="font-bold text-lg">
+                            Você tem certeza que deseja se inscrever na campanha?
+                        </h3>
+                        <p className="py-4 tex">
+                            Inscreva-se com consciência. Sua participação fará a diferença!
+                        </p>
+                        <div className="modal-action flex gap-5">
+                            <form>
+                                <label
+                                    htmlFor="my-modal"
+                                    className="btn btn-error text-little-white"
+                                >
+                                    Não
+                                </label>
+                            </form>
+                            <label
+                                htmlFor="my-modal"
+                                onClick={handleInscricao}
+                                className="btn btn-success text-little-white"
+                            >
+                                Sim
                             </label>
                         </div>
-                    )}
-                    {isExpired ? (
-                        <button className="btn btn-error no-animation text-neutral-50 text-lg cursor-auto">
-                            CAMPANHA ENCERRADA
-                        </button>
-                    ) : (
-                        decodeJWT ? (
-                            // @ts-ignore
-                            decodeJWT.type === 'ONG' ? (
-                                <button className="hidden"></button>
-                            ) : (
-                                <div>
-                                    {props.data?.campaign_participants.map((participant) => {
-                                        // @ts-ignore
-                                        if (participant.user.id === decodeJWT.id) {
-                                            if (participant.status.name === 'Aguardando') {
-                                                return (
-                                                    <div className={"flex flex-col"}>
-                                                        <div className={"flex flex-col justify-center pb-5"}>
-                                                            <p className={"font-bold text-3xl pb-2 text-neutral-700"}>Status:</p>
-                                                            <span className={"font-bold text-xl text-warning"}>{participant.status.name}</span>
-                                                        </div>
-                                                        <button onClick={handleCancelarInscricao} className={"btn btn-error text-little-white"}>Cancelar Inscrição</button>
-                                                    </div>
-                                                );
-                                            } else {
-                                                return (
-                                                    <div className={"flex flex-col"}>
-                                                        <div className={"flex flex-col justify-center pb-5"}>
-                                                            <p className={"font-bold text-3xl pb-2 text-neutral-700"}>Status:</p>
-                                                            <span className={`font-bold text-xl ${participant.status.name === 'Aprovado' ? 'text-success' : participant.status.name === 'Reprovado' ? 'text-error' : ''}`}>
-                                                                        {participant.status.name}
-                                                                    </span>
-                                                        </div>
-                                                    </div>
-
-                                                );
-                                            }
-                                        }
-                                        return null;
-                                    })}
-                                </div>
-                            )
-                        ) : (
-                            <button className="hidden"></button>
-                        )
-                    )}
-                    <input type="checkbox" id="my-modal" className="modal-toggle"/>
-                    <div className="modal">
-                        <div className="modal-box">
-                            <h3 className="font-bold text-lg">Você tem certeza que deseja se inscrever na campanha?</h3>
-                            <p className="py-4 tex">Inscreva-se com consciência. Sua participação fará a diferença!</p>
-                            <div className="modal-action flex gap-5">
-                                <form>
-                                    <label htmlFor="my-modal" className="btn btn-error text-little-white">Não</label>
-                                </form>
-                                <label htmlFor="my-modal" onClick={handleInscricao} className="btn btn-success text-little-white">Sim</label>
-                            </div>
-                        </div>
                     </div>
-                </div>): (<></>)}
+                </div>
             </div>
         )
 }
