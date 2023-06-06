@@ -16,12 +16,22 @@ export default function RedefinirSenha() {
     const [isLoadingVerification, setIsLoadingVerification] = useState(false);
     const [loginSuccess, setLoginSuccess] = useState(false);
     const navigate = useNavigate();
+    let reloaded = false;
+    console.log(reloaded)
 
     useEffect(() => {
         if (loginSuccess) {
             navigate("/feed");
         }
     }, [loginSuccess]);
+
+    useEffect(() => {
+        reloaded = true
+        if (!reloaded) {
+
+            window.location.reload(true)
+        }
+    }, [])
 
 
 
@@ -70,7 +80,7 @@ export default function RedefinirSenha() {
                 email: email,
                 verificationCode: verificationCode,
             });
-
+            api.defaults.headers.common["Authorization"] = `Bearer ${await response.data.token}`
             localStorage.setItem("token", `Bearer ${await response.data.token}`);
             setIsCodeVerified(true);
         } catch (error) {
@@ -86,7 +96,6 @@ export default function RedefinirSenha() {
         e.preventDefault();
 
         try {
-            const token = localStorage.getItem('token');
             const response = await api.put("/recover/password", {
                 password: newPassword,
             });

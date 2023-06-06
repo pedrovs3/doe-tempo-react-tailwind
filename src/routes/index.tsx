@@ -66,10 +66,12 @@ export const routes = createBrowserRouter([
     {
         path: '/perfil/:type/:id',
         element: <Perfil />,
+        errorElement: <Navigate to={'/unauthorized'}/>
     },
     {
         path: '/editar-perfil/:id',
         element: <EditarPerfil />,
+        errorElement: <Navigate to={'/unauthorized'}/>
     },
     {
         path: '/dashboard-ong/:id',
