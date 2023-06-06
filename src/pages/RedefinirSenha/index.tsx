@@ -29,7 +29,7 @@ export default function RedefinirSenha() {
         reloaded = true
         if (!reloaded) {
 
-            window.location.reload(true)
+            window.location.reload()
         }
     }, [])
 
