@@ -41,11 +41,13 @@ export const routes = createBrowserRouter([
     },
     {
         path: '/nova-campanha',
-        element: <NovaCampanha/>
+        element: <NovaCampanha/>,
+        errorElement: <Navigate to={'/unauthorized'}/>
     },
     {
         path: '/editar-campanha/:id',
-        element: <EditarCampanha/>
+        element: <EditarCampanha/>,
+        errorElement: <Navigate to={'/unauthorized'}/>
     },
     {
         path: '/signup-ong',
@@ -76,10 +78,12 @@ export const routes = createBrowserRouter([
     {
         path: '/dashboard-ong/:id',
         element: <DashboardOng />,
+        errorElement: <Navigate to={'/unauthorized'}/>
     },
     {
         path: '/dashboard-user/:id',
         element: <DashboardUser />,
+        errorElement: <Navigate to={'/unauthorized'}/>
     },
     {
         path: '/404',
