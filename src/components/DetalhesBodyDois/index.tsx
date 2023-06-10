@@ -164,16 +164,22 @@ export function DetalhesBodyDois(props : CampaignProps) {
                                         {props.data?.campaign_participants.map((participant) => {
                                             // @ts-ignore
                                             if (participant.user.id === decodeJWT.id) {
-                                                if (participant.status.name === 'Aguardando') {
+                                                if (participant.status.name === 'Aguardando' || participant.status.name === 'Aprovado') {
                                                     return (
                                                         <div className={"flex flex-col"}>
                                                             <div className={"flex flex-col justify-center pb-5"}>
                                                                 <p className={"font-bold text-3xl pb-2 text-neutral-700"}>
                                                                     Status:
                                                                 </p>
-                                                                <span className={"font-bold text-xl text-warning"}>
-                          {participant.status.name}
-                        </span>
+                                                                {participant.status.name === 'Aguardando' ? (
+                                                                    <span className={"font-bold text-xl text-warning"}>
+                                                                      {participant.status.name}
+                                                                    </span>): (
+                                                                    <span className={"font-bold text-xl text-success"}>
+                                                                      {participant.status.name}
+                                                                    </span>
+                                                                )}
+
                                                             </div>
                                                             <button
                                                                 onClick={handleCancelarInscricao}
